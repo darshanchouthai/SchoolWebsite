@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        /* Default header style */
+        .header-text {
+            font-size: 24px;
+        }
+
+        /* For small devices (screen width 576px or smaller) */
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded-bottom">
+        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
+        <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
+        <a href="{{ url_for('staff_dashboard', teacher_id=teacher_id) }}" class="btn btn-light ms-3">Back</a>
+    </header>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Student Performance</h2>
+
+        <!-- Course Selection Dropdown -->
+        <div class="mb-4 text-center">
+            <label for="courseSelect" class="form-label fw-bold">Select Course:</label>
+            <select id="courseSelect" class="form-select w-auto d-inline-block">
+                <option value="">All Courses</option>
+                {% for course in course_names %}
+                    <option value="{{ course }}" {% if selected_course == course %}selected{% endif %}>{{ course }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="performance-table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Attendance (%)</th>
+                        {% for exam in exams %}
+                            <th>{{ exam }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name, data in students.items() %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ data.attendance }}%</td>
+                        {% for exam in exams %}
+                            <td>{{ data.exams.get(exam, '-') }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- PDF Generation Button -->
+        <button id="generate-pdf" class="btn btn-primary">Generate PDF</button>
+    </div>
+
+    <script>
+        document.getElementById('generate-pdf').addEventListener('click', function() {
+            const teacherId = '{{ teacher_id }}';
+            const courseName = document.getElementById('courseSelect').value || 'all'; // Default to 'all' if no course selected
+            
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/generate_pdf/${teacherId}/${encodeURIComponent(courseName)}`, true);
+            xhr.responseType = 'blob';  
+
+            xhr.onload = function() {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(xhr.response);
+                link.download = `student_performance_${courseName}.pdf`;
+                link.click();
+            };
+
+            xhr.send();
+        });
+
+        // Handle course selection change
+        document.getElementById('courseSelect').addEventListener('change', function() {
+            const selectedCourse = this.value;
+            const url = new URL(window.location.href);
+            if (selectedCourse) {
+                url.searchParams.set('course_name', selectedCourse);
+            } else {
+                url.searchParams.delete('course_name');
+            }
+            window.location.href = url.toString();
+        });
+    </script>
+</body>
+</html>

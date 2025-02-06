@@ -1,0 +1,580 @@
+/* General Reset */
+body {
+    margin-top: 90px;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: flex-start; /* Keep items aligned to the top */
+    height: auto; /* Full height of the viewport */
+}
+
+/* General Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #eb3434;
+    width: 100%; /* Make header take up the full width */
+    position: fixed; /* Fix the header at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure header stays above other content */
+}
+
+header div {
+    display: flex;
+    align-items: center;
+}
+
+header img {
+    width: 40px;
+    height: auto;
+    margin-right: 20px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+.menu-toggle {
+    display: none; /* Hidden by default */
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #f5f5f5;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color:black;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: white;
+    color: #eb3434;
+    border-radius: 5px;
+}
+
+/* Dropdown Styling */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    color: black;
+    min-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown-content a:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Show hamburger menu */
+    }
+
+    .nav-links {
+        display: none; /* Initially hidden for mobile */
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        right: 0;
+        background-color: #eb3434;
+        border-radius: 8px;
+        padding: 10px;
+        gap: 10px;
+        z-index: 1000;
+    }
+
+    .nav-links.nav-active {
+        display: flex; /* Show navigation when active */
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        position: static; /* Adjust dropdown for mobile */
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .dropdown-content a {
+        color: white;
+        padding: 5px 0;
+    }
+
+    .dropdown-content a:hover {
+        background-color: transparent;
+    }
+}
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.2rem;
+    }
+
+    header img {
+        width: 30px;
+    }
+
+    nav a {
+        font-size: 0.9rem;
+    }
+}
+/* Tenthres Styles */
+.tenthres {
+    text-align: center;
+    color: black;
+    width: auto;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.tenthres img {
+    width: 100%;
+    height: auto;
+}
+
+/* Course Styles */
+.course {
+    border: 2px solid green;
+    border-radius: 5px;
+    width: 95%;
+    height: auto;
+    padding-top: 0px;
+}
+
+/* Button Styles */
+.button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #5F7470;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #e0d0c1;
+}
+
+main {
+    height: 100%; /* Take up available height */
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Add padding for small screens to prevent elements from touching edges */
+    flex-direction: column; /* Default layout for smaller screens */
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments for main container */
+@media (max-width: 768px) {
+    main {
+        padding: 15px; /* Reduce padding for medium screens */
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        flex-direction: column; /* Ensure stacking layout for small screens */
+        padding: 10px; /* Further reduce padding for small devices */
+    }
+}
+
+/* Responsive container styling */
+.container {
+    background-color: rgba(255, 255, 255, 0); 
+    padding: 40px 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+    width: 100%; /* Full width for smaller devices */
+    max-width: 450px; /* Restrict width for larger screens */
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.container:hover {
+    transform: scale(1.02);
+}
+label{
+    display: inline-block;
+}
+
+/* Adjust container padding and size for smaller devices */
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px; /* Reduce padding for medium screens */
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px 15px; /* Smaller padding for phones */
+        max-width: 100%; /* Take full width on small screens */
+        border-radius: 8px; /* Slightly reduce the border radius */
+    }
+}
+
+
+/* General Input Styles */
+input {
+    width: 100%; /* Full width of the container */
+    margin: 12px 0;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+input:focus {
+    border-color: #007BFF; /* Highlighted border color */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    input {
+        padding: 10px; /* Reduce padding for medium screens */
+        font-size: 0.9em; /* Slightly smaller font size */
+    }
+}
+
+@media (max-width: 480px) {
+    input {
+        padding: 8px; /* Further reduce padding for small screens */
+        font-size: 0.8em; /* Smaller font size for mobile */
+    }
+}
+
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #5F7470;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e0d0c1;
+}
+
+.error-message {
+    color: red;
+}
+
+.success-message {
+    color: green;
+}
+
+/*/* Dropdown Styles */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown a {
+    cursor: pointer;
+}
+/* General styling for form labels */
+label {
+    display: block; /* Ensure labels are on their own line */
+    font-size: 1rem;
+    margin: 10px 0 5px; /* Add spacing above and below the label */
+    color: #333; /* Optional: text color */
+}
+
+/* Styling for select dropdown */
+select {
+    width: 100%; /* Full width of the container */
+    padding: 12px; /* Inner padding for better usability */
+    font-size: 1rem; /* Adjust font size */
+    border: 1px solid #ddd; /* Add border */
+    border-radius: 8px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width */
+    appearance: none; /* Remove native arrow for consistency */
+    background-color: #fff; /* Background color */
+    cursor: pointer; /* Pointer cursor for dropdown */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    select {
+        padding: 10px; /* Reduce padding for tablets */
+        font-size: 0.9rem; /* Slightly smaller font size */
+    }
+
+    label {
+        font-size: 0.9rem; /* Adjust label font size */
+    }
+}
+
+@media (max-width: 480px) {
+    select {
+        padding: 8px; /* Further reduce padding for small screens */
+        font-size: 0.8rem; /* Smaller font size for mobile */
+    }
+
+    label {
+        font-size: 0.8rem; /* Adjust label font size for mobile */
+    }
+}
+
+/* Optional: Arrow styling for select dropdown (cross-browser) */
+select::-ms-expand {
+    display: none; /* Remove default arrow in IE */
+}
+
+select::after {
+    content: "▼"; /* Custom dropdown arrow */
+    font-size: 0.8rem;
+    color: #333;
+    position: absolute;
+    right: 15px;
+    pointer-events: none; /* Prevent clicking on arrow */
+}
+
+/* Optional: Add focus styling */
+select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+.container-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    max-width: 1200px;
+    width: 100%;
+}
+/* Individual containers */
+.container {
+    flex: 1; /* Allows each container to take up equal space */
+    min-width: 280px; /* Ensures the containers don't become too narrow */
+    max-width: 45%; /* Limits the container's width */
+    background-color:rgba(255, 255, 255, 0.5); ; /* Light background for the form containers */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header style inside each container */
+.container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Form label style */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+/* Input field style */
+input[type="text"],
+input[type="date"] {
+    width: 100%; /* Makes input fields stretch across the container */
+    padding: 8px;
+    margin-bottom: 15px; /* Adds space between inputs */
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Button style */
+button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #45a049;
+}
+
+/* Success message style */
+.success-message {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+    border: 1px solid #c3e6cb;
+}
+
+
+
+/* Ensure form elements are not too wide */
+form {
+    display: block;
+    margin: 0;
+}
+
+input[type="text"], input[type="number"], button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+/* Large screen devices (desktops and above) */
+@media screen and (min-width: 1024px) {
+    .container {
+        flex: 1 1 30%; /* Take 30% width */
+    }
+}
+
+/* Medium screen devices (tablets and smaller desktops) */
+@media screen and (max-width: 1024px) {
+    .container {
+        flex: 1 1 45%; /* Take 45% width */
+    }
+}
+
+/* Small screen devices (large smartphones and below) */
+@media screen and (max-width: 768px) {
+    .container {
+        flex: 1 1 100%; /* Take full width */
+    }
+}
+
+/* Extra small screens (small smartphones) */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 10px; /* Reduce padding for smaller devices */
+    }
+
+    .container-wrapper {
+        gap: 10px; /* Reduce the gap between containers */
+    }
+
+    .container {
+        flex: 1 1 100%; /* Take full width */
+    }
+
+    button {
+        padding: 12px; /* Increase button padding for ease of use */
+    }
+}
+/* Base button styling */
+.button1 {
+    display: inline-block;
+    width: 10%;                 /* Set the button width to 10% of the container's width */
+    padding: 10px 20px;         /* Padding for better appearance */
+    text-align: center;         /* Centers text inside the button */
+    background-color: #5F7470; /* Button background color */
+    color: white;               /* Button text color */
+    text-decoration: none;      /* Remove underline */
+    border-radius: 5px;         /* Rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Hover effect for the button */
+.button1:hover {
+    background-color: #45a049; /* Darker color on hover */
+}
+
+/* Make the button responsive */
+@media (max-width: 768px) {
+    .button1 {
+        width: 20%;  /* Increase width on smaller screens */
+        padding: 12px 24px;  /* Adjust padding for better appearance on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .button1 {
+        width: 40%;  /* Increase width further on very small screens */
+        padding: 14px 28px;  /* Adjust padding */
+    }
+}

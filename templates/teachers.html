@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teachers List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header-text {
+          font-size: 24px;
+      }
+
+      @media (max-width: 576px) {
+          .header-text {
+              font-size: 14px;
+          }
+      }
+      .text-center {
+          margin-top: 100px;
+      }
+      #searchInput {
+          width: 100%;
+          max-width: 400px;
+          margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body class="container mt-5">
+    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
+            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Back</a>
+        </div>
+    </header>
+
+    <h2 class="text-center">Teachers Details</h2>
+
+    <div class="d-flex justify-content-center">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search teachers...">
+    </div>
+
+    {% if error %}
+        <div class="alert alert-danger text-center">{{ error }}</div>
+    {% elif teachers %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="teachersTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Teacher Security Key</th>
+                        <th>Email</th>
+                        <th>Mobile Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                        <tr>
+                            <td>{{ teacher.name }}</td>
+                            <td>{{ teacher.teacher_security_key }}</td>
+                            <td>{{ teacher.Email }}</td>
+                            <td>{{ teacher.Mobile_no if teacher.Mobile_no else "N/A" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">No teachers found.</div>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#teachersTable tbody tr');
+            
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

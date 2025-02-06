@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Default header style */
+        .header-text {
+            font-size: 24px;
+        }
+
+        /* For small devices (screen width 576px or smaller) */
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Header -->
+    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px;">
+            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+          
+        </div>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:gray; margin-top: 5rem; margin-top: 90px; border-radius: 5px;">
+        <div class="container-fluid">
+            <h1 class="d-lg-none m-0">Admin Panel</h1> <!-- For small devices, show Admin Panel text here -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin_panel') }}" style="margin-right: 30px;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('get_students_data') }}" style="margin-right: 30px;">Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('get_teachers_data') }}" style="margin-right: 30px;">Teachers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('applications') }}"  style="margin-right: 30px;">Applications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content -->
+    <div class="container-fluid mt-5 pt-5">
+        <div class="row g-3">
+            <!-- Add Student Form -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Add Student</h2>
+                        <form method="POST" action="/admin_panel">
+                            {% if error1 %}
+                                <div class="alert alert-danger">{{ error1 }}</div>
+                            {% endif %}
+                            <input type="hidden" name="action" value="add_student">
+                            <div class="mb-3">
+                                <label for="studentName" class="form-label">Student Name:</label>
+                                <input type="text" class="form-control" id="studentName" name="studentName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="birthDate" class="form-label">Birth Date:</label>
+                                <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="courseName" class="form-label">Course Name:</label>
+                                <select class="form-select" id="courseName" name="courseName" required>
+                                    <option value="" disabled selected>Select Course</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                    <option value="5th">5th</option>
+                                    <option value="6th">6th</option>
+                                    <option value="7th">7th</option>
+                                    <option value="8th">8th</option>
+                                    <option value="9th">9th</option>
+                                    <option value="10th">10th</option>
+                                    <option value="PUC I">PUC I</option>
+                                    <option value="PUC II">PUC II</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="medium" class="form-label">Medium:</label>
+                                <select class="form-select" id="medium" name="medium" required>
+                                    <option value="" disabled selected>Select Medium</option>
+                                    <option value="Kannada">Kannada</option>
+                                    <option value="English">English</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Add Student</button>
+                            {% if message1 %}
+                                <div class="alert alert-success mt-3">{{ message1 }}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Teacher Form -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Add Teacher</h2>
+                        <form method="POST" action="/admin_panel">
+                            {% if error2 %}
+                                <div class="alert alert-danger">{{ error2 }}</div>
+                            {% endif %}
+                            <input type="hidden" name="action" value="add_teacher">
+                            <div class="mb-3">
+                                <label for="teacherName" class="form-label">Teacher Name:</label>
+                                <input type="text" class="form-control" id="teacherName" name="teacherName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="Emailid" class="form-label">Email:</label>
+                                <input type="text" class="form-control" id="Emailid" name="Emailid" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mobileno" class="form-label">Mobile No:</label>
+                                <input type="text" class="form-control" id="mobileno" name="mobileno" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Add Teacher</button>
+                            {% if message2 %}
+                                <div class="alert alert-success mt-3">{{ message2 }}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Subject Form -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Add Subject</h2>
+                        <form method="POST" action="/admin_panel">
+                            {% if error3 %}
+                                <div class="alert alert-danger">{{ error3 }}</div>
+                            {% endif %}
+                            <input type="hidden" name="action" value="add_subject">
+                            <div class="mb-3">
+                                <label for="subjectName" class="form-label">Subject Name:</label>
+                                <input type="text" class="form-control" id="subjectName" name="subjectName" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Add Subject</button>
+                            {% if message3 %}
+                                <div class="alert alert-success mt-3">{{ message3 }}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assign Teacher to Subject Form -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Assign Teacher to Subject</h2>
+                        <form method="POST" action="/assign_teacher">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error }}</div>
+                            {% endif %}
+                            <input type="hidden" name="action" value="assign_teacher">
+                            <div class="mb-3">
+                                <label for="teacher_name" class="form-label">Select Teacher:</label>
+                                <select class="form-select" name="teacher_name" required>
+                                    <option value="">-- Select Teacher --</option>
+                                    {% for teacher in teachers %}
+                                        <option value="{{ teacher.name }}">{{ teacher.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject_name" class="form-label">Select Subject:</label>
+                                <select class="form-select" name="subject_name" required>
+                                    <option value="">-- Select Subject --</option>
+                                    {% for subject in subjects %}
+                                        <option value="{{ subject.subject_name }}">{{ subject.subject_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Assign</button>
+                            {% if message6 %}
+                                <div class="alert alert-success mt-3">{{ message6 }}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assign Teacher to Students Form -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Assign Teacher to Students</h2>
+                        <form method="POST" action="/assign_teacher_to_students">
+                            {% if error4 %}
+                                <div class="alert alert-danger">{{ error4 }}</div>
+                            {% endif %}
+                            <div class="mb-3">
+                                <label for="teacher_name" class="form-label">Select Teacher:</label>
+                                <select class="form-select" name="teacher_name" id="teacher_name" required onchange="fetchSubjects()">
+                                    <option value="">-- Select Teacher --</option>
+                                    {% for teacher in teachers %}
+                                        <option value="{{ teacher.name }}">{{ teacher.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="course_name" class="form-label">Select Course:</label>
+                                <select class="form-select" id="course_name" name="course_name" required>
+                                    <option value="" disabled selected>Select class</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                    <option value="5th">5th</option>
+                                    <option value="6th">6th</option>
+                                    <option value="7th">7th</option>
+                                    <option value="8th">8th</option>
+                                    <option value="9th">9th</option>
+                                    <option value="10th">10th</option>
+                                    <option value="PUC I">PUC I</option>
+                                    <option value="PUC II">PUC II</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject_name" class="form-label">Select Subject:</label>
+                                <select class="form-select" name="subject_name" id="subject_name" required>
+                                    <option value="">-- Select Subject --</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Assign</button>
+                            {% if message5 %}
+                                <div class="alert alert-success mt-3">{{ message5 }}</div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function fetchSubjects() {
+            var teacherName = document.getElementById("teacher_name").value;
+            if (teacherName) {
+                fetch('/get_subjects_for_teacher', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ teacher_name: teacherName })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var subjectSelect = document.getElementById("subject_name");
+                    subjectSelect.innerHTML = "<option value=''>-- Select Subject --</option>";
+                    if (data.subjects && data.subjects.length > 0) {
+                        data.subjects.forEach(function(subject) {
+                            var option = document.createElement("option");
+                            option.value = subject.subject_name;
+                            option.text = subject.subject_name;
+                            subjectSelect.appendChild(option);
+                        });
+                    } else {
+                        alert("No subjects found for this teacher.");
+                    }
+                })
+                .catch(error => console.error("Error fetching subjects:", error));
+            } else {
+                document.getElementById("subject_name").innerHTML = "<option value=''>-- Select Subject --</option>";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/collage.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Center horizontally */
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #eb3434;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-radius: 5px;
+        }
+
+        header img {
+            width: 40px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            text-align: center;
+            flex-grow: 1; /* Allow text to take up remaining space */
+        }
+
+        header .button {
+            padding: 10px 20px;
+            background-color: white;
+            color: black;
+            font-size: 1rem;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none; /* Remove default button border */
+            cursor: pointer; /* Add pointer cursor for better UX */
+        }
+
+        header .button:hover {
+            background-color: #5a3a6e; /* Darker shade on hover */
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            color: white;
+            margin-top: 120px; /* Space for header */
+        }
+
+        .btn-danger {
+            background-color: #eb3434;
+            border-color: #eb3434;
+        }
+
+        .btn-danger:hover {
+            background-color: #5a3a6e;
+            border-color: #5a3a6e;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem; /* Slightly smaller text for medium screens */
+            }
+
+            header .button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+
+            .form-container {
+                margin-top: 100px; /* Adjust top margin */
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 0.9rem; /* Smaller text for mobile screens */
+            }
+
+            header .button {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+
+            .form-container {
+                margin-top: 80px; /* Adjust top margin */
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="d-flex align-items-center">
+        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo">
+        <h1 class="flex-grow-1 text-center m-0">Oxford Maths Group Of Education</h1>
+        <a href="{{ url_for('home') }}" class="button">Home</a>
+    </header>
+
+    <!-- Form Container -->
+    <div class="form-container text-center">
+        <h2 class="mb-4">Staff Login</h2>
+        <form method="POST" action="/staff_login">
+            <div class="mb-3">
+                <label for="security_number" class="form-label">Security Number:</label>
+                <input type="text" class="form-control" id="security_number" name="security_number" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100">Login</button>
+        </form>
+        
+        {% if error %}
+        <p class="text-danger mt-2">{{ error }}</p>
+        {% endif %}
+
+        <a href="/change_password" class="d-block text-light mt-2">Forgot Password? Change Password</a>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

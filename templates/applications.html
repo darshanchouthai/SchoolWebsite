@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for a Course</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            border: none;
+            color: white;
+            transition: 0.3s;
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #ff4b2b, #ff416c);
+        }
+
+        header {
+            border-bottom: 3px solid white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            border-radius: 0;
+        }
+
+        main {
+            flex: 1;
+            margin-top: 100px; /* Space for fixed header */
+            /*margin-bottom: 60px; /* Space for fixed footer */
+        }
+
+        footer {
+            background: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .header-text {
+            font-size: 24px;
+        }
+
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <header class="bg-danger text-white p-3">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
+            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="background-color: aliceblue; color:black">Back</a>
+        </div>
+    </header>
+    
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="card shadow p-4">
+                    <div class="card-body">
+                        <h2 class="text-center text-danger">Apply for a Course</h2>
+                        <form action="/apply" method="POST">
+                            <div class="mb-3">
+                                <label for="courseName" class="form-label">Course Name:</label>
+                                <select class="form-select" id="courseName" name="courseName" required>
+                                    <option value="" disabled selected>Select Course</option>
+                                    <option value="1st">1st</option>
+                                    <option value="2nd">2nd</option>
+                                    <option value="3rd">3rd</option>
+                                    <option value="4th">4th</option>
+                                    <option value="5th">5th</option>
+                                    <option value="6th">6th</option>
+                                    <option value="7th">7th</option>
+                                    <option value="8th">8th</option>
+                                    <option value="9th">9th</option>
+                                    <option value="10th">10th</option>
+                                    <option value="PUC I">PUC I</option>
+                                    <option value="PUC II">PUC II</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="childName" class="form-label">Child's Name:</label>
+                                <input type="text" id="childName" name="childName" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="childPreviousScore" class="form-label">Previous Score:</label>
+                                <input type="number" id="childPreviousScore" name="childPreviousScore" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="parentMobileNumber" class="form-label">Parent Mobile Number:</label>
+                                <input type="tel" id="parentMobileNumber" name="parentMobileNumber" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="parentEmail" class="form-label">Parent Email:</label>
+                                <input type="email" id="parentEmail" name="parentEmail" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-gradient w-100 py-2">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Oxford Maths Group Of Education. All rights reserved.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Auto-Dismiss Flash Messages -->
+    <script>
+        setTimeout(function() {
+            let alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                let bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000); // Auto-dismiss after 5 seconds
+    </script>
+
+</body>
+</html>

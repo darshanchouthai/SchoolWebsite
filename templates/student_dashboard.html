@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .chart-box {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .alert-box {
+            background: #ff4444;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto !important;
+        }
+        .navbar-bar {
+            background: #343a40;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        .navbar-bar img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+        }
+        .subject-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        .subject-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .subject-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .subject-buttons .btn-green {
+            border: 2px solid #28a745;
+            background: none;
+            width: 100px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 4px;
+            color: #28a745;
+            text-decoration: none; /* Remove underline from link */
+        }
+        .subject-buttons .btn-green .arrow-icon {
+            color: #28a745; /* Green arrow */
+        }
+        .subject-buttons .btn-red {
+            border: 2px solid #dc3545;
+            background: none;
+            width: 100px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 4px;
+            color: #dc3545;
+        }
+        .subject-buttons .btn-red .arrow-icon {
+            color: #dc3545; /* Red arrow */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .subject-row {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .subject-name {
+                font-size: 14px; /* Decrease font size for small screens */
+            }
+            .subject-buttons .btn-green,
+            .subject-buttons .btn-red {
+                width: 80px;
+                height: 35px;
+                font-size: 16px; /* Decrease button size */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .subject-row {
+                flex-direction: column;
+                text-align: center;
+            }
+            .subject-name {
+                font-size: 12px; /* Further decrease font size */
+            }
+            .subject-buttons .btn-green,
+            .subject-buttons .btn-red {
+                width: 70px;
+                height: 30px;
+                font-size: 14px; /* Further decrease button size */
+            }
+        }
+
+        /* Responsive Header */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem; /* Adjust font size for medium screens */
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 20px;  /* Reduced header font size for smaller screens */
+            }
+
+            .chart-container {
+                padding: 10px;
+            }
+
+            .header-text {
+                font-size: 14px; /* Reduce the header text size */
+            }
+            header .btn {
+                font-size: 0.875rem; /* Adjust button font size for small screens */
+                padding: 0.25rem 0.5rem; /* Adjust button padding for small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <header class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded-bottom" style="border-radius: 5px;">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
+            <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('student_login') }}" class="btn btn-light ms-3">Logout</a>
+        </header>
+        
+        <!-- Navbar Bar Below Header -->
+        <div class="navbar-bar">
+            <div class="user-info" style="font-family:'Arial';">
+                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
+                <div class="user-details">
+                    <span><strong>{{ student_name }}</strong></span>
+                </div>
+            </div>
+            <div><strong>{{ security_number }}</strong></div>
+        </div>
+        
+        
+
+        <div class="row">
+            <!-- Marks Histogram -->
+            <div class="col-md-6 col-12">
+                <div class="chart-box">
+                    <h4 class="text-center mb-4">CIE Marks Overview</h4>
+                    <canvas id="marksChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Attendance Histogram -->
+            <div class="col-md-6 col-12">
+                <div class="chart-box">
+                    <h4 class="text-center mb-4">Attendance Overview</h4>
+                    <canvas id="attendanceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subjects with Buttons -->
+        <div class="chart-box">
+            <h4 class="text-center mb-4">Subjects</h4>
+            {% for subject in subjects %}
+                <div class="subject-row">
+                    <!-- Displaying subject name -->
+                    <div class="subject-name">{{ subject.subject_name }}</div>
+                    <!-- Displaying subject ID -->
+                    
+                    <div class="subject-buttons text-center">
+                        <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+                            <span>Exam</span>
+                            <!-- Button-style link for the Exam, now styled as the .green button -->
+                            <a href="{{ url_for('check_exam', student_id=student_id, subject_id=subject.subject_id) }}" class="btn-green">
+                                <span class="arrow-icon">→</span> 
+                            </a>
+                        </div>
+                        <div class="text-center" style="display: flex; flex-direction: column; align-items: center;">
+                            <span>Attendence</span>
+                            <!-- Button-style link for the Exam, now styled as the .green button -->
+                            <a href="{{ url_for('get_attendance_data', student_id=student_id, subject_id=subject.subject_id) }}" class="btn-red" style="text-decoration: none;">
+                                <span class="arrow-icon">→</span> 
+                            </a>
+                        </div>                        
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="container py-4 text-center mt-4 p-3 bg-dark text-white rounded-top">
+        <p class="m-0">&copy; Oxford Maths Group OF Education.</p>
+    </footer>
+
+    <script>
+        var subjectLabels = {{ subjects | map(attribute='subject_name') | list | tojson }}; 
+        var marksData = {{ marks_data.values() | list | tojson }}; 
+        var attendanceData = {{ attendance_data.values() | list | tojson }}; 
+
+        // Marks Histogram
+        var ctxM = document.getElementById('marksChart').getContext('2d');
+        new Chart(ctxM, {
+            type: 'bar',
+            data: {
+                labels: subjectLabels,
+                datasets: [{
+                    label: 'Average Marks',
+                    data: marksData,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    barThickness: 20,
+                }]
+            },
+            options: {
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100,
+                        grid: { color: '#e9ecef' }
+                    },
+                    x: { 
+                        grid: { display: false }
+                    }
+                },
+                animation: { duration: 1000 }
+            }
+        });
+
+        // Attendance Histogram
+        var ctxA = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctxA, {
+            type: 'bar',
+            data: {
+                labels: subjectLabels,
+                datasets: [{
+                    label: 'Attendance %',
+                    data: attendanceData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    barThickness: 20,
+                }]
+            },
+            options: {
+                plugins: { 
+                    legend: { display: false },
+                    tooltip: { enabled: true }
+                },
+                scales: { 
+                    y: { 
+                        beginAtZero: true, 
+                        max: 100,
+                        grid: { color: '#e9ecef' }
+                    },
+                    x: { 
+                        grid: { display: false }
+                    }
+                },
+                animation: { duration: 1000 }
+            }
+        });
+    </script>
+</body>
+</html>

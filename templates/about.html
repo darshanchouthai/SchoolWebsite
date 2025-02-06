@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            padding-top: 80px;
+        }
+        .box {
+            border: 1px solid #ccc;
+            padding: 15px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+            background-color: #fff;
+            border-radius: 10px;
+        }
+        .separator {
+            border-top: 4px dotted black;
+        }
+        header {
+            background-color: rgba(235, 52, 52, 0.9) !important;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            margin-right: 10px;
+            width: 100%;
+        }
+        .header-text {
+            font-size: 1.5rem;
+            flex-grow: 1;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .logo {
+                width: 40px;
+            }
+            .header-text {
+                font-size: 18px;
+            }
+        }
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
+            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+        </div>
+    </header>
+<main class="container mt-5">
+
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="box d-flex flex-column align-items-center">
+                    <img src="{{ url_for('static', filename='images/president.jpg') }}" alt="President Image" class="img-fluid rounded mb-3 mb-md-0" style="max-width: 200px;">
+                    
+                    <!-- Kannada Text Section -->
+                    <div class="text-center">
+                        <p style="font-size: 14px;">"ಗ್ರಾಮೀಣ ಭಾಗದ ಮಕ್ಕಳಲ್ಲಿ ಹೆಚ್ಚಿನ ಪ್ರತಿಭೆ ಇರುತ್ತದೆ ಅದನ್ನು ಗುರುತಿಸಿ ಹೆಚ್ಚಿನ ಸಂಖ್ಯೆಯಲ್ಲಿ ವೈದ್ಯರಣ್ಣಗಿಸಬೇಕೆಂಬುದು ನನ್ನ ಕನಸು."</p>
+                        <p class="fw-bold text-end" style="font-size: 14px;" >-ಆಕ್ಸ್ಫರ್ಡ್(ಮಠ್ಸ್) ಸಮೂಹ ಸಂಸ್ಥೆಯ ಅಧ್ಯಕ್ಷ ಬಿ.ಜಿ.ಮಠ.</p>
+                    </div>
+                    
+                    
+                    <!-- English Text Section below Kannada text for all screen sizes -->
+                    <div class="text-center">
+                        <p>"My dream is to identify the immense talent in rural children and help them become doctors in large numbers."</p>
+                        <p class="fw-bold text-end">- BG Math, President of Oxford (Math's)Group Of Education.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="box">
+                    <h3 class="text-center"><strong>ಆಕ್ಸ್ಫರ್ಡ್ ಮಠ್ ವಿದ್ಯಾವರ್ಧಕ ಸಂಸ್ಥೆ ಯ ಇತಿಹಾಸ</strong></h3>
+                    <p style="font-size: 14px;"><strong>ನಾಲತವಾಡ:</strong><br>&emsp;  ಗುಣಮಟ್ಟದ ಶಿಕ್ಷಣ ಕನಸು ಹೊತ್ತು ಗ್ರಾಮೀಣ ಭಾಗದ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಕಳೆದೆರಡು ದಶಕಗಳಿಂದ ಉತ್ಕೃಷ್ಟ ಹಾಗೂ ಶಿಸ್ತುಬದ್ಧ ಶಿಕ್ಷಣವನ್ನು ಕಲ್ಪಿಸಿ ಸಾರ್ಥಕತೆ ಕಂಡುಕೊAಡ ಬಿ.ಜಿ.ಮಠ ನೇತೃತ್ವದ ಆಕ್ಸ್ಫರ್ಡ್(ಮಠ್ಸ್) ಶಿಕ್ಷಣ ಸಂಸ್ಥೆ ಜಿಲ್ಲೆಯ ಹೆಸರಾಂತ ಶಿಕ್ಷಣ ಸಂಸ್ಥೆಗಳಲ್ಲಿ ಪ್ರಮುಖವೆನಿಸಿಕೊಂಡಿದೆ. ಗುಡ್ಡಗಾಡ ಪ್ರದೇಶದಲ್ಲಿ ನಯನಮನೋಹರ ಪ್ರಾಕೃತಿಕ ಮಡಿಲಿನಲ್ಲಿರುವ ಸಂಸ್ಥೆಯು ಉತ್ಕೃಷ್ಠ ಶೈಕ್ಷಣಿಕ ಸೇವೆಯಿಂದ ಜನಪ್ರಿಯತೆಯನ್ನು ಗಳಿಸಿ ಸಾವಿರಾರು ವಿದ್ಯಾರ್ಥಿಗಳ ಭವಿಷ್ಯಕ್ಕೆ ಬೆಳಕು ನೀಡುವ ಮಹತ್ಕಾರ್ಯದಲ್ಲಿ ಸಾರ್ಥಕ್ಯ ಕಂಡಿದೆ</p>
+                    <p style="font-size: 14px;"><strong>ಸಂಸ್ಥೆಯ ಸ್ಥಾಪನೆ ಮತ್ತು ಬೆಳವಣಿಗೆ:</strong><br>&emsp;ಆಕ್ಸ್ಫರ್ಡ್(ಮಠ್ಸ್) ಸಂಸ್ಥೆ ಮುದ್ದೇಬಿಹಾಳ ತಾಲೂಕಿನ ನಾಗರಬೆಟ್ಟದ ಪುಟ್ಟ ಗ್ರಾಮದಲ್ಲಿ 1996-97ರ ಸಾಲಿನಲ್ಲಿ ಸೈನಿಕ, ನವೋದಯ, ಕತ್ತೂರ, ತರಬೇತಿ ಕೇಂದ್ರವಾಗಿ 33 ವಿದ್ಯಾರ್ಥಿಗಳೊಂದಿಗೆ ಸಂಸ್ಥೆ ಸ್ಥಾಪಿಸಲ್ಪಟ್ಟಿದೆ. ತರಬೇತಿಯಿಂದ ಪ್ರಾರಂಭವಾದ ಸಂಸ್ಥೆ ಸನ್ 2003-04ನೇ ಸಾಲಿನಿಂದ ಆಕ್ಸ್ಫರ್ಡ್ ಹಿರಿಯ ಪ್ರಾಥಮಿಕ ಮತ್ತು ಎಸ್.ಡಿ.ಕೆ ಕನ್ನಡ ಮತ್ತು ಆಂಗ್ಲ ಮಾಧ್ಯಮ ಪ್ರೌಢಶಾಲೆಗಳನ್ನು ಪ್ರಾರಂಭಿಸಿ. ಸಂಸ್ಥೆಯು ಕಳೆದ ಹಲವಾರು ವರ್ಷಗಳಿಂದ ಪರಿಸರದಲ್ಲಿ ತನ್ನ ಉತ್ಕೃಷ್ಟ ಶಿಕ್ಷಣ ಸೇವೆಯಿಂದ ಜನಪ್ರಿಯತೆಯನ್ನು ಗಳಿಸಿ ಸಾವಿರಾರು ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಬೆಳಕಾಗಿದೆ. ಸುಸಜ್ಜಿತ ಹಾಗೂ ಅತ್ಯಾಧುನಿಕ ವ್ಯವಸ್ಥೆ ಹೊಂದಿರುವ ಔಪಚಾರಿಕ ಶಿಕ್ಷಣದೊಂದಿಗೆ ಮಕ್ಕಳ ಕ್ರಿಯಾಶೀಲ ಮತ್ತು ಸೃಜನಶೀಲ ಪ್ರವೃತ್ತಿಯನ್ನು ಪೋಷಿಸುವ ನಿಟ್ಟಿನಲ್ಲಿ ಕಲೆ, ಕ್ರೀಡೆ, ಸಂಸ್ಕೃತಿ ಮುಂತಾದ ಹತ್ತು-ಹಲವು ರಚನಾತ್ಮಕ ಚಟುವಟಿಕೆಗಳಿಗೆ ಪ್ರೋತ್ಸಾಹವನ್ನು ನೀಡಲಾಗುತ್ತಿದ್ದು, ಮಕ್ಕಳ ಭವಿಷ್ಯವನ್ನು ಪರಿಪೂರ್ಣವಾಗಿ ರೂಪಿಸುವ ಪ್ರಾಮಾಣಿಕ ಪ್ರಯತ್ನ ನಿರಂತರವಾಗಿ ನಡೆಯುತ್ತಿದೆ. </p>
+                    <p style="font-size: 14px;"><strong>ರಾಜ್ಯಮಟ್ಟದಲ್ಲಿ ಸಾಧನೆ:</strong><br>&emsp; ಪ್ರೌಢ ವಿಭಾಗದಲ್ಲಿ ಕಳೆದ ಸತತ ಮೂರು ವರ್ಷಗಳಿಂದ ರಾಜ್ಯಕ್ಕೆ 2,3,4ನೇ ರ‍್ಯಾಂಕಗಳನ್ನು ಪಡೆದು ಇಡಿ ರಾಜ್ಯದಲ್ಲಿಯೇ ಗನಮಸೆಳೆಯುತ್ತಿದೆ. ಪ್ರೌಢ ಶಾಲೆಯಲ್ಲಿ ಎಸ್‌ಎಸ್‌ಎಲ್‌ಸಿವರಗೆ ಓದಿದ ಸುಮಾರು 4 ಸಾವಿರಕ್ಕಿಂದ ಅಧಿಕ ಮಕ್ಕಳು ಮೆರಿಟ್ ಆಧಾರದ ಮೇಲೆ ಸರಕಾರಿ ನೌಕರಿ ಪಡೆದಿದ್ದಾರೆ.</p>
+                    <hr class="separator">
+                    <h3 style="text-align: center;"><strong>The History Of Oxford Maths Group Of Education</strong></h3>
+                    <p><strong>Nalatavada:</strong><br>&emsp; Nalatavada: With a dream of providing quality education, the Oxford (Math's) Education Institution, led by B.G. Math, has become one of the most renowned educational institutions in the district. For the past two decades, it has been offering excellent and disciplined education to rural students. Situated in the scenic lap of nature in a hilly region, the institution has gained immense popularity for its outstanding educational services and has been instrumental in shaping the future of thousands of students.</p>
+                    <p><strong>Establishment and Growth:</strong><br>&emsp; Oxford (Math's) Institution was founded in the small village of Nagarabetta in Muddebihal Taluk during the 1996-97 academic year as a training center for Sainik, Navodaya, and Kittur schools with just 33 students. Beginning as a training center, the institution expanded by 2003-04, launching the Oxford Higher Primary and S.D.K. Kannada and English Medium High Schools. Over the years, it has gained prominence through its high-quality education, enlightening the lives of thousands of students.</p>
+                    <p><strong>State-Level Achievements:</strong><br>&emsp; For the past three consecutive years, the institution's high school students have secured the 2nd, 3rd, and 4th ranks at the state level, bringing recognition across the entire state. Over 4,000 students who studied at the high school up to SSLC level have secured government jobs based on merit, securing a bright future. Additionally, thousands of students have achieved prestigious positions in the state due to the strong academic foundation provided by the institution.</p>
+                    <p><strong>Science College Expansion:</strong><br>&emsp; Following strong requests from parents to extend education beyond high school, the Oxford (Math's) management launched the Expert PU Science College in the 2015-16 academic year. Every year, the institution has been achieving excellent results, preparing rural students for medical and technical courses and helping them secure admissions to top colleges across the state. Through this, the institution has gained the trust and confidence of people across Karnataka.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="box">
+                    <h3 class="text-center"><strong>ಆಕ್ಸ್ಫರ್ಡ್ ಮಠ್ ಶಿಕ್ಷಣ ಸಂಸ್ಥೆ ಯಾಕೆ ಉತ್ತಮ ಆಯ್ಕೆ?</strong></h3>
+                    <p style="font-size: 14px;"><strong>ಗ್ರಾಮೀಣ ಭಾಗದ ಮಕ್ಕಳಿಗೆ ವೈದ್ಯಕೀಯ ಮತ್ತು ತಾಂತ್ರಿಕ ಕೋರ್ಸುಗಳಿಗೆ ಹೆಚ್ಚಿನ ಅವಕಾಶಗಳು:</strong><br>&emsp;ಗ್ರಾಮೀಣ ಭಾಗದ ಮಕ್ಕಳು ವೈದ್ಯಕೀಯ ಶಿಕ್ಷಣ ಹಾಗೂ ತಾಂತ್ರಿಕ ಕೋರ್ಸುಗಳ ಅರ್ಹತೆ ಪಡೆದುಕೊಳ್ಳುವುದು ಸುಲಭದ ಮಾತಾಗಿರಲಿಲ್ಲ, ಅಪರೂಪ ಎಂಬAತೆ ಒಂದೆರಡು ವಿದ್ಯಾರ್ಥಿಗಳು ತಾಂತ್ರಿಕ ಕೋರ್ಸುಗಳಿಗೆ ಆಯ್ಕೆಯಾಗಿ ಇಡಿ ಗ್ರಾಮದ ಜನರ ಪ್ರಶಂಸೆಗೆ ಪಾತ್ರರಾಗುತಿದ್ದರು. ಇಂತಹ ಕ್ಷತ್ರದಲ್ಲಿ ಬಿ.ಜಿ.ಮಠ್ಸ ಅವರು ಎಕ್ಸ್ಫರ್ಟ್ ಸೈನ್ಸ್ ಕಾಲೇಜು ಪ್ರಾರಂಭಿಸಿ ಕ್ಷೇತ್ರದ ಸಾವಿರಾರು ಬಡ ಮಕ್ಕಳ ವೈದ್ಯರಾಗುವ ಕನಸನ್ನು ನನಸು ಮಾಡುತಿದ್ದಾರೆ. ಕಾಲೇಜು ಪ್ರಾರಂಭವಾದ ನಾಲ್ಕೆöÊದು ವರ್ಷದಲ್ಲಿ ಹಲವಾರು ವಿದ್ಯಾರ್ಥಿಗಳು ವೈದ್ಯಕೀಯ ಕ್ಷೇತ್ರಕ್ಕೆ ಆಯ್ಕೆಯಾಗಿ ಗ್ರಾಮೀಣ ಭಾಗದ ಮಕ್ಕಳು ಕೂಡ ವೈದ್ಯರಾಗುವ ಆಸೆಯನ್ನು ಚಿಗುರಿಸಿದ್ದಾರೆ. ನಸ್ 2020-21ನೇ ಸಾಲಿನಲ್ಲಿ 20 ರೆಗ್ಯೊಲರ್ ವಿದ್ಯಾರ್ಥಿಗಳ ಪೈಕಿ 8 ವಿದ್ಯಾರ್ಥಿಗಳು ಎಂಬಿಬಿಎಸ್ ಹಾಗೂ 8 ವಿದ್ಯಾರ್ಥಿಗಳು ಬಿಎಎಂಸ್‌ಗೆ ಆಯ್ಕೆ ಯಾಗಿ ವೈದ್ಯಕೀಯ ಸೀಟು ಪಡೆದುಕೊಂಡಿದ್ದಾರೆ. 
+                    </p>
+                    <p style="font-size: 14px;"><strong>ಅನುಭವಿ ಶಿಕ್ಷಕರ ವೃಂದ:</strong><br>&emsp; 6ನೇ ತರಗತಿಯಿಂದ ಪ್ರಾರಂಗೊAಡು ಕಾಲೇಜಿನ ಶಿಕ್ಷಣದ ವರೆಗೆ ಅಪಾರ ಅನುಭವಿ ಶಿಕ್ಷಕರ ವೃಂದವಿದೆ. ರಾಜ್ಯದ ಹಾಗೂ ಆಂದ್ರ, ತೆಲಂಗಾಣ ಇನ್ನಿತರ ಹೊರರಾಜ್ಯದ ಅತ್ಯುನತ ಉಪನ್ಯಾಸಕರ ತಂಡವಿದ್ದು ಮಕ್ಕಳಿಗೆ ಐ.ಐ.ಟಿ ಫೌಂಡೇಶನ್ ತರಬೇತಿ, ನೀಟ್, ಕೆ-ಸಿಇಟಿ, ಜೆಇಇ ಹಾಗೂ ಕ್ರಾö್ಯಶ್ ಕೋರ್ಸುಗಳನ್ನು ನೀಡಲಾಗುತ್ತದೆ. ಪ್ರತಿ ದಿನ ತರಗತಿ ನಂತರ ಪ್ರತಿ ವಿದ್ಯಾರ್ಥಿಗಳ ವೈಯಕ್ತಿಕ ಕಾಳಜಿಯೊಂದಿಗೆ ಅಧ್ಯಯನದ ಸಮಯ ಮೀಸಲಿಟ್ಟು ಓದಿಸುವದರ ಜೊತೆಗೆ ಪ್ರತಿ ಶನಿವಾರಕೊಮ್ಮೆ ಪಠ್ಯೇತರ ಚಟುವಟಿಕೆಗಳಿಗೆ ಆಧ್ಯತೆ ನೀಡಿ ಮಕ್ಕಳ ಶೈಕ್ಷಣಿಕ ಪ್ರಗತಿ ಹೆಚ್ಚಿಸುದಕ್ಕೆ ಕಾರಣವಾಗಿದೆ.
+                    </p>
+                    <p style="font-size: 14px;"><strong>ಪ್ರತಿ ವರ್ಷ ಟ್ಯಾಲೆಂಟ್ ಅವಾರ್ಡ:</strong><br>&emsp; ಆಕ್ಸ್ಫರ್ಡ್(ಮಠ್ಸ್) ಸಮೂಹ ಶಿಕ್ಷಣ ವತಿಯಿಂದ ಪ್ರತಿ ವರ್ಷ ಎಸ್‌ಎಸ್‌ಎಲ್‌ಸಿ ಪರೀಕ್ಷೆಯ ನಂತರ ವಿದ್ಯಾರ್ಥಿಗಳಿಗಾಗಿ ಎಕ್ಸ್ಪರ್ಟ್ ಟ್ಯಾಲೆಂಡ ಅವಾರ್ಡ ಎಂಬ ಕಾರ್ಯಕ್ರಮ ಆಯೋಜಿಸುತ್ತಾರೆ. ಇದರಲ್ಲಿ ರಾಜ್ಯದ ಮೂಲೆ ಮೂಲೆಯಿಂದ ವಿದ್ಯಾರ್ಥಿಗಳು ಆಗಮಿಸಿ ಇದರಲ್ಲಿ ಭಾಗವಹಿಸುತ್ತಾರೆ. ಮಕ್ಕಳ ಪ್ರತಿಭೆಯನ್ನು ಗುರುತಿಸುವ ಕಾರ್ಯ ಟ್ಯಾಲೆಂಡ ಅವಾರ್ಡ ಕಾರ್ಯಕ್ರಮದ್ದಾಗಿದೆ. ಭಾಗವಹಿಸಿದ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಪರೀಕ್ಷೆ ಆಯೋಜನೆ ಮಾಡಿ ಅತ್ಯಾಥಿಕ ಅಂಕ ಪಡೆದ ವಿದ್ಯಾರ್ಥಿಗಳನ್ನು ಬಹುಮಾನ ನೀಡಿ ಪ್ರೋತ್ಸಾಹ ನೀಡುವ ಕಾರ್ಯ ಪ್ರತಿ ವರ್ಷ ನಡೆಸಿಕೊಂಡು ಬರುತಿದ್ದಾರೆ. ಪ್ರಸ್ತುತ ವರ್ಷ ನಡೆದ ಎಕ್ಸ್ಪರ್ಟ್ ಟ್ಯಾಲೆಂಡ ಅವಾರ್ಡ ಕಾರ್ಯಕ್ರಮದಲ್ಲಿ ಈ ರೀತಿ ಬಹುಮಾನವನ್ನು ನೀಡಲಾಗಿದೆ:
+                    </p>
+                    <ul>
+                        <li style="font-size: 14px;">ಪ್ರಥಮ ಬಹುಮಾನ: ₹15,000</li>
+                        <li style="font-size: 14px;">ದ್ವಿತೀಯ ಬಹುಮಾನ: ₹12,500</li>
+                        <li style="font-size: 14px;">ತೃತೀಯ ಬಹುಮಾನ: ₹10,000</li>
+                        <li style="font-size: 14px;">ನಾಲ್ಕನೇ ಬಹುಮಾನ: ₹7,500</li>
+                        <li style="font-size: 14px;">ಐದನೇ ಬಹುಮಾನ: ₹5,000</li>
+                        <li style="font-size: 14px;">ಆರನೇ ಬಹುಮಾನ: ₹2,500</li>
+                    </ul>
+                    <p style="font-size: 14px;">ಇದರಿಂದ ವಿದ್ಯಾರ್ಥಿಗಳಿಗೆ ಉನ್ನತ ಪ್ರೋತ್ಸಾಹ ನೀಡಲಾಗುತ್ತಿದೆ.</p>
+                    <hr class="separator">
+                    <h3 class="text-center"><strong>Why Choose the Math's Group of Education?</strong></h3>
+                    <p><strong>Rural Students' Dreams of Medical and Technical Courses:</strong><br>&emsp; It was not an easy task for rural students to gain eligibility for medical and technical courses. It was a rare achievement when one or two students were selected for technical courses, earning praise from the villagers. In such a scenario, B.G. Math started the Expert Science College, fulfilling the dream of making thousands of poor children from the region doctors. In the four years since the college was established, many students have been selected for medical fields, and rural children have started aspiring to become doctors. In the academic year 2020-21, out of 20 regular students, 8 students were selected for MBBS and 8 students for BAMS, securing medical seats.</p>
+                    <p><strong>Experienced Teacher Team:</strong><br>&emsp; There is a large team of highly experienced teachers from the 6th grade to the college level. The team includes top lecturers from the state as well as from Andhra, Telangana, and other states. The children receive training for IIT Foundation, NEET, KCET, JEE, and Crash Courses. After each class, time is set aside for individual attention to each student’s study, and every Saturday, extracurricular activities are prioritized to enhance the students' educational progress.</p>
+                    <p><strong>Annual Talent Award:</strong><br>&emsp; Oxford (Math's) Education Group organizes the Expert Talent Award program every year after the SSLC exams for students. Students from various corners of the state come to participate in this event. The Talent Award program is aimed at recognizing the talents of students. An examination is conducted for the participating students, and those with the highest marks are rewarded and encouraged. In the current year’s Expert Talent Award event, the prizes were as follows:</p>
+                    <ul>
+                        <li><strong>1st Prize:</strong> ₹15,000</li>
+                        <li><strong>2nd Prize:</strong> ₹12,500</li>
+                        <li><strong>3rd Prize:</strong> ₹10,000</li>
+                        <li><strong>4th Prize:</strong> ₹7,500</li>
+                        <li><strong>5th Prize:</strong> ₹5,000</li>
+                        <li><strong>6th Prize:</strong> ₹2,500</li>
+                      </ul>
+                      <p>These prizes were given to encourage the students.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="box">
+                    <h3 class="text-center" ><strong>ನಮ್ಮ ಗುರಿ</strong></h3>
+                    <p style="font-size: 14px;">&emsp; ಗ್ರಾಮೀಣ ಭಾಗದ ಮಕ್ಕಳಲ್ಲಿ ಹೆಚ್ಚಿನ ಪ್ರತಿಭೆ ಇರುತ್ತದೆ. ಅದನ್ನು ನಾವು ಗುರುತಿಸುವ ಕಾರ್ಯ ಮಾಡುತಿದ್ದೇವೆ. ಗ್ರಾಮೀಣ ಮಕ್ಕಳು ಕೂಡ ವೈದ್ಯರಾಗಬೇಕು ಎಂಬ ಕನಸು ನನ್ನದಾಗಿದೆ. ಆ ನಿಟ್ಟಿನಲ್ಲಿ ನಮ್ಮ ಸಂಸ್ಥೆಯಲ್ಲಿ ಉತ್ತಮ ಶಿಕ್ಷಣಕ್ಕೆ ಹೆಚ್ಚು ಪ್ರಾಮುಖ್ಯತೆ ನೀಡುತ್ತೇವೆ. ಇದರಿಂದಾಗಿಯೇ ರಾಜ್ಯದ ಮೂಲೆ ಮೂಲೆಯಿಂದ ಪಾಲಕರು ತಮ್ಮ ಮಕ್ಕಳನ್ನು ನಮ್ಮ ಸಂಸ್ಥೆಯಲ್ಲಿ ಪ್ರವೇಶ ನೀಡಿಸುತ್ತಾರೆ. ಪಾಲಕರ ಕಂಡAತಹ ಕನಸನ್ನು ನಾವು ಪೂರೈಸಲು ಹಗಲಿರುಳು ಶ್ರಮಿಸುತ್ತೇವೆ.</p>
+                    <p class="fw-bold text-end" style="font-size: 14px;">-ಆಕ್ಸ್ಫರ್ಡ್(ಮಠ್ಸ್) ಸಮೂಹ ಸಂಸ್ಥೆಯ ಅಧ್ಯಕ್ಷ ಬಿ.ಜಿ.ಮಠ.</p>
+                    <hr class="separator">
+                    <h3 class="text-center"><strong>Our Vision</strong></h3>
+                    <p >&emsp; Rural children have a lot of talent, and we are committed to recognizing and nurturing it. It is my dream that rural children should also become doctors. With this vision, our institution gives top priority to quality education. Because of this, parents from every corner of the state choose to enroll their children in our institution. We work tirelessly, day and night, to fulfill the dreams that parents have for their children.</p>
+                    <p class="fw-bold text-end">- BG Math, President of Oxford (Math's)Group Of Education.</p>
+            </div>
+        </div>
+    </div>
+    <footer class="text-white text-center py-3 mt-4 w-100" 
+    style="background-color: rgb(38, 34, 34); border-radius: 0; width: 100%; margin: 0; padding: 15px 0; border-radius: 5px;">
+<p>&copy; 2025 Oxford Maths Group of Education. All Rights Reserved.</p>
+<p>Contact us at: <a href="mailto:info@oxfordmaths.com" class="text-white">info@oxfordmaths.com</a></p>
+</footer>
+
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

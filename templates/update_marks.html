@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Marks</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Fixed Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #dc3545; /* Bootstrap danger color */
+            color: white;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-text {
+            font-size: 24px;
+        }
+
+        /* Adjust content to prevent it from being hidden behind the fixed header */
+        .container {
+            padding-top: 90px; /* Adjusted to ensure content is visible */
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed; /* Ensures equal column width */
+        }
+
+        th, td {
+            word-break: break-word;
+            overflow-wrap: anywhere; /* Prevents overflow */
+        }
+
+        td button {
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        td button:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-text {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Header -->
+    <header class="d-flex justify-content-between align-items-center p-3 rounded-bottom">
+        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
+        <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
+        <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }} " class="btn btn-secondary" style="background-color: white; color: black;">Back</a>
+    </header>
+
+    <div class="container">
+        <h1 class="text-center mb-4">Update Marks</h1>
+
+        <!-- Search Bar -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by student ID or name..." onkeyup="searchStudents()">
+        </div>
+
+        <!-- Student Table -->
+        <div class="table-wrapper">
+            <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable">
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student['student_id'] }}</td>
+                        <td>{{ student['name'] }}</td>
+                        <td>
+                            <a href="{{ url_for('update_marks_form', student_id=student['student_id']) }}">
+                                <button class="btn btn-success">Update Marks</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center">No students found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    
+    <!-- JavaScript for searching students -->
+    <script>
+        function searchStudents() {
+            var input = document.getElementById('searchInput').value.toLowerCase();
+            var table = document.getElementById('studentTable');
+            var rows = table.getElementsByTagName('tr');
+
+            // Loop through all table rows, except the header
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('td');
+                if (cells.length > 0) {
+                    var studentId = cells[0].textContent.toLowerCase();
+                    var studentName = cells[1].textContent.toLowerCase();
+
+                    // If the search term is found in either column, show the row
+                    if (studentId.includes(input) || studentName.includes(input)) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

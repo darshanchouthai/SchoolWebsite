@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Exam Marks</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .table th, .table td {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .btn-submit {
+            width: 100%;
+            
+        }
+        #students-list {
+            display: none;
+        }
+        
+    .logo {
+        width: 40px;
+        height: auto;
+        border-radius: 5px;
+    }
+    header {
+        background-color: rgba(235, 52, 52, 0.9) !important;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .logo {
+            width: 40px;
+        }
+    }
+    @media (max-width: 768px) {
+            .header-text {
+                font-size: 18px;
+            }
+        }
+
+        .header-text {
+    font-size: 1.5rem;
+    flex-grow: 1;
+    text-align: center;
+}
+
+@media (max-width: 576px) {
+    .header-text {
+        font-size: 14px;
+    }
+}
+    </style>
+</head>
+<body>
+   
+        <div class="container mt-5">
+            <!-- Header -->
+            <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+                <div class="container-fluid d-flex justify-content-between align-items-center">
+                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
+                    <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+                    <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+                </div>
+            </header>
+    
+            <!-- Flash Messages (Success or Error) -->
+            <div class="mt-5 pt-5">
+                {% if message %}
+                <div class="alert alert-success border border-success text-success" role="alert">
+                    {{ message }}
+                </div>
+                {% elif error %}
+                <div class="alert alert-danger border border-danger text-danger" role="alert">
+                    {{ error }}
+                </div>
+                {% endif %}
+            </div>
+    
+            <h2 class="text-center mb-4 mt-3">Create Exam</h2>
+    
+            <!-- Exam Form -->
+            <form id="exam-form" action="{{ url_for('exam', teacher_id=teacher_id) }}" method="POST">
+                <div class="row mb-3">
+                    <label for="exam_name" class="col-sm-3 col-form-label">Exam Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="exam_name" name="exam_name" class="form-control" placeholder="Enter Exam Name" required value="{{ exam_name }}">
+                    </div>
+                </div>
+    
+                <div class="row mb-3">
+                    <label for="maximum_marks" class="col-sm-3 col-form-label">Maximum Marks:</label>
+                    <div class="col-sm-9">
+                        <input type="number" id="maximum_marks" name="maximum_marks" class="form-control" placeholder="Enter Maximum Marks" required value="{{ maximum_marks }}">
+                    </div>
+                </div>
+    
+                <div class="row mb-3">
+                    <label for="course_name" class="col-sm-3 col-form-label">Select or Enter Course Name:</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="course_name_input" class="form-control" placeholder="Type Course Name" style="display: none;">
+                        <select id="course_name" name="course_name" class="form-select" required>
+                            <option value="">Select Course</option>
+                            {% for course in courses %}
+                            <option value="{{ course[0] }}" {% if course[0] == course_name %}selected{% endif %}>{{ course[0] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+    
+                <div id="students-list" class="mt-4" style="display: none;">
+                    <h3 class="text-center mb-3">Enter Marks for Students</h3>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th> Security Number</th>
+                                <th>Student Name</th>
+                                <th>Marks Obtained</th>
+                            </tr>
+                        </thead>
+                        <tbody id="students-table-body">
+                            <!-- Students will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+    
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+            <div class="mt-4">
+                <a href="{{ url_for('staff_dashboard', teacher_id=teacher_id) }}">
+                    <button class="btn btn-info">Back to Staff Dashboard</button>
+                </a>
+            </div>
+        </div>
+    
+    
+<!-- Include jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Check if course_name is already selected and fetch students
+    var course_name = '{{ course_name }}';
+    if (course_name) {
+        fetchStudentsByCourse(course_name);  // Fetch students based on the selected course
+    }
+
+    // Show dropdown when the user types in the input field
+    $('#course_name_input').on('input', function() {
+        var course_name = $(this).val().trim();
+        if (course_name) {
+            $('#course_name').hide();  // Hide dropdown
+            fetchStudentsByCourse(course_name);  // Fetch students based on typed course
+        } else {
+            $('#course_name').show();  // Show dropdown if input is empty
+        }
+    });
+
+    // When the course is selected from the dropdown
+    $('#course_name').change(function() {
+        var course_name = $(this).val();  // Get the selected course name
+        if (course_name) {
+            fetchStudentsByCourse(course_name);  // Fetch students based on selected course
+        }
+    });
+
+    // Function to fetch students for a specific course
+    function fetchStudentsByCourse(course_name) {
+        $.get('/get_students_for_course', { course_name: course_name }, function(response) {
+            if (response.students) {
+                // Populate the students' table dynamically
+                $('#students-table-body').empty();  // Clear previous entries
+                response.students.forEach(function(student) {
+                    $('#students-table-body').append(`
+                        <tr>
+                            <td>${student.student_id}</td>
+                            <td>${(student.security_number)}</td>
+                            <td>${student.name}</td>
+                           <td><input type="number" name="marks_${student.student_id}" class="form-control" placeholder="Enter Marks" required></td>
+                        </tr>
+                    `);
+                });
+
+                // Show the students list form
+                $('#students-list').show();
+            } else {
+                $('#students-list').hide();  // Hide the students list if no students found
+            }
+        }).fail(function() {
+            alert('Error fetching students.');
+        });
+    }
+});
+</script>
+</body>
+</html>

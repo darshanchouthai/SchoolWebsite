@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+            font-size: 16px;
+        }
+
+        /* Fixed Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #dc3545; /* Bootstrap danger color */
+            color: white;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-text {
+            font-size: 24px;
+        }
+
+        /* Adjust content to prevent it from being hidden behind the fixed header */
+        .container {
+            padding-top: 90px; /* Adjusted to ensure content is visible */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+            .table th, .table td {
+                font-size: 11px;
+                padding: 8px;
+            }
+            .btn {
+                font-size: 14px; /* Increased button size */
+                padding: 6px 12px; /* More padding for better usability */
+            }
+            .header-text {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .table th, .table td {
+                white-space: nowrap;
+            }
+            .table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+            }
+            .btn {
+                font-size: 13px; /* Larger button size */
+                padding: 8px 16px; /* More padding for easier tapping */
+            }
+            .header-text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Fixed Header -->
+    <header class="d-flex justify-content-between align-items-center p-3 rounded-bottom">
+        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
+        <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
+        <a href="{{ url_for('staff_dashboard', teacher_id=teacher_id) }}" class="btn btn-secondary" style="background-color: white; color: black;">Back</a>
+    </header>
+    
+    <div class="container">
+        <h1 class="text-center mb-4">Update Marks</h1>
+        <h2 class="text-center">Modify Student Attendance</h2>
+
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <input type="text" id="searchBar" class="form-control" placeholder="Search by Student ID or Name" onkeyup="searchStudents()">
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Students Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Security Number</th>
+                        <th>Student Name</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable">
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student[0] }}</td>
+                        <td>{{ student[1] }}</td>
+                        <td>{{ student[2] }}</td>
+                        <td>
+                            <!-- Update Attendance Button -->
+                            <a href="{{ url_for('update_attendance', student_id=student[0]) }}">
+                                <button class="btn btn-success">Update</button>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function searchStudents() {
+            var input = $('#searchBar').val().toLowerCase();
+            var rows = $('#studentTable tr');
+
+            rows.each(function() {
+                var studentId = $(this).find('td').eq(0).text().toLowerCase();
+                var studentName = $(this).find('td').eq(2).text().toLowerCase();
+
+                if (studentId.includes(input) || studentName.includes(input)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

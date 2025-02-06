@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDE Education Trust</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: 120px; /* Adjusted for navbar + marquee height */
+    background-color: #f8f9fa;
+}
+
+/* Fixed Navbar Styling */
+.navbar {
+    border-radius: 5px;
+    padding: 0px;
+}
+
+/* Navbar Brand (Logo & Title) */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    white-space: nowrap;
+    margin-right: auto;
+}
+
+.navbar-brand img {
+    width: 50px;
+    height: auto;
+   border-radius: 5px;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+
+.navbar-brand h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+/* Navbar content alignment */
+.navbar .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:3px;
+}
+
+/* Navbar toggler styling */
+.navbar-toggler {
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-left: auto;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Dropdown menu styling */
+.navbar-nav .dropdown-menu {
+    padding: 10px 15px;
+    margin-top: 10px;
+    min-width: 200px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+}
+
+.navbar-nav .dropdown-item {
+    padding: 8px 15px;
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #000;
+    white-space: nowrap;
+}
+
+.navbar-nav .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-nav .dropdown-menu {
+        position: static;
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .navbar-nav .dropdown-item {
+        padding: 8px 10px;
+    }
+}
+
+/* Navbar toggler icon */
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Navbar links spacing */
+.navbar-nav {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.nav-item {
+    margin-left: 15px;
+}
+
+/* Navbar collapse behavior */
+.navbar-collapse {
+    flex-basis: 100%;
+    flex-grow: 1;
+    align-items: center;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1200px) {
+    .navbar-brand h1 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-brand h1 {
+        font-size: 1.3rem;
+    }
+
+    .navbar-toggler {
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand h1 {
+        font-size: 1.2rem;
+    }
+
+    .navbar-toggler {
+        padding: 0.3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        margin-left: 5px;
+    }
+
+    .navbar-brand h1 {
+        font-size: 0.9rem;
+    }
+
+    .navbar-brand img {
+        width: 40px;
+        margin-right: 5px;
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem;
+        margin-right: 0; /* Remove margin to align to the right corner */
+    }
+
+    .navbar-toggler-icon {
+        width: 1.2em;
+        height: 1.2em;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding-top: 10px;
+    }
+
+    .nav-item {
+        margin: 10px 0;
+    }
+
+    .navbar-collapse {
+        text-align: center;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 1rem;
+    }
+}
+
+/* Marquee Styling */
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #343a40;
+    color: white;
+    padding: 10px 0;
+    font-size: 1rem;
+    font-weight: bold;
+    position: fixed;
+    z-index: 1000; /* Ensure it stays above other content */
+    top: 70px; /* Default value, will be overridden by JavaScript */
+}
+
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    will-change: transform;
+    animation: scrollText 15s linear infinite;
+}
+
+@keyframes scrollText {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee-container:hover .marquee {
+    animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+    .marquee-container {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .marquee-container {
+        font-size: 0.8rem;
+    }
+}
+
+/* Content styling */
+.content {
+    padding: 20px;
+}
+
+.col-md-6, .col-lg-4 {
+    padding-bottom: 15px;
+}
+
+@media (min-width: 1200px) {
+    .content {
+        padding: 40px;
+    }
+}
+
+/* Footer Styling */
+footer {
+    background-color: rgb(38, 34, 34);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* Ensure content does not overlap with the footer */
+.content {
+    padding-bottom: 80px; /* Adjust according to the footer's height */
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    color: #f8f9fa;
+}
+
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    margin: 0 10px;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
+        <div class="container-fluid">
+            <div class="d-flex align-items-center w-100">
+                <a class="navbar-brand" href="#">
+                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo">
+                    <h1>Oxford Maths Group Of Education</h1>
+                </a>
+                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('get_courses') }}">Courses</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#staff">Staff</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('apply_for_course') }}">Application</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Others</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="{{ url_for('student_login') }}">Student Info</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('staff_login') }}">Staff Info</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('admin_login') }}">Admin Info</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Marquee Section -->
+    <div class="marquee-container">
+        <marquee behavior="scroll" direction="left" scrollamount="7">
+            📢 Admissions for the new batch are now open!      |     🏆 100% pass rate in SSLC & PUC Exams!     |     🎓 Join Oxford Maths Group Of Education and excel in your career!     |     📞 Contact us: +91 123 456 7890
+        </marquee>
+    </div>
+
+    <!-- Content Section -->
+    <div class="content container">
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <h4>Our performance in the 2024 SSLC Kannada Medium Examinations</h4>
+                <img src="{{ url_for('static', filename='images/10th.jpg') }}" class="img-fluid" alt="10th">
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <h4>Our performance in the 2024 SSLC English Medium Examinations</h4>
+                <img src="{{ url_for('static', filename='images/10eng.jpg') }}" class="img-fluid" alt="10eng">
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <h4>Our performance in the 2024 PUC examinations</h4>
+                <img src="{{ url_for('static', filename='images/puc.jpg') }}" class="img-fluid" alt="puc">
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <h4>Our performance in the 2024 UG-NEET</h4>
+                <img src="{{ url_for('static', filename='images/neet.jpg') }}" class="img-fluid" alt="neet">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style=" color: white; text-align: center; padding: 20px 0; border-radius: 5px;">
+        <div class="container">
+            <p>&copy; 2024 Oxford Maths Group Of Education. All rights reserved.</p>
+            <div class="social-icons" style="margin-bottom: 10px;">
+                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p>Contact us: <a href="mailto:info@oxfordmaths.edu" style="color: white;">info@oxfordmaths.edu</a> | Phone: +91 123 456 7890</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Function to adjust marquee position
+        function adjustMarqueePosition() {
+            const navbar = document.querySelector('.navbar');
+            const marqueeContainer = document.querySelector('.marquee-container');
+
+            if (navbar && marqueeContainer) {
+                const navbarHeight = navbar.offsetHeight;
+                marqueeContainer.style.top = `${navbarHeight}px`;
+            }
+        }
+
+        // Adjust marquee position on page load and window resize
+        window.addEventListener('load', adjustMarqueePosition);
+        window.addEventListener('resize', adjustMarqueePosition);
+    </script>
+</body>
+</html>
