@@ -287,6 +287,29 @@ footer a:hover {
     font-size: 1.5rem;
     margin: 0 10px;
 }
+.map-responsive {
+    position: relative;
+    overflow: hidden;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.map-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .map-responsive {
+        padding-top: 75%; /* Adjust the aspect ratio for smaller screens if needed */
+    }
+}
+
+
     </style>
 </head>
 <body>
@@ -329,26 +352,61 @@ footer a:hover {
     </div>
 
     <!-- Content Section -->
-    <div class="content container">
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <h4>Our performance in the 2024 SSLC Kannada Medium Examinations</h4>
-                <img src="{{ url_for('static', filename='images/10th.jpg') }}" class="img-fluid" alt="10th">
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <h4>Our performance in the 2024 SSLC English Medium Examinations</h4>
-                <img src="{{ url_for('static', filename='images/10eng.jpg') }}" class="img-fluid" alt="10eng">
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <h4>Our performance in the 2024 PUC examinations</h4>
-                <img src="{{ url_for('static', filename='images/puc.jpg') }}" class="img-fluid" alt="puc">
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <h4>Our performance in the 2024 UG-NEET</h4>
-                <img src="{{ url_for('static', filename='images/neet.jpg') }}" class="img-fluid" alt="neet">
+    <div class="content container" style="padding-bottom: 0;"> 
+        <div class="row g-4 text-center"> 
+            <div class="col-12"> 
+                <div class="card border-0 shadow-sm mb-4"> 
+                    <div class="card-body"> 
+                        <h4 class="card-title">Our performance in the 2024 UG-NEET</h4> 
+                        <img src="{{ url_for('static', filename='images/neet.jpg') }}" class="img-fluid rounded" alt="neet" style="width: 100%; height: auto;"> 
+                    </div> 
+                </div> 
+            </div> 
+            <div class="col-12"> 
+                <div class="card border-0 shadow-sm mb-4"> 
+                    <div class="card-body"> 
+                        <h4 class="card-title">Our performance in the 2024 PUC examinations</h4> 
+                        <img src="{{ url_for('static', filename='images/puc.jpg') }}" class="img-fluid rounded" alt="puc" style="width: 100%; height: auto;"> 
+                    </div> 
+                </div> 
+            </div> 
+            <div class="col-12"> 
+                <div class="card border-0 shadow-sm mb-4"> 
+                    <div class="card-body"> 
+                        <h4 class="card-title">Our performance in the 2024 SSLC Kannada Medium Examinations</h4> 
+                        <img src="{{ url_for('static', filename='images/10th.jpg') }}" class="img-fluid rounded" alt="10th" style="width: 100%; height: auto;"> 
+                    </div> 
+                </div> 
+            </div> 
+            <div class="col-12"> 
+                <div class="card border-0 shadow-sm mb-4"> 
+                    <div class="card-body"> 
+                        <h4 class="card-title">Our performance in the 2024 SSLC English Medium Examinations</h4> 
+                        <img src="{{ url_for('static', filename='images/10eng.jpg') }}" class="img-fluid rounded" alt="10eng" style="width: 100%; height: auto; padding-bottom: 0px;"> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div>
+    
+   <!-- HTML -->
+<div class="content container">
+    <div class="row g-4 text-center">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Our Location</h4>
+                    <!-- Google Maps Embed Code -->
+                    <div class="map-responsive">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3829.8689367445127!2d76.25104847497218!3d16.27848643380232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc7ef26854eacc5%3A0x56b836fb3dda1ef6!2sExpert%20PU%20SCIENCE%20COLLEGE%20Nagarabetta!5e0!3m2!1sen!2sin!4v1738953688850!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+    
+    
 
     <!-- Footer -->
     <footer style=" color: white; text-align: center; padding: 20px 0; border-radius: 5px;">

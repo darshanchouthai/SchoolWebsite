@@ -133,8 +133,8 @@
     <div class="form-container text-center">
         <h2 class="mb-4">Admin Login</h2>
         <form method="POST" action="/admin_login">
-            {% if message %}
-                <div class="alert alert-danger">{{ message }}</div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>

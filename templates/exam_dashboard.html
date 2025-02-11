@@ -145,7 +145,7 @@
     </nav>
 
     <!-- Title Section -->
-    <h1>Exam Results For Subject {{ subject_name[0] }}</h1>
+    <h1>Exam Results For Subject {{ subject_name }}</h1>
 
     <!-- Chart Container Section -->
     <div class="chart-container">
@@ -160,64 +160,71 @@
     </div>
 
     <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
     <script>
-       const marksPerExam = {{ marks_per_exam | tojson }};
-        const examNames = Object.keys(marksPerExam);
-        const marksGotData = examNames.map(exam => marksPerExam[exam].marks_got);
-        const maxMarksData = examNames.map(exam => marksPerExam[exam].maximum_marks);
+        const marksPerExam = {{ marks_per_exam | tojson }};
+         const examNames = Object.keys(marksPerExam);
+         const marksGotData = examNames.map(exam => marksPerExam[exam].marks_got);
+         const maxMarksData = examNames.map(exam => marksPerExam[exam].maximum_marks);
+         const classAvgData = examNames.map(exam => marksPerExam[exam].class_avg);
 
-        const ctx = document.getElementById('examMarksChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: examNames,
-                datasets: [{
-                    label: 'Marks Got',
-                    data: marksGotData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    barThickness: 30,
-                    borderRadius: 8,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Marks',
-                            font: { size: 16, weight: 'bold' }
-                        },
-                        grid: { color: '#e0e0e0' }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Exams',
-                            font: { size: 16, weight: 'bold' }
-                        },
-                        grid: { display: false }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                const examName = tooltipItem.label;
-                                const marksGot = tooltipItem.raw;
-                                const maxMarks = marksPerExam[examName].maximum_marks;
-                                return `${examName}: ${marksGot}/${maxMarks}`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
+         const ctx = document.getElementById('examMarksChart').getContext('2d');
+         new Chart(ctx, {
+             type: 'bar',
+             data: {
+                 labels: examNames,
+                 datasets: [
+                     {
+                         label: 'Marks Got',
+                         data: marksGotData,
+                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                         borderColor: 'rgba(75, 192, 192, 1)',
+                         borderWidth: 1,
+                         barThickness: 30,
+                         borderRadius: 8,
+                     },
+
+                 ]
+             },
+             options: {
+                 responsive: true,
+                 maintainAspectRatio: false,
+                 scales: {
+                     y: {
+                         beginAtZero: true,
+                         title: {
+                             display: true,
+                             text: 'Marks',
+                             font: { size: 16, weight: 'bold' }
+                         },
+                         grid: { color: '#e0e0e0' }
+                     },
+                     x: {
+                         title: {
+                             display: true,
+                             text: 'Exams',
+                             font: { size: 16, weight: 'bold' }
+                         },
+                         grid: { display: false }
+                     }
+                 },
+                 plugins: {
+                     tooltip: {
+                         callbacks: {
+                             label: function(tooltipItem) {
+                                 const examName = tooltipItem.label;
+                                 const marksGot = marksPerExam[examName].marks_got;
+                                 const maxMarks = marksPerExam[examName].maximum_marks;
+                                 const classAvg = marksPerExam[examName].class_avg;
+                                 return `${examName}: ${marksGot}/${maxMarks} (Class Avg: ${classAvg})`;
+                             }
+                         }
+                     }
+                 }
+             }
+         });
+     </script>
+
 
     <!-- Font Awesome for Icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>

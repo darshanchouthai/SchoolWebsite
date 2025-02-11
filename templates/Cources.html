@@ -11,6 +11,9 @@
     
     <!-- Custom CSS -->
    <style>
+    body{
+        padding-top: 90px;
+    }
     /* Red header */
     header {
         background-color: rgba(235, 52, 52, 0.9) !important;
@@ -128,15 +131,12 @@
    </style>
 </head>
 <body>
-    <header class="text-white">
-        <!-- Logo on the left -->
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="logo">
-        
-        <!-- Text centered in the space between logo and button -->
-        <h1 class="header-text m-0">Available Courses</h1>
-        
-        <!-- Button on the right -->
-        <a href="{{ url_for('home') }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+        <div class="container-fluid d-flex justify-content-between align-items-center" style="padding: 0;">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px; left: 0px;">
+            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+        </div>
     </header>
 
     <div class="container mt-4">

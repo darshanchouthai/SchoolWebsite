@@ -10,11 +10,21 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, PageBreak
 from io import BytesIO
+from twilio.rest import Client
+import requests
+import bcrypt
+import os
 
 
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)  
+
+FAST2SMS_API_KEY = "g4MVYR1r3HfzupwcLiaF7jeXEUxSKI9Zn0yBvCTJNP2dkqbGQtT4R6EFVgakwnHOLMX9dQz0PvAxq7m1"
+COUNTRY_CODE = "91"  # India
+
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "SDETrust123")  # Store in environment variable
+ADMIN_PASSWORD_HASH = bcrypt.hashpw("SDETrust#*()".encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 
 # Sample data for courses
@@ -99,7 +109,9 @@ def create_table():
                 course_name VARCHAR(100) NOT NULL,
                 security_number VARCHAR(20) ,
                 birth_date DATE NOT NULL,
-                medium varchar(20)                      
+                medium varchar(20) NOT NULL,
+                gender varchar(10) NOT NULL,
+                UNIQUE(name,course_name,security_number,birth_date,medium,gender)                      
 )
 
             ''')
@@ -117,9 +129,9 @@ def create_table():
                     teacher_id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL UNIQUE,
                     teacher_security_key VARCHAR(32) NOT NULL,
-                    password varchar(20),
+                    password varchar(60),
                            Email Varchar(40) NOT NULL,
-                           Mobine_no varchar(20) not null
+                           Mobile_no varchar(20) not null
                 )
             ''')
             cursor.execute('''CREATE TABLE IF NOT EXISTS teacher_subjects (
@@ -144,18 +156,20 @@ def create_table():
 )
 ''')
             cursor.execute('''CREATE TABLE IF NOT EXISTS student_marks (
-    mark_id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique identifier for each mark entry
-    student_id INT NOT NULL,                  -- ID of the student
-    teacher_id INT NOT NULL,                  -- ID of the teacher
-    subject_id INT NOT NULL,                  -- ID of the subject
-    maximum_marks INT NOT NULL,               -- Maximum marks for the exam
-    marks_got Int not null, 
-    examname varchar(20),                 -- Marks obtained by the student
-    FOREIGN KEY (student_id) REFERENCES students(student_id),  -- Linking to the students table
-    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),  -- Linking to the teachers table (assuming a teachers table exists)
-    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id)   -- Linking to a subjects table (assuming it exists)
-)
-''')
+    mark_id INT AUTO_INCREMENT PRIMARY KEY,  
+    student_id INT NOT NULL,                  
+    teacher_id INT NOT NULL,                  
+    subject_id INT NOT NULL,                  
+    maximum_marks INT NOT NULL,               
+    marks_got INT NOT NULL, 
+    examname VARCHAR(20),                 
+    date DATE DEFAULT (CURRENT_DATE),  -- Automatically adds the current date
+    FOREIGN KEY (student_id) REFERENCES students(student_id),  
+    FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id),  
+    FOREIGN KEY (subject_id) REFERENCES subjects(subject_id),
+    UNIQUE(student_id, subject_id, examname)  -- Ensures uniqueness per student per subject per exam
+)''')
+
             cursor.execute('''CREATE TABLE IF NOT EXISTS attendance (
     attendance_id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT NOT NULL,
@@ -245,6 +259,8 @@ def get_courses():
 
 @app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
+    if not session.get('admin_logged_in'):
+        return redirect(url_for('admin_login'))
     if request.method == 'GET':
         try:
             connection = get_db_connection()
@@ -281,6 +297,7 @@ def admin_panel():
             course_name = request.form.get('courseName')
             birth_date = request.form.get('birthDate')
             medium = request.form.get('medium')
+            Gender=request.form.get('gender')
 
             # Validate form data
             if not student_name or not course_name or not birth_date or not medium:
@@ -328,9 +345,9 @@ def admin_panel():
 
                     # Insert student details into the table
                     cursor.execute("""
-                        INSERT INTO students (name, course_name, birth_date, security_number, medium)
-                        VALUES (%s, %s, %s, %s, %s)
-                    """, (student_name, course_name, birth_date, security_number, medium))
+                        INSERT INTO students (name, course_name, birth_date, security_number, medium,Gender)
+                        VALUES (%s, %s, %s, %s, %s,%s)
+                    """, (student_name, course_name, birth_date, security_number, medium,Gender))
                     connection.commit()
 
                     
@@ -387,12 +404,15 @@ def admin_panel():
                     # Generate Teacher Security Number
                     teacher_secret_key = f"SDE{random.randint(100, 999)}{''.join(random.choices(string.ascii_uppercase, k=2))}"
                     
-                    # Insert teacher details into the teachers table
+                    default_password = "defaultpassword"
+                    hashed_password = bcrypt.hashpw(default_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
                     cursor.execute("""
-                        INSERT INTO teachers (name, teacher_security_key, password,email,Mobile_no)
-                        VALUES (%s, %s, %s,%s,%s)
-                    """, (teacher_name, teacher_secret_key, 'defaultpassword',Email,Mobile_no))
-                    connection.commit()
+                        INSERT INTO teachers (name, teacher_security_key, password, email, Mobile_no)
+                            VALUES (%s, %s, %s, %s, %s)
+                    """, (teacher_name, teacher_secret_key, hashed_password, Email, Mobile_no))
+
+                    connection.commit()     
 
                     cursor.close()
                     connection.close()
@@ -405,8 +425,6 @@ def admin_panel():
 
                             cursor.execute("SELECT subject_name FROM subjects")
                             subjects = cursor.fetchall()
-                            print(teachers)
-                            print(subjects)
                             connection.close()
 
                     
@@ -777,24 +795,19 @@ def student_login():
 
 @app.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
-    error = None  # Initialize error variable
+    error = None
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
-        
-        # Hardcoded credentials (replace with environment variables for security in production)
-        admin_username = ''
-        admin_password = ''
 
-        if username == admin_username and password == admin_password:
+        if username == ADMIN_USERNAME and bcrypt.checkpw(password.encode('utf-8'), ADMIN_PASSWORD_HASH.encode('utf-8')):
             session['admin_logged_in'] = True
-            return redirect(url_for('admin_panel'))  # Redirect to the admin panel
-        else:
-            error = "Invalid credentials. Please try again."
+            session.permanent = True  # Persistent session
+            return redirect(url_for('admin_panel'))  # Redirect to admin panel
+
+        error = "Invalid credentials. Please try again."
 
     return render_template('admin_login.html', error=error)
-
-# Assuming 'db' is your database connection object
 
 # Staff Login Route
 @app.route('/staff_login', methods=['GET', 'POST'])
@@ -822,14 +835,14 @@ def staff_login():
             connection.close()
 
             if teacher_data:
-                stored_password = teacher_data['password']
+                stored_hashed_password = teacher_data['password'].encode('utf-8')
                 
-                # Directly compare plain-text password (Not secure!)
-                if stored_password == password:
+                # Compare hashed password securely
+                if bcrypt.checkpw(password.encode('utf-8'), stored_hashed_password):
                     session.permanent = True
-                    session['teacher_id'] = teacher_data['teacher_id']
+                    session['teacher_id'] = teacher_data['teacher_id']  # Securely store in session
                     
-                    return redirect(url_for('staff_dashboard', teacher_id=teacher_data['teacher_id']))
+                    return redirect(url_for('staff_dashboard'))  # No teacher_id in URL
 
                 return render_template('staff_login.html', error="Invalid security number or password.")
 
@@ -839,79 +852,113 @@ def staff_login():
             print(f"Error: {e}")
             return render_template('staff_login.html', error="Error during login.")
 
-    return render_template('staff_login.html')  # Render login page on GET request
+    return render_template('staff_login.html')
 
-@app.route('/staff_dashboard', methods=['GET', 'POST'])
+@app.route('/staff_dashboard')
 def staff_dashboard():
-    teacher_id = request.args.get('teacher_id')  # Get the teacher ID from query params
-    
-    if not teacher_id:
-        return render_template('staff_login.html')
+    if "teacher_id" not in session:
+        return redirect(url_for("staff_login"))
+
+    teacher_id = session["teacher_id"]  # Secure access to teacher_id
 
     try:
-        # Establish a database connection
         connection = get_db_connection()
-        cursor = connection.cursor()
+        with connection.cursor(dictionary=True) as cursor:
+            cursor.execute("""
+                SELECT DISTINCT c.course_name
+                FROM students c
+                JOIN teacher_student_assignments tsa ON tsa.student_id = c.student_id
+                WHERE tsa.teacher_id = %s
+            """, (teacher_id,))
+            courses = cursor.fetchall()
 
-        # Fetch courses assigned to the teacher
-        cursor.execute("""
-            SELECT DISTINCT c.course_name
-            FROM students c
-            JOIN teacher_student_assignments tsa ON tsa.student_id = c.student_id
-            WHERE tsa.teacher_id = %s
-        """, (teacher_id,))
-        courses = cursor.fetchall()
-        print(courses)
-        # Fetch students assigned to the teacher
-        cursor.execute("""
-            SELECT s.student_id,s.security_number, s.name, s.course_name
-            FROM students s
-            JOIN teacher_student_assignments tsa ON tsa.student_id = s.student_id
-            WHERE tsa.teacher_id = %s
-        """, (teacher_id,))
-        students = cursor.fetchall()
-        
+            cursor.execute("""
+                SELECT s.student_id, s.security_number, s.name, s.course_name
+                FROM students s
+                JOIN teacher_student_assignments tsa ON tsa.student_id = s.student_id
+                WHERE tsa.teacher_id = %s
+            """, (teacher_id,))
+            students = cursor.fetchall()
 
-        cursor.close()
         connection.close()
 
-        # Render the dashboard with students, courses, and buttons for Exam and Attendance
         return render_template('staff_dashboard.html', teacher_id=teacher_id, students=students, courses=courses)
 
     except Exception as e:
         print(f"Error: {e}")
-        return render_template('error.html', error="Error processing request.")
+        return render_template('staff_login.html', error="Error processing request.")
 
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():
     if request.method == 'POST':
-        security_number = request.form['security_number']
-        new_password = request.form['new_password']
-        
+        data = request.json
+        security_number = data.get('security_number')
+        new_password = data.get('new_password')
+        entered_otp = data.get('otp')
+
         try:
             connection = get_db_connection()
             cursor = connection.cursor()
-            
-            
-            
-            # Check if the teacher exists with the given security number
-            cursor.execute(f"SELECT teacher_security_key FROM teachers WHERE teacher_security_key = %s", (security_number,))
-            teacher_exists = cursor.fetchone()
-            
-            if teacher_exists:
-                # Update the teacher's password
-                cursor.execute(f"UPDATE teachers SET password = %s WHERE teacher_security_key = %s", (new_password, security_number))
-                connection.commit()
-                
-                return redirect(url_for('staff_login', message="Password updated successfully. Please log in again."))
+
+            # If OTP is provided, verify it and reset the password
+            if entered_otp:
+                if session.get('otp') == entered_otp and session.get('security_number') == security_number:
+                    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                    cursor.execute("UPDATE teachers SET password = %s WHERE teacher_security_key = %s", (hashed_password, security_number))
+                    connection.commit()
+
+                    # Clear session
+                    session.pop('otp', None)
+                    session.pop('security_number', None)
+
+                    return jsonify({"success": True, "message": "Password updated successfully."})
+                else:
+                    return jsonify({"success": False, "message": "Invalid OTP. Please try again."})
+
+            # Fetch mobile number and send OTP
+            cursor.execute("SELECT Mobile_no FROM teachers WHERE teacher_security_key = %s", (security_number,))
+            teacher_data = cursor.fetchone()
+
+            if teacher_data:
+                phone_number = teacher_data[0]
+
+                # Format phone number properly
+                if not phone_number.startswith("+"):
+                    phone_number = f"{COUNTRY_CODE}{phone_number.lstrip('0')}"
+
+                otp = str(random.randint(100000, 999999))
+                session['otp'] = otp
+                session['security_number'] = security_number
+
+                # Send OTP via Fast2SMS
+                sms_url = "https://www.fast2sms.com/dev/bulkV2"
+                payload = {
+                    "route": "otp",
+                    "variables_values": otp,
+                    "numbers": phone_number
+                }
+
+                headers = {
+                    "authorization": FAST2SMS_API_KEY,
+                    "Content-Type": "application/json"
+                }
+
+                response = requests.post(sms_url, json=payload, headers=headers)
+                response_json = response.json()
+
+                if response.status_code == 200 and response_json.get("return"):
+                    return jsonify({"success": True, "message": "OTP sent successfully."})
+                else:
+                    return jsonify({"success": False, "message": response_json.get("message", "Failed to send OTP.")})
+
             else:
-                return render_template('change_password.html', error="Invalid security number.")
-        
+                return jsonify({"success": False, "message": "Invalid security number."})
+
         except Exception as e:
             print(f"Error: {e}")
-            return render_template('change_password.html', error="Error while changing the password.")
-    
+            return jsonify({"success": False, "message": "Error processing request."}), 500
+
     return render_template('change_password.html')
 
 @app.route('/exam', methods=['GET', 'POST'])
@@ -1521,6 +1568,8 @@ def generate_pdf(teacher_id, course_name):
 
 
 
+import math
+
 @app.route('/student_dashboard/<int:student_id>')
 def student_dashboard(student_id):
     conn = get_db_connection()
@@ -1543,7 +1592,6 @@ def student_dashboard(student_id):
         WHERE ts.student_id = %s
     """, (student_id,))
 
-    # Create a list of dictionaries with subject_name and subject_id
     subjects = [{"subject_name": row[0], "subject_id": row[1]} for row in cursor.fetchall()]
 
     # Fetch average marks per subject
@@ -1554,7 +1602,7 @@ def student_dashboard(student_id):
         WHERE sm.student_id = %s
         GROUP BY s.subject_name
     """, (student_id,))
-    marks_data = dict(cursor.fetchall())  # {subject_name: avg_marks}
+    marks_data = {subject: math.floor(float(avg_marks) + 0.5) for subject, avg_marks in cursor.fetchall()}
 
     # Fetch attendance percentage per subject
     attendance_data = {}
@@ -1570,18 +1618,22 @@ def student_dashboard(student_id):
         attendance_result = cursor.fetchone()
         present_days, total_days = attendance_result if attendance_result else (0, 0)
         attendance_percentage = (present_days / total_days * 100) if total_days > 0 else 0
-        attendance_data[subject["subject_name"]] = round(attendance_percentage, 2)
+
+        # Use `math.floor(value + 0.5)` to ensure 18.5 → 19
+        attendance_data[subject["subject_name"]] = math.floor(float(attendance_percentage) + 0.5)
+
 
     cursor.close()
     conn.close()
 
     return render_template('student_dashboard.html', 
-                           subjects=subjects,  # Pass the list of subjects with both name and id
+                           subjects=subjects,  
                            marks_data=marks_data, 
                            attendance_data=attendance_data,
                            student_name=student_name, 
                            security_number=security_number,
                            student_id=student_id)
+
 
 @app.route('/check_exam/<int:student_id>/<int:subject_id>', methods=['GET'])
 def check_exam(student_id, subject_id):
@@ -1595,16 +1647,18 @@ def check_exam(student_id, subject_id):
         WHERE subject_id = %s AND student_id = %s;
     """, (subject_id, student_id))
     teacher_id = cursor.fetchone()
-    cursor.execute("""select subject_name from subjects where subject_id=%s""",(subject_id,))
-    subject_name=cursor.fetchall()
+
+    cursor.execute("""SELECT subject_name FROM subjects WHERE subject_id=%s""", (subject_id,))
+    subject_name = cursor.fetchone()
     subject_name = subject_name[0] if subject_name else "Unknown Subject"
 
     if not teacher_id:
         return render_template('error.html', message="Teacher not found for this subject/student")
 
     teacher_id = teacher_id[0]
-    cursor.execute('''select name,Email,Mobile_no from teachers where teacher_id=%s''',(teacher_id,))
-    teacher_details=cursor.fetchall() # Extract teacher_id from the result
+
+    cursor.execute('''SELECT name, Email, Mobile_no FROM teachers WHERE teacher_id=%s''', (teacher_id,))
+    teacher_details = cursor.fetchall()
 
     # Step 2: Get distinct exam names for the teacher
     cursor.execute("""
@@ -1624,18 +1678,35 @@ def check_exam(student_id, subject_id):
     """, (student_id, subject_id))
     marks_data = cursor.fetchall()
 
-  
+    # Step 4: Get the class average for each exam in the subject
+    cursor.execute("""
+        SELECT sm.examname, AVG(sm.marks_got) AS avg_marks
+        FROM student_marks sm
+        WHERE sm.subject_id = %s
+        GROUP BY sm.examname
+        ORDER BY sm.examname;
+    """, (subject_id,))
+    class_avg_data = dict(cursor.fetchall())  # Convert list of tuples into a dictionary {examname: avg_marks}
+
     cursor.close()
     conn.close()
 
     # Prepare data for rendering
-    marks_per_exam = {exam: {"marks_got": None, "maximum_marks": None} for exam in exam_names}  # Initialize with None
+    marks_per_exam = {exam: {"marks_got": None, "maximum_marks": None, "class_avg": None} for exam in exam_names}  # Initialize with None
     for exam, marks_got, maximum_marks in marks_data:
-        marks_per_exam[exam] = {"marks_got": marks_got, "maximum_marks": maximum_marks}
+        marks_per_exam[exam] = {
+            "marks_got": marks_got,
+            "maximum_marks": maximum_marks,
+            "class_avg": round(class_avg_data.get(exam, 0), 2)  # Default to 0 if no data found
+        }
 
-    
-    return render_template('exam_dashboard.html', student_id=student_id, subject_id=subject_id, 
-                           marks_per_exam=marks_per_exam,subject_name=subject_name,teacher_details=teacher_details)
+    return render_template('exam_dashboard.html', 
+                           student_id=student_id, 
+                           subject_id=subject_id, 
+                           marks_per_exam=marks_per_exam, 
+                           subject_name=subject_name, 
+                           teacher_details=teacher_details)
+
 
 @app.route('/applications', methods=['GET'])
 def applications():

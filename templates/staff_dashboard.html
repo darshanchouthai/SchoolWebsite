@@ -153,7 +153,7 @@
             <select id="course_filter" class="form-select" onchange="filterCourse()">
                 <option value="">Select Class</option>
                 {% for course in courses %}
-                <option value="{{ course[0] }}">{{ course[0] }}</option>  <!-- Use course[0] since courses are tuples -->
+                <option value="{{ course[0] }}">{{ course.course_name }}</option>  <!-- Use course[0] since courses are tuples -->
                 {% endfor %}
             </select>
         </div>
@@ -173,13 +173,13 @@
                 <tbody>
                     {% for student in students %}
                     <tr class="student_row" data-course="{{ student[3] }}"> <!-- student[2] is the course_name -->
-                        <td>{{ student[0] }}</td>  <!-- student[0] is student_id -->
-                        <td>{{ student[1] }}</td>
-                        <td>{{ student[2] }}</td>  <!-- student[1] is name -->
-                        <td>{{ student[3] }}</td>  <!-- student[2] is course_name -->
+                        <td>{{ student.student_id }}</td>  <!-- student[0] is student_id -->
+                        <td>{{ student.security_number }}</td>
+                        <td>{{ student.name }}</td>  <!-- student[1] is name -->
+                        <td>{{ student.course_name }}</td>  <!-- student[2] is course_name -->
                         <td>
                             <div class="d-flex gap-2">
-                                <a href="{{ url_for('exam', teacher_id=request.args.get('teacher_id')) }}" class="btn btn-custom">Exam</a>
+                                <a href="{{ url_for('exam', teacher_id=teacher_id) }}" class="btn btn-custom">Exam</a>
                                 <a href="{{ url_for('attendance') }}" class="btn btn-custom">Attendance</a>
                             </div>
                         </td>

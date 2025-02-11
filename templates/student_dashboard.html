@@ -249,72 +249,83 @@
         var attendanceData = {{ attendance_data.values() | list | tojson }}; 
 
         // Marks Histogram
-        var ctxM = document.getElementById('marksChart').getContext('2d');
-        new Chart(ctxM, {
-            type: 'bar',
-            data: {
-                labels: subjectLabels,
-                datasets: [{
-                    label: 'Average Marks',
-                    data: marksData,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    barThickness: 20,
-                }]
+        // Marks Histogram
+// Marks Histogram
+// Marks Histogram
+var ctxM = document.getElementById('marksChart').getContext('2d');
+new Chart(ctxM, {
+    type: 'bar',
+    data: {
+        labels: subjectLabels,
+        datasets: [{
+            label: 'Average Marks',
+            data: marksData,
+            backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            barThickness: 10 // Reduce bar thickness
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            y: { 
+                beginAtZero: true,
+                max: 100,
+                grid: { color: '#e9ecef' }
             },
-            options: {
-                plugins: { 
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                scales: { 
-                    y: { 
-                        beginAtZero: true, 
-                        max: 100,
-                        grid: { color: '#e9ecef' }
-                    },
-                    x: { 
-                        grid: { display: false }
-                    }
-                },
-                animation: { duration: 1000 }
+            x: {
+                grid: { display: false }
             }
-        });
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuad'
+        }
+    }
+});
 
-        // Attendance Histogram
-        var ctxA = document.getElementById('attendanceChart').getContext('2d');
-        new Chart(ctxA, {
-            type: 'bar',
-            data: {
-                labels: subjectLabels,
-                datasets: [{
-                    label: 'Attendance %',
-                    data: attendanceData,
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    barThickness: 20,
-                }]
+// Attendance Histogram
+var ctxA = document.getElementById('attendanceChart').getContext('2d');
+new Chart(ctxA, {
+    type: 'bar',
+    data: {
+        labels: subjectLabels,
+        datasets: [{
+            label: 'Attendance %',
+            data: attendanceData,
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1,
+            barThickness: 20 // Reduce bar thickness
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            y: { 
+                beginAtZero: true,
+                max: 100,
+                grid: { color: '#e9ecef' }
             },
-            options: {
-                plugins: { 
-                    legend: { display: false },
-                    tooltip: { enabled: true }
-                },
-                scales: { 
-                    y: { 
-                        beginAtZero: true, 
-                        max: 100,
-                        grid: { color: '#e9ecef' }
-                    },
-                    x: { 
-                        grid: { display: false }
-                    }
-                },
-                animation: { duration: 1000 }
+            x: {
+                grid: { display: false }
             }
-        });
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuad'
+        }
+    }
+});
+
+
     </script>
 </body>
 </html>
