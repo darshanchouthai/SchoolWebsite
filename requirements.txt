@@ -1,0 +1,11 @@
+Flask
+Flask-Login
+mysql-connector-python
+pymysql
+secrets
+random
+string
+bcrypt
+twilio
+requests
+reportlab
