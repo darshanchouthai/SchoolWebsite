@@ -3,82 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Admin Panel | Oxford Maths Group</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS Animation Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
-        /* Default header style */
-        .header-text {
-            font-size: 24px;
+        :root {
+            --primary: #3a0ca3;
+            --secondary: #4361ee;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f77f00;
+            --danger: #d90429;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand img:hover {
+            transform: scale(1.1);
+        }
+        
+        .navbar-brand h1 {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-weight: 500;
+            padding: 0.7rem 1.2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .logout-btn {
+            background-color: var(--accent);
+            color: white !important;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #e01b76;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-container {
+            padding-top: 120px;
+            padding-bottom: 60px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            background: white;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header i {
+            font-size: 1.5rem;
+        }
+        
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 1.8rem;
+        }
+        
+        .form-label {
+            color: var(--dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-success {
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            border: none;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(46, 204, 113, 0.2);
+        }
+        
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 1rem;
+            margin-top: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .alert-success {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .alert-danger {
+            background-color: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .form-animate-group {
+            transition: all 0.3s ease;
+        }
+        
+        .form-animate-group:hover {
+            transform: translateX(5px);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .navbar-brand h1 {
+                font-size: 1.1rem;
+            }
+            
+            .main-container {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-brand h1 {
+                font-size: 1rem;
+            }
+            
+            .main-container {
+                padding-top: 90px;
+            }
+            
+            .card-header h2 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar-brand img {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .navbar-brand h1 {
+                font-size: 0.9rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.1rem;
+            }
         }
 
-        /* For small devices (screen width 576px or smaller) */
-        @media (max-width: 576px) {
-            .header-text {
-                font-size: 14px;
-            }
+        /* Pulse animation for notifications */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Page transitions */
+        .page-transition {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Loading spinners */
+        .spinner-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 3px solid rgba(67, 97, 238, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--secondary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="bg-light">
-    <!-- Header -->
-    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px;">
-            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-          
-        </div>
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:gray; margin-top: 5rem; margin-top: 90px; border-radius: 5px;">
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <h1 class="d-lg-none m-0">Admin Panel</h1> <!-- For small devices, show Admin Panel text here -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="{{ url_for('admin_panel') }}">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid">
+                <h1>Oxford Maths Group Of Education</h1>
+            </a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('admin_panel') }}" style="margin-right: 30px;">Home</a>
+                        <a class="nav-link active" href="{{ url_for('admin_panel') }}">
+                            <i class="fas fa-home me-1"></i> Dashboard
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('get_students_data') }}" style="margin-right: 30px;">Students</a>
+                        <a class="nav-link" href="{{ url_for('get_students_data') }}">
+                            <i class="fas fa-user-graduate me-1"></i> Students
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('get_teachers_data') }}" style="margin-right: 30px;">Teachers</a>
+                        <a class="nav-link" href="{{ url_for('get_teachers_data') }}">
+                            <i class="fas fa-chalkboard-teacher me-1"></i> Teachers
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('applications') }}"  style="margin-right: 30px;">Applications</a>
+                        <a class="nav-link" href="{{ url_for('applications') }}">
+                            <i class="fas fa-file-alt me-1"></i> Applications
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">Logout</a>
+                        <a class="nav-link logout-btn" href="{{ url_for('home') }}">
+                            <i class="fas fa-sign-out-alt me-1"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <!-- Main Content -->
-    <div class="container-fluid mt-5 pt-5">
-        <div class="row g-3">
+    <div class="container-fluid main-container page-transition">
+        <div class="row g-4">
             <!-- Add Student Form -->
-            <div class="col-md-6">
-                <div class="card shadow-sm">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-user-graduate"></i>
+                        <h2>Add Student</h2>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center">Add Student</h2>
-                        <form method="POST" action="/admin_panel">
+                        <form method="POST" action="/admin_panel" id="studentForm">
                             {% if error1 %}
-                                <div class="alert alert-danger">{{ error1 }}</div>
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ error1 }}
+                                </div>
                             {% endif %}
                             <input type="hidden" name="action" value="add_student">
-                            <div class="mb-3">
-                                <label for="studentName" class="form-label">Student Name:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="studentName" class="form-label">
+                                    <i class="fas fa-user me-1"></i> Student Name
+                                </label>
                                 <input type="text" class="form-control" id="studentName" name="studentName" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="birthDate" class="form-label">Birth Date:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="birthDate" class="form-label">
+                                    <i class="fas fa-calendar-alt me-1"></i> Birth Date
+                                </label>
                                 <input type="date" class="form-control" id="birthDate" name="birthDate" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="courseName" class="form-label">Course Name:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="courseName" class="form-label">
+                                    <i class="fas fa-book me-1"></i> Course Name
+                                </label>
                                 <select class="form-select" id="courseName" name="courseName" required>
                                     <option value="" disabled selected>Select Course</option>
                                     <option value="1st">1st</option>
@@ -95,25 +399,38 @@
                                     <option value="PUC II">PUC II</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="medium" class="form-label">Medium:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="medium" class="form-label">
+                                    <i class="fas fa-language me-1"></i> Medium
+                                </label>
                                 <select class="form-select" id="medium" name="medium" required>
                                     <option value="" disabled selected>Select Medium</option>
                                     <option value="Kannada">Kannada</option>
                                     <option value="English">English</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="gender" class="form-label">Gender:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="gender" class="form-label">
+                                    <i class="fas fa-venus-mars me-1"></i> Gender
+                                </label>
                                 <select class="form-select" id="gender" name="gender" required>
                                     <option value="" disabled selected>Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Add Student</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="studentSubmitBtn">
+                                    <i class="fas fa-plus-circle me-1"></i> Add Student
+                                </button>
+                            </div>
+                            <div class="spinner-container" id="studentSpinner">
+                                <div class="spinner"></div>
+                            </div>
                             {% if message1 %}
-                                <div class="alert alert-success mt-3">{{ message1 }}</div>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>{{ message1 }}
+                                </div>
                             {% endif %}
                         </form>
                     </div>
@@ -121,30 +438,50 @@
             </div>
 
             <!-- Add Teacher Form -->
-            <div class="col-md-6">
-                <div class="card shadow-sm">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <h2>Add Teacher</h2>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center">Add Teacher</h2>
-                        <form method="POST" action="/admin_panel">
+                        <form method="POST" action="/admin_panel" id="teacherForm">
                             {% if error2 %}
-                                <div class="alert alert-danger">{{ error2 }}</div>
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ error2 }}
+                                </div>
                             {% endif %}
                             <input type="hidden" name="action" value="add_teacher">
-                            <div class="mb-3">
-                                <label for="teacherName" class="form-label">Teacher Name:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="teacherName" class="form-label">
+                                    <i class="fas fa-user me-1"></i> Teacher Name
+                                </label>
                                 <input type="text" class="form-control" id="teacherName" name="teacherName" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="Emailid" class="form-label">Email:</label>
-                                <input type="text" class="form-control" id="Emailid" name="Emailid" required>
+                            <div class="mb-3 form-animate-group">
+                                <label for="Emailid" class="form-label">
+                                    <i class="fas fa-envelope me-1"></i> Email
+                                </label>
+                                <input type="email" class="form-control" id="Emailid" name="Emailid" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="mobileno" class="form-label">Mobile No:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="mobileno" class="form-label">
+                                    <i class="fas fa-phone me-1"></i> Mobile No
+                                </label>
                                 <input type="text" class="form-control" id="mobileno" name="mobileno" required>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Add Teacher</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="teacherSubmitBtn">
+                                    <i class="fas fa-plus-circle me-1"></i> Add Teacher
+                                </button>
+                            </div>
+                            <div class="spinner-container" id="teacherSpinner">
+                                <div class="spinner"></div>
+                            </div>
                             {% if message2 %}
-                                <div class="alert alert-success mt-3">{{ message2 }}</div>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>{{ message2 }}
+                                </div>
                             {% endif %}
                         </form>
                     </div>
@@ -152,22 +489,38 @@
             </div>
 
             <!-- Add Subject Form -->
-            <div class="col-md-6">
-                <div class="card shadow-sm">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-book"></i>
+                        <h2>Add Subject</h2>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center">Add Subject</h2>
-                        <form method="POST" action="/admin_panel">
+                        <form method="POST" action="/admin_panel" id="subjectForm">
                             {% if error3 %}
-                                <div class="alert alert-danger">{{ error3 }}</div>
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ error3 }}
+                                </div>
                             {% endif %}
                             <input type="hidden" name="action" value="add_subject">
-                            <div class="mb-3">
-                                <label for="subjectName" class="form-label">Subject Name:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="subjectName" class="form-label">
+                                    <i class="fas fa-book-open me-1"></i> Subject Name
+                                </label>
                                 <input type="text" class="form-control" id="subjectName" name="subjectName" required>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Add Subject</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="subjectSubmitBtn">
+                                    <i class="fas fa-plus-circle me-1"></i> Add Subject
+                                </button>
+                            </div>
+                            <div class="spinner-container" id="subjectSpinner">
+                                <div class="spinner"></div>
+                            </div>
                             {% if message3 %}
-                                <div class="alert alert-success mt-3">{{ message3 }}</div>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>{{ message3 }}
+                                </div>
                             {% endif %}
                         </form>
                     </div>
@@ -175,17 +528,24 @@
             </div>
 
             <!-- Assign Teacher to Subject Form -->
-            <div class="col-md-6">
-                <div class="card shadow-sm">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-link"></i>
+                        <h2>Assign Teacher to Subject</h2>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center">Assign Teacher to Subject</h2>
-                        <form method="POST" action="/assign_teacher">
+                        <form method="POST" action="/assign_teacher" id="assignTeacherForm">
                             {% if error %}
-                                <div class="alert alert-danger">{{ error }}</div>
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+                                </div>
                             {% endif %}
                             <input type="hidden" name="action" value="assign_teacher">
-                            <div class="mb-3">
-                                <label for="teacher_name" class="form-label">Select Teacher:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="teacher_name" class="form-label">
+                                    <i class="fas fa-user-tie me-1"></i> Select Teacher
+                                </label>
                                 <select class="form-select" name="teacher_name" required>
                                     <option value="">-- Select Teacher --</option>
                                     {% for teacher in teachers %}
@@ -193,8 +553,10 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="subject_name" class="form-label">Select Subject:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="subject_name" class="form-label">
+                                    <i class="fas fa-book-open me-1"></i> Select Subject
+                                </label>
                                 <select class="form-select" name="subject_name" required>
                                     <option value="">-- Select Subject --</option>
                                     {% for subject in subjects %}
@@ -202,9 +564,18 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Assign</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="assignTeacherSubmitBtn">
+                                    <i class="fas fa-link me-1"></i> Assign
+                                </button>
+                            </div>
+                            <div class="spinner-container" id="assignTeacherSpinner">
+                                <div class="spinner"></div>
+                            </div>
                             {% if message6 %}
-                                <div class="alert alert-success mt-3">{{ message6 }}</div>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>{{ message6 }}
+                                </div>
                             {% endif %}
                         </form>
                     </div>
@@ -212,16 +583,23 @@
             </div>
 
             <!-- Assign Teacher to Students Form -->
-            <div class="col-md-6">
-                <div class="card shadow-sm">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-user-friends"></i>
+                        <h2>Assign Teacher to Students</h2>
+                    </div>
                     <div class="card-body">
-                        <h2 class="card-title text-center">Assign Teacher to Students</h2>
-                        <form method="POST" action="/assign_teacher_to_students">
+                        <form method="POST" action="/assign_teacher_to_students" id="assignTeacherStudentsForm">
                             {% if error4 %}
-                                <div class="alert alert-danger">{{ error4 }}</div>
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-circle me-2"></i>{{ error4 }}
+                                </div>
                             {% endif %}
-                            <div class="mb-3">
-                                <label for="teacher_name" class="form-label">Select Teacher:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="teacher_name" class="form-label">
+                                    <i class="fas fa-user-tie me-1"></i> Select Teacher
+                                </label>
                                 <select class="form-select" name="teacher_name" id="teacher_name" required onchange="fetchSubjects()">
                                     <option value="">-- Select Teacher --</option>
                                     {% for teacher in teachers %}
@@ -229,8 +607,10 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="course_name" class="form-label">Select Course:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="course_name" class="form-label">
+                                    <i class="fas fa-graduation-cap me-1"></i> Select Course
+                                </label>
                                 <select class="form-select" id="course_name" name="course_name" required>
                                     <option value="" disabled selected>Select class</option>
                                     <option value="1st">1st</option>
@@ -247,15 +627,26 @@
                                     <option value="PUC II">PUC II</option>
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="subject_name" class="form-label">Select Subject:</label>
+                            <div class="mb-3 form-animate-group">
+                                <label for="subject_name" class="form-label">
+                                    <i class="fas fa-book-open me-1"></i> Select Subject
+                                </label>
                                 <select class="form-select" name="subject_name" id="subject_name" required>
                                     <option value="">-- Select Subject --</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-success w-100">Assign</button>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="assignTeacherStudentsSubmitBtn">
+                                    <i class="fas fa-users me-1"></i> Assign
+                                </button>
+                            </div>
+                            <div class="spinner-container" id="assignTeacherStudentsSpinner">
+                                <div class="spinner"></div>
+                            </div>
                             {% if message5 %}
-                                <div class="alert alert-success mt-3">{{ message5 }}</div>
+                                <div class="alert alert-success mt-3">
+                                    <i class="fas fa-check-circle me-2"></i>{{ message5 }}
+                                </div>
                             {% endif %}
                         </form>
                     </div>
@@ -266,10 +657,72 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
     <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // Add loading spinners to forms
+            const forms = {
+                'studentForm': 'studentSpinner',
+                'teacherForm': 'teacherSpinner',
+                'subjectForm': 'subjectSpinner',
+                'assignTeacherForm': 'assignTeacherSpinner',
+                'assignTeacherStudentsForm': 'assignTeacherStudentsSpinner'
+            };
+
+            for (const [formId, spinnerId] of Object.entries(forms)) {
+                const form = document.getElementById(formId);
+                const spinner = document.getElementById(spinnerId);
+                
+                if (form && spinner) {
+                    form.addEventListener('submit', function() {
+                        // Hide the submit button
+                        const submitBtn = form.querySelector('button[type="submit"]');
+                        if (submitBtn) submitBtn.style.display = 'none';
+                        
+                        // Show the spinner
+                        spinner.style.display = 'flex';
+                    });
+                }
+            }
+
+            // Add animation to form fields on focus
+            const formControls = document.querySelectorAll('.form-control, .form-select');
+            formControls.forEach(control => {
+                control.addEventListener('focus', function() {
+                    this.closest('.form-animate-group').style.transform = 'translateX(10px)';
+                });
+                
+                control.addEventListener('blur', function() {
+                    this.closest('.form-animate-group').style.transform = 'translateX(0)';
+                });
+            });
+
+            // Add animation to success alerts
+            const successAlerts = document.querySelectorAll('.alert-success');
+            successAlerts.forEach(alert => {
+                alert.classList.add('pulse');
+            });
+        });
+
         function fetchSubjects() {
             var teacherName = document.getElementById("teacher_name").value;
             if (teacherName) {
+                // Show loading spinner
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                spinner.id = 'subjectLoadingSpinner';
+                const subjectSelect = document.getElementById("subject_name");
+                subjectSelect.parentNode.appendChild(spinner);
+                
                 fetch('/get_subjects_for_teacher', {
                     method: 'POST',
                     headers: {
@@ -279,24 +732,83 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    var subjectSelect = document.getElementById("subject_name");
-                    subjectSelect.innerHTML = "<option value=''>-- Select Subject --</option>";
+                    // Remove spinner
+                   // Remove spinner
+                   const loadingSpinner = document.getElementById('subjectLoadingSpinner');
+                    if (loadingSpinner) loadingSpinner.remove();
+                    
+                    const subjectSelect = document.getElementById("subject_name");
+                    subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
+                    
                     if (data.subjects && data.subjects.length > 0) {
-                        data.subjects.forEach(function(subject) {
-                            var option = document.createElement("option");
-                            option.value = subject.subject_name;
-                            option.text = subject.subject_name;
+                        data.subjects.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject;
+                            option.textContent = subject;
                             subjectSelect.appendChild(option);
                         });
                     } else {
-                        alert("No subjects found for this teacher.");
+                        const option = document.createElement('option');
+                        option.value = "";
+                        option.textContent = "No subjects assigned to this teacher";
+                        option.disabled = true;
+                        subjectSelect.appendChild(option);
                     }
                 })
-                .catch(error => console.error("Error fetching subjects:", error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Remove spinner
+                    const loadingSpinner = document.getElementById('subjectLoadingSpinner');
+                    if (loadingSpinner) loadingSpinner.remove();
+                    
+                    const subjectSelect = document.getElementById("subject_name");
+                    subjectSelect.innerHTML = '<option value="">-- Error loading subjects --</option>';
+                });
             } else {
-                document.getElementById("subject_name").innerHTML = "<option value=''>-- Select Subject --</option>";
+                const subjectSelect = document.getElementById("subject_name");
+                subjectSelect.innerHTML = '<option value="">-- Select Subject --</option>';
             }
         }
+
+        // Form validation for student form
+        document.getElementById('studentForm').addEventListener('submit', function(event) {
+            const mobileInput = document.getElementById('mobileno');
+            if (mobileInput && mobileInput.value) {
+                const mobileRegex = /^[0-9]{10}$/;
+                if (!mobileRegex.test(mobileInput.value)) {
+                    event.preventDefault();
+                    alert('Please enter a valid 10-digit mobile number');
+                }
+            }
+        });
+
+        // Form validation for teacher form
+        document.getElementById('teacherForm').addEventListener('submit', function(event) {
+            const mobileInput = document.getElementById('mobileno');
+            if (mobileInput && mobileInput.value) {
+                const mobileRegex = /^[0-9]{10}$/;
+                if (!mobileRegex.test(mobileInput.value)) {
+                    event.preventDefault();
+                    alert('Please enter a valid 10-digit mobile number');
+                }
+            }
+        });
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.opacity = '1';
+                let fadeEffect = setInterval(function() {
+                    if (alert.style.opacity > 0) {
+                        alert.style.opacity -= 0.1;
+                    } else {
+                        clearInterval(fadeEffect);
+                        alert.style.display = 'none';
+                    }
+                }, 100);
+            });
+        }, 5000);
     </script>
 </body>
 </html>
