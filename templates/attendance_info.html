@@ -6,178 +6,803 @@
     <title>Attendance Data</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #4F8B82;
+            --secondary-color: #4F8B82;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --light-bg: #f8f9fa;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
             margin: 0;
-            padding: 20px;
+            padding: 0;
             color: #333;
+            transition: all 0.3s ease;
         }
 
-        .h1 {
-            text-align: center;
-            color: #4a90e2;
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 15px 20px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: var(--card-shadow);
             margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+            background-size: 150px;
+            opacity: 0.3;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .header-title {
             font-size: 24px;
-            font-weight: bold;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .navbar {
-            margin-top: 10px;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+        .back-btn {
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
+    color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;  /* This removes the underline */
+}
+
+.back-btn i {
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover {
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    color: var(--secondary-color);
+    text-decoration: none;  /* This ensures no underline on hover */
+}
+
+.back-btn:hover i {
+    transform: translateX(-4px);
+}
+
+.back-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+        .teacher-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
         }
 
-        .navbar .user-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #4a90e2;
+        .teacher-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-size: 20px;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .navbar .teacher-details {
-            margin-left: 10px;
-            font-size: 16px;
+        .teacher-info {
+            margin-left: 15px;
+        }
+
+        .teacher-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .teacher-contact {
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .teacher-contact i {
+            color: var(--primary-color);
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .page-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+
+        .attendance-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .attendance-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .attendance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .present-header {
+            background: linear-gradient(45deg, #36b37e, #00875a);
+            color: white;
+        }
+
+        .absent-header {
+            background: linear-gradient(45deg, var(--danger-color), #b5179e);
+            color: white;
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .attendance-table th {
+            background-color: rgba(0, 0, 0, 0.03);
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .attendance-table td {
+            padding: 12px 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .present-badge {
+            background-color: rgba(54, 179, 126, 0.1);
+            color: #36b37e;
+        }
+
+        .absent-badge {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger-color);
+        }
+
+        .charts-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
             color: #333;
         }
 
-        .navbar .teacher-details strong {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .navbar .teacher-details span {
-            display: block;
-            font-size: 14px;
-            color: #777;
-        }
-
-        .navbar .teacher-details .email,
-        .navbar .teacher-details .mobile {
-            font-size: 14px;
-            color: #777;
-        }
-
-        .navbar .teacher-details .mobile {
-            margin-top: 5px;
-        }
-        .header-title {
-        font-size: 18px; /* Default size for laptops */
-    }
-
-    /* Tablets (width between 768px and 991px) */
-    @media (max-width: 991px) {
-        .header-title {
-            font-size: 16px;
-        }
-    }
-
-    /* Smaller devices (width below 768px) */
-    @media (max-width: 767px) {
-        .header-title {
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
             font-size: 14px;
         }
-    }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 991px) {
+            .header-title {
+                font-size: 20px;
+            }
+
+            .attendance-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .header-title {
+                font-size: 16px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .teacher-card {
+                padding: 15px;
+            }
+
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1s ease;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded-bottom">
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" 
-            style="width: 40px; border-radius: 5px;">
-        <h1 class="flex-grow-1 text-center m-0 header-title">Oxford Maths Group Of Education</h1>
-        <a href="{{ url_for('student_dashboard', student_id=student_id) }}" class="btn btn-light">Back</a>
-    </header>
+    <div class="main-container">
+        <!-- Header Section -->
+        <header class="header animate__animated animate__fadeIn">
+            <div class="header-content">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="Oxford Maths Logo" class="logo animate__animated animate__bounceIn">
+                <h1 class="header-title">Oxford Maths Group Of Education</h1>
+               <a href="{{ url_for('student_dashboard',student_id=student_id) }}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>Back
+                </a>
+        </header>
 
-    <!-- Navigation Bar Section -->
-    <nav class="navbar">
-        <div class="d-flex align-items-center">
-            <div class="user-icon">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="teacher-details">
-                {% if teacher_details %}
-                    <strong>{{ teacher_details.name }}</strong>
-                    <span class="email">{{ teacher_details.Email }}  |  {{ teacher_details.Mobile_no }}</span>
-                    
-                {% else %}
-                    <strong>Unknown Teacher</strong>
-                    <span class="email">No email provided</span>
-                    <span class="mobile">No mobile number provided</span>
-                {% endif %}
+        <!-- Teacher Info Card -->
+        <div class="teacher-card animate__animated animate__fadeInUp">
+            <div class="d-flex align-items-center">
+                <div class="user-avatar pulse">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="teacher-info">
+                    <h3 class="teacher-name">{{ teacher_details.name }}</h3>
+                    <div class="teacher-contact">
+                        <span><i class="fas fa-envelope"></i> {{ teacher_details.Email }}</span>
+                        <span><i class="fas fa-phone-alt"></i> {{ teacher_details.Mobile_no }}</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Title Section -->
-    <h1 class="h1">Attendance Data for Subject {{ subject_name }}</h1>
+        <!-- Page Title -->
+        <h2 class="page-title slide-up">Attendance Dashboard: {{ subject_name }}</h2>
 
-    <!-- Attendance Data Section -->
-    <div class="chart-container">
-        <h3>Present Dates</h3>
+        <!-- Statistics Summary -->
+        <div class="charts-container animate__animated animate__fadeIn">
+            <h3 class="chart-title">Attendance Overview</h3>
+            <div style="height: 300px;">
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Attendance Data -->
+        <div class="attendance-container">
+            <!-- Present Dates -->
+            <div class="attendance-card slide-up" style="animation-delay: 0.2s">
+                <div class="card-header present-header">
+                    <i class="fas fa-check-circle"></i> Present Dates
+                </div>
+                <div class="card-body p-0">
+                    {% if present_dates %}
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for date in present_dates %}
+                                <tr class="fade-in" style="animation-delay: calc({{ loop.index }} * 0.1s)">
+                                    <td>{{ date.date }}</td>
+                                    <td>
+                                        <span class="status-badge present-badge">
+                                            <i class="fas fa-check"></i> Present
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-times"></i>
+                            <p>No present dates found.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Absent Dates -->
+            <div class="attendance-card slide-up" style="animation-delay: 0.4s">
+                <div class="card-header absent-header">
+                    <i class="fas fa-times-circle"></i> Absent Dates
+                </div>
+                <div class="card-body p-0">
+                    {% if absent_dates %}
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for date in absent_dates %}
+                                <tr class="fade-in" style="animation-delay: calc({{ loop.index }} * 0.1s)">
+                                    <td>{{ date.date }}</td>
+                                    <td>
+                                        <span class="status-badge absent-badge">
+                                            <i class="fas fa-times"></i> Absent
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-check"></i>
+                            <p>No absent dates found.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Calendar View -->
+        <div class="charts-container animate__animated animate__fadeIn" style="animation-delay: 0.6s">
+            <h3 class="chart-title">Monthly Attendance Calendar</h3>
+            <div id="calendar" class="p-3"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2025 Oxford Maths Group Of Education. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add animation classes on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize animations
+            setTimeout(() => {
+                const elements = document.querySelectorAll('.slide-up');
+                elements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 150);
+                });
+            }, 300);
+
+            // Initialize attendance chart
+            const ctxAttendance = document.getElementById('attendanceChart').getContext('2d');
+
+            // Count present and absent dates
+            const presentCount = {{ present_dates|length if present_dates else 0 }};
+            const absentCount = {{ absent_dates|length if absent_dates else 0 }};
+            const totalDays = presentCount + absentCount;
+            const attendanceRate = totalDays > 0 ? ((presentCount / totalDays) * 100).toFixed(1) : 0;
+
+            // Create attendance chart
+            const attendanceChart = new Chart(ctxAttendance, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Present', 'Absent'],
+                    datasets: [{
+                        data: [presentCount, absentCount],
+                        backgroundColor: ['#36b37e', '#f72585'],
+                        borderColor: ['#00875a', '#b5179e'],
+                        borderWidth: 1,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const percentage = totalDays > 0 ? ((value / totalDays) * 100).toFixed(1) : 0;
+                                    return `${label}: ${value} days (${percentage}%)`;
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true,
+                        duration: 2000,
+                        easing: 'easeOutBounce'
+                    }
+                }
+            });
+
+            // Center text in doughnut chart
+            Chart.register({
+                id: 'doughnutCenterText',
+                beforeDraw: function(chart) {
+                    if (chart.config.type === 'doughnut') {
+                        const width = chart.width;
+                        const height = chart.height;
+                        const ctx = chart.ctx;
+
+                        ctx.restore();
+                        const fontSize = (height / 120).toFixed(2);
+                        ctx.font = fontSize + 'em sans-serif';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = '#333';
+
+                        const text = `${attendanceRate}%`;
+                        const textLabel = 'Attendance';
+                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                        const textY = height / 2 - 10;
+
+                        ctx.fillText(text, textX, textY);
+
+                        ctx.font = (fontSize * 0.6) + 'em sans-serif';
+                        ctx.fillStyle = '#666';
+                        const labelX = Math.round((width - ctx.measureText(textLabel).width) / 2);
+                        const labelY = height / 2 + 15;
+
+                        ctx.fillText(textLabel, labelX, labelY);
+                        ctx.save();
+                    }
+                }
+            });
+
+            // Simple calendar initialization (this would be enhanced in a real implementation)
+            initCalendar();
+        });
+
+        // Function to create a calendar that properly displays attendance data
+function initCalendar() {
+    const calendar = document.getElementById('calendar');
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    // Store the current view state
+    window.calendarState = window.calendarState || {
+        currentMonth: month,
+        currentYear: year
+    };
+
+    // Create present and absent dates arrays from template data
+    const presentDates = [
         {% if present_dates %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for date in present_dates %}
-                            <tr>
-                                <td>{{ date.date }}</td>
-                                <td>Present</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p>No present dates found.</p>
+            {% for date in present_dates %}
+                "{{ date.date }}",
+            {% endfor %}
         {% endif %}
+    ];
 
-        <h3>Absent Dates</h3>
+    const absentDates = [
         {% if absent_dates %}
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for date in absent_dates %}
-                            <tr>
-                                <td>{{ date.date }}</td>
-                                <td>Absent</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p>No absent dates found.</p>
+            {% for date in absent_dates %}
+                "{{ date.date }}",
+            {% endfor %}
         {% endif %}
-    </div>
+    ];
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <!-- Footer content -->
-    </div>
+    // Render the calendar with current state
+    renderCalendar(calendar, window.calendarState.currentYear, window.calendarState.currentMonth, presentDates, absentDates);
+}
 
-    <!-- Font Awesome for Icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+// Function to render the calendar with specific month and year
+function renderCalendar(calendarElement, year, month, presentDates, absentDates) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"];
+
+    // Calculate days in month and first day of month
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+
+    let calendarHTML = `
+        <div class="text-center mb-3">
+            <h4>${monthNames[month]} ${year}</h4>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <button class="btn btn-sm btn-outline-primary" onclick="prevMonth()">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <button class="btn btn-sm btn-outline-primary" onclick="nextMonth()">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    // Create calendar grid
+    let day = 1;
+    for (let i = 0; i < 6; i++) {
+        calendarHTML += '<tr>';
+
+        for (let j = 0; j < 7; j++) {
+            if (i === 0 && j < firstDay) {
+                calendarHTML += '<td class="bg-light"></td>';
+            } else if (day > daysInMonth) {
+                calendarHTML += '<td class="bg-light"></td>';
+            } else {
+                // Format the date string to match data format
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                let cellClass = '';
+                let statusIcon = '';
+                let tooltip = '';
+
+                // Check if date is present in our data
+                if (presentDates.includes(dateStr)) {
+                    cellClass = 'bg-success bg-opacity-10 text-success';
+                    statusIcon = '<i class="fas fa-check-circle"></i> ';
+                    tooltip = 'data-bs-toggle="tooltip" data-bs-placement="top" title="Present"';
+                } else if (absentDates.includes(dateStr)) {
+                    cellClass = 'bg-danger bg-opacity-10 text-danger';
+                    statusIcon = '<i class="fas fa-times-circle"></i> ';
+                    tooltip = 'data-bs-toggle="tooltip" data-bs-placement="top" title="Absent"';
+                }
+
+                // Check if the date is today
+                const today = new Date();
+                if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+                    cellClass += ' border border-primary border-2';
+                }
+
+                calendarHTML += `<td class="${cellClass}" ${tooltip}>${statusIcon}${day}</td>`;
+                day++;
+            }
+        }
+
+        calendarHTML += '</tr>';
+        if (day > daysInMonth) break;
+    }
+
+    calendarHTML += `
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3 d-flex gap-3 justify-content-center">
+            <div><span class="badge bg-success"><i class="fas fa-check-circle"></i></span> Present</div>
+            <div><span class="badge bg-danger"><i class="fas fa-times-circle"></i></span> Absent</div>
+            <div><span class="badge bg-light border border-primary border-2 text-dark"><i class="fas fa-calendar-day"></i></span> Today</div>
+        </div>
+    `;
+
+    calendarElement.innerHTML = calendarHTML;
+
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+}
+
+// Functions to navigate between months
+function prevMonth() {
+    window.calendarState.currentMonth--;
+
+    if (window.calendarState.currentMonth < 0) {
+        window.calendarState.currentMonth = 11;
+        window.calendarState.currentYear--;
+    }
+
+    // Create present and absent dates arrays from template data
+    const presentDates = [
+        {% if present_dates %}
+            {% for date in present_dates %}
+                "{{ date.date }}",
+            {% endfor %}
+        {% endif %}
+    ];
+
+    const absentDates = [
+        {% if absent_dates %}
+            {% for date in absent_dates %}
+                "{{ date.date }}",
+            {% endfor %}
+        {% endif %}
+    ];
+
+    renderCalendar(
+        document.getElementById('calendar'),
+        window.calendarState.currentYear,
+        window.calendarState.currentMonth,
+        presentDates,
+        absentDates
+    );
+}
+
+function nextMonth() {
+    window.calendarState.currentMonth++;
+
+    if (window.calendarState.currentMonth > 11) {
+        window.calendarState.currentMonth = 0;
+        window.calendarState.currentYear++;
+    }
+
+    // Create present and absent dates arrays from template data
+    const presentDates = [
+        {% if present_dates %}
+            {% for date in present_dates %}
+                "{{ date.date }}",
+            {% endfor %}
+        {% endif %}
+    ];
+
+    const absentDates = [
+        {% if absent_dates %}
+            {% for date in absent_dates %}
+                "{{ date.date }}",
+            {% endfor %}
+        {% endif %}
+    ];
+
+    renderCalendar(
+        document.getElementById('calendar'),
+        window.calendarState.currentYear,
+        window.calendarState.currentMonth,
+        presentDates,
+        absentDates
+    );
+}
+
+// Initialize calendar when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize other charts and animations first...
+
+    // Initialize calendar
+    initCalendar();
+});
+    </script>
 </body>
 </html>
