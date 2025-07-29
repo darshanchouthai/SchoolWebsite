@@ -5,228 +5,1124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-            color: #333;
+        :root {
+            --primary: #4F8B82;
+            --primary-light: #4f65d8;
+            --primary-dark: #4F8B82;
+            --secondary: #ff6b6b;
+            --tertiary: #4ecdc4;
+            --light: #f7f9fc;
+            --dark: #2c2c2c;
+            --gray: #808080;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --border-radius: 12px;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --header-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-        h1 {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light) 0%, #e6eeff 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .page-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 80%);
+            padding: 1rem;
+            color: white;
+            box-shadow: var(--header-shadow);
+            position: relative;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0.6;
+            animation: pulse 8s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            object-fit: cover;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin: 0;
+        }
+
+        .back-btn {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(var(--primary-rgb), 0.1) 100%);
+            transform: skewX(-15deg) translateX(100%);
+            transition: all 0.6s ease;
+        }
+
+        .profile-card:hover::after {
+            transform: skewX(-15deg) translateX(0);
+        }
+
+        .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-info {
+            flex: 1;
+        }
+
+        .teacher-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .teacher-details {
+            color: var(--gray);
+            font-size: 0.9rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .teacher-details span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             text-align: center;
-            color: #4a90e2;
-            margin-bottom: 30px;
-            font-size: 24px;
-            font-weight: bold;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--tertiary), var(--primary));
+            border-radius: 2px;
         }
 
         .chart-container {
-            margin-top: 20px;
-            max-width: 100%;
-            overflow-x: auto;
-            background: linear-gradient(135deg, #ffffff, #f9f9f9);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--tertiary), var(--primary));
         }
 
         .chart-wrapper {
             width: 100%;
-            min-width: 600px;
+            min-height: 400px;
+            position: relative;
         }
 
-        canvas {
-            width: 100% !important;
-            height: auto !important;
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 14px;
-            color: #777;
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .footer a {
-            color: #4a90e2;
-            text-decoration: none;
+        .chart-icon {
+            color: var(--primary);
+            font-size: 1.5rem;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        .chart-legend {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        .navbar {
-            margin-top: 10px;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
-        .navbar .user-icon {
-            width: 40px;
-            height: 40px;
+        .legend-color {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background-color: #4a90e2;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-size: 20px;
+            font-size: 1.5rem;
+            color: white;
         }
 
-        .navbar .teacher-details {
-            margin-left: 10px;
-            font-size: 16px;
-            color: #333;
+        .stat-info {
+            flex: 1;
         }
 
-        .navbar .teacher-details span {
-            display: block;
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: white;
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 2rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+
+        /* Animation Classes */
+        .fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slideInUp {
+            animation: slideInUp 0.5s ease-in-out;
+        }
+
+        .slideInLeft {
+            animation: slideInLeft 0.5s ease-in-out;
+        }
+
+        .slideInRight {
+            animation: slideInRight 0.5s ease-in-out;
+        }
+
+        .bounce {
+            animation: bounce 0.6s ease-in-out;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* Tooltip styling */
+        .tooltip-custom {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 100;
             font-size: 14px;
-            color: #777;
+            transition: all 0.3s ease;
+            opacity: 0;
+            max-width: 300px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 768px) {
-            h1 {
-                font-size: 20px;
+            .header-title {
+                font-size: 1.2rem;
             }
 
-            .chart-container {
-                padding: 10px;
+            .page-title {
+                font-size: 1.5rem;
             }
 
-            .header-text {
-                font-size: 14px;
+            .stats-container {
+                grid-template-columns: 1fr;
             }
 
-            .navbar .teacher-details {
-                font-size: 14px;
+            .chart-legend {
+                margin-top: 1rem;
+                justify-content: center;
             }
 
-            .navbar .teacher-details span {
-                font-size: 12px;
+            .chart-header {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
             }
 
-            .chart-container {
-                height: 300px;
+            .back-btn {
+                align-self: flex-end;
             }
 
-            #examMarksChart {
-                height: 250px !important;
+            .teacher-details {
+                flex-direction: column;
+                gap: 0.5rem;
             }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .chart-wrapper {
+                min-height: 300px;
+            }
+        }
+
+        /* Shimmer loading effect */
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .shimmer {
+            background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+            background-size: 2000px 100%;
+            animation: shimmer 2s infinite linear;
+        }
+
+        /* Flipping card animation */
+        .flip-card {
+            perspective: 1000px;
+            height: 100%;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background-color: var(--primary-light);
+            color: white;
+            border-radius: var(--border-radius);
         }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded-bottom" style="border-radius: 5px;">
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
-        <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
-        <a href="{{ url_for('student_dashboard',student_id=student_id) }}" class="btn btn-light ms-3">Back</a>
-    </header>
+    <div class="page-container">
+        <!-- Header Section -->
+        <header class="animate__animated animate__fadeIn">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="logo">
+                    <h1 class="header-title">Oxford Maths Group Of Education</h1>
+                </div>
+                <a href="{{ url_for('student_dashboard',student_id=student_id) }}" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </header>
 
-    <!-- Navigation Bar Section -->
-    <nav class="navbar">
-        <div class="d-flex align-items-center">
-            <div class="user-icon">
+        <!-- Navigation & Profile Section -->
+        <div class="profile-card animate__animated animate__slideInDown">
+            <div class="avatar">
                 <i class="fas fa-user"></i>
             </div>
-            <div class="teacher-details">
-                {{ teacher_details[0][0] }}
-                <span>{{ teacher_details[0][1] }} | {{ teacher_details[0][2] }}</span>
+            <div class="teacher-info">
+                <div class="teacher-name">{{ teacher_details[0][0] }}</div>
+                <div class="teacher-details">
+                    <span><i class="fas fa-graduation-cap"></i> {{ teacher_details[0][1] }}</span>
+                    <span><i class="fas fa-envelope"></i> {{ teacher_details[0][2] }}</span>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Title Section -->
-    <h1>Exam Results For Subject {{ subject_name }}</h1>
+        <!-- Title Section -->
+        <h1 class="page-title animate__animated animate__bounceIn">
+            Exam Results For {{ subject_name }}
+        </h1>
 
-    <!-- Chart Container Section -->
-    <div class="chart-container">
-        <div class="chart-wrapper">
-            <canvas id="examMarksChart" width="800" height="200"></canvas>
+        <!-- Summary Stats Section -->
+        <div class="stats-container">
+            <div class="stat-card animate__animated animate__fadeInLeft" style="animation-delay: 0.1s">
+                <div class="stat-icon" style="background-color: var(--primary);">
+                    <i class="fas fa-poll"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="avg-score">0</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+            </div>
+
+            <div class="stat-card animate__animated animate__fadeInLeft" style="animation-delay: 0.2s">
+                <div class="stat-icon" style="background-color: var(--tertiary);">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="highest-score">0</div>
+                    <div class="stat-label">Highest Score</div>
+                </div>
+            </div>
+
+            <div class="stat-card animate__animated animate__fadeInLeft" style="animation-delay: 0.3s">
+                <div class="stat-icon" style="background-color: var(--secondary);">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="performance">0%</div>
+                    <div class="stat-label">Performance vs Class Avg</div>
+                </div>
+            </div>
         </div>
+
+        <!-- Main Chart Section -->
+        <div class="chart-container animate__animated animate__fadeInUp">
+            <div class="chart-header">
+                <h2 class="chart-title">
+                    <i class="fas fa-chart-bar chart-icon"></i>
+                    Exam Performance Analysis
+                </h2>
+
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(75, 192, 192, 0.6);"></div>
+                        <span>Your Score</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(255, 107, 107, 0.6);"></div>
+                        <span>Class Average</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: rgba(153, 102, 255, 0.2);"></div>
+                        <span>Maximum Marks</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-wrapper">
+                <canvas id="examMarksChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Topic Analysis Section -->
+        <div class="chart-container animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+            <div class="chart-header">
+                <h2 class="chart-title">
+                    <i class="fas fa-th chart-icon"></i>
+                    Topic-wise Performance
+                </h2>
+            </div>
+
+            <div class="chart-wrapper">
+                <canvas id="topicAnalysisChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Improvement Suggestions Section -->
+        <div class="chart-container animate__animated animate__fadeInUp" style="animation-delay: 0.4s">
+            <div class="chart-header">
+                <h2 class="chart-title">
+                    <i class="fas fa-lightbulb chart-icon"></i>
+                    Improvement Suggestions
+                </h2>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                Time Management
+                            </h5>
+                            <p class="card-text">Practice timed mock tests to improve your speed. Allocate time for each section based on its weightage.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-book-open text-success me-2"></i>
+                                Weak Topics
+                            </h5>
+                            <p class="card-text">Focus on improving in topics where you scored less than 60%. Schedule additional practice sessions for these areas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-tasks text-warning me-2"></i>
+                                Revision Strategy
+                            </h5>
+                            <p class="card-text">Create a structured revision plan focusing on concepts rather than memorization. Use spaced repetition techniques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <footer class="animate__animated animate__fadeIn" style="animation-delay: 0.5s">
+            <p>© 2025 Oxford Maths Group Of Education. All rights reserved.</p>
+            <p>For any questions or concerns, please contact <a href="mailto:support@oxfordmaths.edu">support@oxfordmaths.edu</a></p>
+        </footer>
     </div>
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <!-- Footer content -->
-    </div>
+    <!-- Custom Tooltip Element -->
+    <div id="tooltip" class="tooltip-custom"></div>
 
-    <!-- Chart.js Script -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
     <script>
-        const marksPerExam = {{ marks_per_exam | tojson }};
-         const examNames = Object.keys(marksPerExam);
-         const marksGotData = examNames.map(exam => marksPerExam[exam].marks_got);
-         const maxMarksData = examNames.map(exam => marksPerExam[exam].maximum_marks);
-         const classAvgData = examNames.map(exam => marksPerExam[exam].class_avg);
+        // Animation function for counting up numbers
+        function animateValue(id, start, end, duration) {
+            let startTimestamp = null;
+            const element = document.getElementById(id);
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                let value = Math.floor(progress * (end - start) + start);
 
-         const ctx = document.getElementById('examMarksChart').getContext('2d');
-         new Chart(ctx, {
-             type: 'bar',
-             data: {
-                 labels: examNames,
-                 datasets: [
-                     {
-                         label: 'Marks Got',
-                         data: marksGotData,
-                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                         borderColor: 'rgba(75, 192, 192, 1)',
-                         borderWidth: 1,
-                         barThickness: 30,
-                         borderRadius: 8,
-                     },
+                // Format based on the element's ID
+                if (id === 'performance') {
+                    const sign = end >= 0 ? '+' : '';
+                    element.textContent = `${sign}${value}%`;
 
-                 ]
-             },
-             options: {
-                 responsive: true,
-                 maintainAspectRatio: false,
-                 scales: {
-                     y: {
-                         beginAtZero: true,
-                         title: {
-                             display: true,
-                             text: 'Marks',
-                             font: { size: 16, weight: 'bold' }
-                         },
-                         grid: { color: '#e0e0e0' }
-                     },
-                     x: {
-                         title: {
-                             display: true,
-                             text: 'Exams',
-                             font: { size: 16, weight: 'bold' }
-                         },
-                         grid: { display: false }
-                     }
-                 },
-                 plugins: {
-                     tooltip: {
-                         callbacks: {
-                             label: function(tooltipItem) {
-                                 const examName = tooltipItem.label;
-                                 const marksGot = marksPerExam[examName].marks_got;
-                                 const maxMarks = marksPerExam[examName].maximum_marks;
-                                 const classAvg = marksPerExam[examName].class_avg;
-                                 return `${examName}: ${marksGot}/${maxMarks} (Class Avg: ${classAvg})`;
-                             }
-                         }
-                     }
-                 }
-             }
-         });
-     </script>
+                    // Change color based on value
+                    if (end > 0) {
+                        element.style.color = '#4caf50'; // Green for positive
+                    } else if (end < 0) {
+                        element.style.color = '#f44336'; // Red for negative
+                    }
+                } else if (id.includes('score')) {
+                    element.textContent = value.toFixed(1);
+                } else {
+                    element.textContent = value;
+                }
 
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
 
-    <!-- Font Awesome for Icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        // Wait for page to load
+        document.addEventListener('DOMContentLoaded', function() {
+            const marksPerExam = {{ marks_per_exam | tojson }};
+            const examNames = Object.keys(marksPerExam);
+            const marksGotData = examNames.map(exam => marksPerExam[exam].marks_got);
+            const maxMarksData = examNames.map(exam => marksPerExam[exam].maximum_marks);
+            const classAvgData = examNames.map(exam => marksPerExam[exam].class_avg);
+
+            // Calculate summary statistics
+            let totalScore = 0;
+            let totalMaxScore = 0;
+            let totalClassAvg = 0;
+            let highestScore = 0;
+
+            examNames.forEach(exam => {
+                const examData = marksPerExam[exam];
+                totalScore += examData.marks_got;
+                totalMaxScore += examData.maximum_marks;
+                totalClassAvg += examData.class_avg;
+
+                // Calculate percentage score for comparison
+                const percentScore = (examData.marks_got / examData.maximum_marks) * 100;
+                const percentMaxPossible = 100;
+                highestScore = Math.max(highestScore, percentScore);
+            });
+
+            const avgScore = totalScore / examNames.length;
+            const avgClassScore = totalClassAvg / examNames.length;
+            const performanceDiff = Math.round(((avgScore / avgClassScore) - 1) * 100);
+
+            // Animate the statistics
+            setTimeout(() => {
+                animateValue("avg-score", 0, avgScore, 1500);
+                animateValue("highest-score", 0, highestScore, 1500);
+                animateValue("performance", 0, performanceDiff, 1500);
+            }, 500);
+
+            // Chart setup with animations
+            const ctx = document.getElementById('examMarksChart').getContext('2d');
+
+            // Set up gradient fills
+            const yourScoreGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            yourScoreGradient.addColorStop(0, 'rgba(75, 192, 192, 0.8)');
+            yourScoreGradient.addColorStop(1, 'rgba(75, 192, 192, 0.2)');
+
+            const classAvgGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            classAvgGradient.addColorStop(0, 'rgba(255, 107, 107, 0.8)');
+            classAvgGradient.addColorStop(1, 'rgba(255, 107, 107, 0.2)');
+
+            // Create the chart
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: examNames,
+                    datasets: [
+                        {
+                            label: 'Your Score',
+                            data: marksGotData,
+                            backgroundColor: yourScoreGradient,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            barThickness: 20,
+                            order: 1
+                        },
+                        {
+                            label: 'Class Average',
+                            data: classAvgData,
+                            backgroundColor: classAvgGradient,
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            borderWidth: 2,
+                            borderRadius: 8,
+                            barThickness: 20,
+                            order: 2
+                        },
+                        {
+                            label: 'Maximum Marks',
+                            data: maxMarksData,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            type: 'line',
+                            fill: false,
+                            tension: 0.4,
+                            order: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutQuart',
+                        delay: (context) => {
+                            return context.dataIndex * 100;
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                },
+                                color: '#666'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Marks',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12
+                                },
+                                color: '#666'
+                            },
+                            title: {
+                                display: true,
+                                display: true,
+                                text: 'Exams',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    size: 12
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            padding: 12,
+                            cornerRadius: 8,
+                            boxPadding: 6,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.raw;
+                                    return label;
+                                },
+                                afterBody: function(tooltipItems) {
+                                    const index = tooltipItems[0].dataIndex;
+                                    const exam = examNames[index];
+                                    const yourScore = marksGotData[index];
+                                    const maxMarks = maxMarksData[index];
+                                    const classAvg = classAvgData[index];
+
+                                    const percentage = ((yourScore / maxMarks) * 100).toFixed(1);
+                                    const vsClass = ((yourScore - classAvg) / classAvg * 100).toFixed(1);
+
+                                    return [
+                                        `Percentage: ${percentage}%`,
+                                        `vs Class Avg: ${vsClass > 0 ? '+' : ''}${vsClass}%`
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Topic Analysis Chart
+            const topicCtx = document.getElementById('topicAnalysisChart').getContext('2d');
+
+            // Sample topic data - this would be replaced with actual data from the backend
+            const topicData = {
+                labels: ['Algebra', 'Geometry', 'Calculus', 'Statistics', 'Trigonometry', 'Probability'],
+                datasets: [
+                    {
+                        label: 'Your Score (%)',
+                        data: [85, 62, 78, 90, 55, 72],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        barThickness: 25,
+                        borderRadius: 8
+                    },
+                    {
+                        label: 'Class Average (%)',
+                        data: [72, 68, 75, 71, 65, 70],
+                        backgroundColor: 'rgba(255, 107, 107, 0.6)',
+                        borderColor: 'rgba(255, 107, 107, 1)',
+                        borderWidth: 2,
+                        barThickness: 25,
+                        borderRadius: 8
+                    }
+                ]
+            };
+
+            // Create topic analysis chart
+            const topicChart = new Chart(topicCtx, {
+                type: 'radar',
+                data: {
+                    labels: topicData.labels,
+                    datasets: [
+                        {
+                            label: 'Your Score (%)',
+                            data: topicData.datasets[0].data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.3)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        },
+                        {
+                            label: 'Class Average (%)',
+                            data: topicData.datasets[1].data,
+                            backgroundColor: 'rgba(255, 107, 107, 0.3)',
+                            borderColor: 'rgba(255, 107, 107, 1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: 'rgba(255, 107, 107, 1)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgba(255, 107, 107, 1)',
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                stepSize: 20,
+                                backdropColor: 'transparent',
+                                color: '#666',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                color: '#333'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    size: 12
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            padding: 12,
+                            cornerRadius: 8,
+                            boxPadding: 6
+                        }
+                    },
+                    animation: {
+                        duration: 2000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+
+            // Add animation effects to cards on scroll
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Custom tooltip logic for more interactive elements
+            const tooltip = document.getElementById('tooltip');
+            const statCards = document.querySelectorAll('.stat-card');
+
+            statCards.forEach(card => {
+                card.addEventListener('mouseover', (e) => {
+                    const statType = card.querySelector('.stat-label').textContent;
+                    let tooltipText = '';
+
+                    if (statType.includes('Average')) {
+                        tooltipText = `This is your average score across all exams (${avgScore.toFixed(1)}) out of a maximum score of ${(totalMaxScore/examNames.length).toFixed(1)}.`;
+                    } else if (statType.includes('Highest')) {
+                        tooltipText = `Your highest percentage score across all tests is ${highestScore.toFixed(1)}%.`;
+                    } else if (statType.includes('Performance')) {
+                        tooltipText = `Your performance is ${Math.abs(performanceDiff)}% ${performanceDiff >= 0 ? 'better' : 'lower'} than the class average.`;
+                    }
+
+                    tooltip.textContent = tooltipText;
+                    tooltip.style.opacity = 1;
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                });
+
+                card.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = `${e.pageX + 10}px`;
+                    tooltip.style.top = `${e.pageY + 10}px`;
+                });
+
+                card.addEventListener('mouseout', () => {
+                    tooltip.style.opacity = 0;
+                });
+            });
+        });
+    </script>
 </body>
 </html>
