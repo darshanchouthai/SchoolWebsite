@@ -3,99 +3,803 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Applications List</title>
+    <title>Applications Dashboard - Oxford Maths Group</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Responsive Header Text */
-        .header-text {
-            font-size: 24px;
+        /* All your existing styles remain unchanged */
+        :root {
+            --primary: #383b91;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #3d3795;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
         }
 
-        /* Adjust header text size for small screens */
-        @media (max-width: 576px) {
-            .header-text {
-                font-size: 14px;
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+
+        /* Modern Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            padding: 1rem;
+            border-bottom: 4px solid var(--secondary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .brand-text {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: clamp(18px, 3vw, 24px);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-btn {
+            background-color: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 0.4rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            margin-top: 6rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-300);
+            padding-bottom: 1rem;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1rem;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-input {
+            padding-left: 40px;
+            border-radius: 8px;
+            border: 1.5px solid var(--gray-300);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-300);
+            pointer-events: none;
+        }
+
+        .filter-select {
+            border-radius: 8px;
+            border: 1.5px solid var(--gray-300);
+            font-size: 0.95rem;
+            background-color: white;
+        }
+
+        .filter-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn-primary {
+            background-color: var(--accent);
+            border: none;
+            color: white;
+        }
+
+        .action-btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .action-btn-outline {
+            background-color: transparent;
+            border: 1.5px solid var(--gray-300);
+            color: var(--dark);
+        }
+
+        .action-btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Application Cards */
+        .application-card {
+            background-color: white;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: white;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .app-id {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-label {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.85rem;
+            opacity: 0.7;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-value {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .course-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .score-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--dark);
+            margin-right: 0.5rem;
+        }
+
+        .contact-link {
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        .contact-icon {
+            width: 28px;
+            height: 28px;
+            background-color: var(--gray-100);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.8rem;
+            color: var(--accent);
+        }
+
+        .card-footer {
+            background-color: var(--gray-100);
+            border-top: 1px solid var(--gray-200);
+            padding: 1rem 1.5rem;
+        }
+
+        .view-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Visited State */
+        .application-card.visited {
+            border-left: 4px solid var(--success);
+        }
+
+        .visited-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--success);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.3s ease;
+            z-index: 5; /* Ensure it's above other elements */
+        }
+
+        .visited-badge i {
+            margin-right: 5px;
+        }
+
+        .application-card.visited .visited-badge {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Custom checkbox - UPDATED for better mobile support */
+        .custom-checkbox-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 40px; /* Increased for better touch target */
+            height: 40px; /* Increased for better touch target */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none; /* Needed for iOS Safari */
+            width: 28px; /* Increased size */
+            height: 28px; /* Increased size */
+            border: 2px solid var(--gray-300);
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            margin: 0;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 1; /* Ensure it's clickable */
+        }
+
+        .custom-checkbox:checked {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .custom-checkbox:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 14px; /* Increased size */
+        }
+        
+        /* Hide checkbox when visited */
+        .application-card.visited .custom-checkbox-wrapper {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Make the entire card header clickable for toggling checkbox */
+        .card-header {
+            cursor: pointer;
+        }
+
+        /* Empty State */
+        .empty-state {
+            background-color: white;
+            border-radius: 12px;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-state-img {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .empty-state-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-text {
+            color: var(--gray-500);
+            font-size: 1.1rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 0.8rem;
             }
-        }
-
-        /* Ensure table is scrollable on small screens */
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Reduce padding in table cells for small screens */
-        @media (max-width: 576px) {
-            .table th, .table td {
-                padding: 6px;
-                font-size: 12px;
+            
+            .brand-logo {
+                width: 35px;
+                height: 35px;
             }
-        }
-
-        /* Button size adjustments */
-        .btn {
-            padding: 8px 14px;
-            font-size: 14px;
-        }
-
-        /* Increase button size for laptops (larger screens) */
-        @media (min-width: 992px) {
-            .btn {
-                padding: 12px 20px;
-                font-size: 15px;
+            
+            .control-panel {
+                padding: 1rem;
+            }
+            
+            .action-buttons {
+                margin-top: 1rem;
+            }
+            
+            .application-card {
+                margin-bottom: 1rem;
+            }
+            
+            /* Mobile-specific improvements */
+            .custom-checkbox-wrapper {
+                width: 44px; /* Even larger on mobile */
+                height: 44px;
+            }
+            
+            .custom-checkbox {
+                width: 30px; /* Even larger on mobile */
+                height: 30px;
             }
         }
     </style>
 </head>
-<body class="container mt-5 pt-5">
-
-    <!-- Header -->
-    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+<body>
+    <!-- Modern Header -->
+    <header class="app-header fixed-top">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
-            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Back</a>
+            <div class="d-flex align-items-center">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="Oxford Maths Group Logo" class="brand-logo">
+                <h1 class="brand-text text-white ms-3 mb-0">Oxford Maths Group</h1>
+            </div>
+            <a href="{{ url_for('admin_panel') }}" class="back-btn text-white d-flex align-items-center">
+                <i class="fas fa-arrow-left me-2"></i>
+                <span class="d-none d-sm-inline">Back to Admin</span>
+            </a>
         </div>
     </header>
 
-    <!-- Applications List -->
-    <div class="container mt-4">
-        <h2 class="mb-4 text-center">Applications List</h2>
+    <!-- Main Dashboard -->
+    <main class="container dashboard-section">
+        <!-- Section Header -->
+        <div class="section-header d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="section-title">Applications Dashboard</h2>
+                <p class="text-muted mt-2">Manage and track all student applications</p>
+            </div>
+        </div>
 
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="row g-3 align-items-center">
+                <!-- Search Bar -->
+                <div class="col-md-5">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-input" class="form-control search-input" placeholder="Search by name, email or course...">
+                    </div>
+                </div>
+                
+                <!-- Filters -->
+                <div class="col-md-3">
+                    <select class="form-select filter-select" id="filter-status">
+                        <option value="all">All Applications</option>
+                        <option value="visited">Visited Only</option>
+                        <option value="not-visited">Not Visited</option>
+                    </select>
+                </div>
+                
+                <div class="col-md-2">
+                    <select class="form-select filter-select" id="sort-by">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="name">Name A-Z</option>
+                    </select>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="col-md-2 d-flex justify-content-end action-buttons">
+                    <button id="mark-all" class="action-btn action-btn-primary me-2">
+                        <i class="fas fa-check-double me-1"></i> Mark All
+                    </button>
+                    <button id="unmark-all" class="action-btn action-btn-outline">
+                        <i class="fas fa-undo me-1"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Grid -->
         {% if applications %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Application ID</th>
-                        <th>Course Name</th>
-                        <th>Child Name</th>
-                        <th>Previous Score</th>
-                        <th>Parent Mobile</th>
-                        <th>Parent Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for app in applications %}
-                    <tr>
-                        <td>{{ app.Application_id }}</td>
-                        <td>{{ app.course_name }}</td>
-                        <td>{{ app.child_name }}</td>
-                        <td>{{ app.child_previous_score }}</td>
-                        <td>{{ app.parent_mobile_number }}</td>
-                        <td>{{ app.parent_email }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="row" id="applications-container">
+            {% for app in applications %}
+            <div class="col-md-6 col-lg-4 mb-4 application-item">
+                <div class="application-card position-relative" data-id="{{ app.Application_id }}">
+                    <div class="card-header d-flex justify-content-between align-items-center js-toggle-visited">
+                        <span class="app-id">#{{ app.Application_id }}</span>
+                        <label class="custom-checkbox-wrapper">
+                            <input class="custom-checkbox visit-checkbox" type="checkbox" id="check-{{ app.Application_id }}">
+                            <span class="visually-hidden">Mark as visited</span>
+                        </label>
+                    </div>
+                    
+                    <span class="visited-badge">
+                        <i class="fas fa-check"></i> Visited
+                    </span>
+                    
+                    <div class="card-body">
+                        <span class="course-badge">
+                            <i class="fas fa-book me-1"></i>
+                            {{ app.course_name }}
+                        </span>
+                        
+                        <div class="mb-3">
+                            <span class="card-label">Child Name</span>
+                            <span class="card-value">{{ app.child_name }}</span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <span class="card-label">Previous Score</span>
+                            <div class="d-flex align-items-center">
+                                <div class="score-circle">{{ app.child_previous_score }}</div>
+                                <span class="fw-500">points</span>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-info mb-3">
+                            <span class="card-label">Contact Information</span>
+                            <a href="tel:{{ app.parent_mobile_number }}" class="contact-link">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                {{ app.parent_mobile_number }}
+                            </a>
+                            <a href="mailto:{{ app.parent_email }}" class="contact-link">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                {{ app.parent_email }}
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer d-flex justify-content-end">
+                        <button class="view-btn view-details-btn">
+                            <i class="fas fa-eye me-1"></i> View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
         {% else %}
-        <div class="alert alert-warning text-center">There are no applications.</div>
+        <div class="empty-state">
+            <img src="/api/placeholder/400/320" alt="No applications" class="empty-state-img">
+            <h3 class="empty-state-title">No Applications Found</h3>
+            <p class="empty-state-text">There are currently no applications in the system. New applications will appear here when submitted.</p>
+        </div>
         {% endif %}
-    </div>
+    </main>
+
+    <!-- JavaScript for functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load visited state from localStorage
+            const loadVisitedState = () => {
+                const visited = JSON.parse(localStorage.getItem('visitedApplications')) || [];
+                const checkboxes = document.querySelectorAll('.visit-checkbox');
+                
+                checkboxes.forEach(checkbox => {
+                    const card = checkbox.closest('.application-card');
+                    const appId = card.getAttribute('data-id');
+                    
+                    if (visited.includes(appId)) {
+                        checkbox.checked = true;
+                        card.classList.add('visited');
+                        
+                        // Hide the checkbox wrapper for visited applications
+                        const checkboxWrapper = checkbox.closest('.custom-checkbox-wrapper');
+                        checkboxWrapper.style.opacity = "0";
+                        checkboxWrapper.style.visibility = "hidden";
+                    }
+                });
+            };
+            
+            // Save visited state to localStorage
+            const saveVisitedState = (appId, isVisited) => {
+                let visited = JSON.parse(localStorage.getItem('visitedApplications')) || [];
+                
+                if (isVisited && !visited.includes(appId)) {
+                    visited.push(appId);
+                } else if (!isVisited && visited.includes(appId)) {
+                    visited = visited.filter(id => id !== appId);
+                }
+                
+                localStorage.setItem('visitedApplications', JSON.stringify(visited));
+            };
+            
+            // Toggle visited state when clicking the card header (improved mobile support)
+            document.querySelectorAll('.js-toggle-visited').forEach(header => {
+                header.addEventListener('click', function(e) {
+                    // Don't toggle if clicking directly on the checkbox (let checkbox handle that)
+                    if (e.target.classList.contains('custom-checkbox') || 
+                        e.target.closest('.custom-checkbox-wrapper') === e.target) {
+                        return;
+                    }
+                    
+                    const card = this.closest('.application-card');
+                    
+                    // If already visited, do nothing
+                    if (card.classList.contains('visited')) {
+                        return;
+                    }
+                    
+                    const checkbox = card.querySelector('.visit-checkbox');
+                    const appId = card.getAttribute('data-id');
+                    const checkboxWrapper = checkbox.closest('.custom-checkbox-wrapper');
+                    
+                    // Set checkbox to checked
+                    checkbox.checked = true;
+                    
+                    // Update card appearance
+                    card.classList.add('visited');
+                    saveVisitedState(appId, true);
+                    
+                    // Hide the checkbox wrapper with a small delay
+                    setTimeout(() => {
+                        checkboxWrapper.style.opacity = "0";
+                        checkboxWrapper.style.visibility = "hidden";
+                    }, 300);
+                });
+            });
+            
+            // Handle checkbox changes directly (original functionality)
+            document.querySelectorAll('.visit-checkbox').forEach(checkbox => {
+                // Handle both click and touch events for better mobile support
+                ['change', 'touchend'].forEach(eventType => {
+                    checkbox.addEventListener(eventType, function(e) {
+                        if (eventType === 'touchend') {
+                            e.preventDefault(); // Prevent default touch behavior
+                            this.checked = !this.checked; // Toggle manually on touch
+                        }
+                        
+                        const card = this.closest('.application-card');
+                        const appId = card.getAttribute('data-id');
+                        
+                        // Only allow checking (not unchecking) since we want checkboxes to disappear
+                        if (!this.checked) {
+                            this.checked = true; // Force checked if trying to uncheck
+                            return;
+                        }
+                        
+                        card.classList.add('visited');
+                        saveVisitedState(appId, true);
+                        
+                        // Hide the checkbox wrapper with a small delay for better UX
+                        setTimeout(() => {
+                            const checkboxWrapper = this.closest('.custom-checkbox-wrapper');
+                            checkboxWrapper.style.opacity = "0";
+                            checkboxWrapper.style.visibility = "hidden";
+                        }, 300);
+                    });
+                });
+            });
+            
+            // Mark all as visited
+            document.getElementById('mark-all').addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.visit-checkbox');
+                const allAppIds = [];
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = true;
+                    const card = checkbox.closest('.application-card');
+                    card.classList.add('visited');
+                    
+                    const appId = card.getAttribute('data-id');
+                    allAppIds.push(appId);
+                    
+                    // Hide all checkboxes
+                    const checkboxWrapper = checkbox.closest('.custom-checkbox-wrapper');
+                    checkboxWrapper.style.opacity = "0";
+                    checkboxWrapper.style.visibility = "hidden";
+                });
+                
+                localStorage.setItem('visitedApplications', JSON.stringify(allAppIds));
+            });
+            
+            // Unmark all
+            document.getElementById('unmark-all').addEventListener('click', function() {
+                const checkboxes = document.querySelectorAll('.visit-checkbox');
+                
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                    const card = checkbox.closest('.application-card');
+                    card.classList.remove('visited');
+                    
+                    // Show all checkboxes again
+                    const checkboxWrapper = checkbox.closest('.custom-checkbox-wrapper');
+                    checkboxWrapper.style.opacity = "1";
+                    checkboxWrapper.style.visibility = "visible";
+                });
+                
+                localStorage.setItem('visitedApplications', JSON.stringify([]));
+            });
+            
+            // Filtering functionality
+            document.getElementById('filter-status').addEventListener('change', function() {
+                const value = this.value;
+                const items = document.querySelectorAll('.application-item');
+                
+                items.forEach(item => {
+                    const card = item.querySelector('.application-card');
+                    const isVisited = card.classList.contains('visited');
+                    
+                    if (value === 'all' || 
+                        (value === 'visited' && isVisited) || 
+                        (value === 'not-visited' && !isVisited)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', performSearch);
+            
+            function performSearch() {
+                const searchValue = document.getElementById('search-input').value.toLowerCase();
+                const items = document.querySelectorAll('.application-item');
+                
+                items.forEach(item => {
+                    const cardText = item.textContent.toLowerCase();
+                    if (cardText.includes(searchValue)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+            
+            // View details button - placeholder for future functionality
+            document.querySelectorAll('.view-details-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const card = this.closest('.application-card');
+                    const appId = card.getAttribute('data-id');
+                    alert(`Details for Application #${appId} would open here`);
+                    // Future implementation: Open modal or navigate to detail page
+                });
+            });
+            
+            // Load saved visited state on page load
+            loadVisitedState();
+            
+            // Add "active" style to improve visual feedback on mobile touch
+            const addActiveState = () => {
+                const checkboxWrappers = document.querySelectorAll('.custom-checkbox-wrapper');
+                
+                checkboxWrappers.forEach(wrapper => {
+                    ['touchstart', 'mousedown'].forEach(eventType => {
+                        wrapper.addEventListener(eventType, function() {
+                            this.style.opacity = '0.7';
+                        });
+                    });
+                    
+                    ['touchend', 'mouseup', 'mouseleave'].forEach(eventType => {
+                        wrapper.addEventListener(eventType, function() {
+                            this.style.opacity = '1';
+                        });
+                    });
+                });
+            };
+            
+            addActiveState();
+        });
+    </script>
 
     <!-- Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>
