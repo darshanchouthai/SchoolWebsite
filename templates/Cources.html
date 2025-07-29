@@ -3,163 +3,1096 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses</title>
-    
+    <title>Courses | Oxford Maths Group</title>
+
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" 
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    
-    <!-- Custom CSS -->
-   <style>
-    body{
-        padding-top: 90px;
-    }
-    /* Red header */
-    header {
-        background-color: rgba(235, 52, 52, 0.9) !important;
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-radius: 5px;
-    }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    /* Logo Styling */
-    .logo {
-        width: 50px; /* Adjust size as needed */
-        height: auto;
-        border-radius: 5px;
-    }
-
-    /* Header content alignment */
-    .header-content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-grow: 1; /* Allow content to grow and center */
-        position: relative; /* For absolute positioning of the button */
-    }
-
-    /* Header text styling */
-    .header-text {
-        margin: 0;
-        font-size: 2rem; /* Default font size */
-        text-align: center; /* Center the text */
-        flex-grow: 1; /* Allow text to take up remaining space */
-    }
-
-    /* Button styling */
-    .header-button {
-        margin-left: auto; /* Push button to the right */
-        padding: 5px 10px; /* Default button padding */
-        font-size: 1rem; /* Default button font size */
-    }
-
-    /* Card styling */
-    .card {
-        border-radius: 10px;
-        transition: transform 0.2s;
-        height: 100%; /* Ensure all cards have the same height */
-        display: flex;
-        flex-direction: column;
-    }
-
-    .card-body {
-        flex: 1; /* Allow card body to grow and take up remaining space */
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; /* Space out content and button */
-    }
-
-    .card:hover {
-        transform: scale(1.05);
-    }
-
-    /* Button styling */
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 1200px) {
-        .header-text {
-            font-size: 1.75rem; /* Slightly smaller font size */
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Essential styles for preview */
+        .bg-pattern {
+            background-color: #f8f9fa;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        .header-button {
-            padding: 4px 8px; /* Slightly smaller button */
-            font-size: 0.9rem;
-        }
-    }
 
-    @media (max-width: 992px) {
-        .header-text {
-            font-size: 1.5rem; /* Smaller font size */
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #1a56db, #4c9aff);
         }
-        .header-button {
-            padding: 3px 6px; /* Smaller button */
+
+        .header {
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 80px;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        main {
+            margin-top: 100px;
+        }
+
+        .section-title {
+            color: #1a56db;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #4c9aff;
+        }
+
+        .course-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #1a56db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 0 10px 0 10px;
+            font-weight: bold;
+        }
+
+        .featured-marker {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            background: #ffdd00;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 0 20px 20px 0;
+            font-weight: 600;
             font-size: 0.8rem;
         }
+
+        .course-type-badge {
+            background: rgba(26, 86, 219, 0.1);
+            color: #1a56db;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .course-stats {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .course-stat {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .course-stat i {
+            margin-right: 5px;
+            color: #1a56db;
+        }
+
+        .filter-bar {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-top: 15px;
+        }
+
+        .search-input {
+            border-radius: 20px;
+        }
+
+        .filter-dropdown {
+            border-radius: 20px;
+        }
+
+        .btn-apply {
+            background: #1a56db;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 20px;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-apply:hover {
+            background: #0e4bc3;
+            color: white;
+        }
+
+        .card-footer {
+            background: transparent;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-top: auto;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        :root {
+    --primary-color: #3a7157;
+    --secondary-color: #5b9292;
+    --accent-color: #f8f9fa;
+    --text-light: #ffffff;
+    --text-dark: #212529;
+    --border-radius: 12px;
+    --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    padding-top: 90px;
+    position: relative;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #5b9292 0%, #3a7157 100%);
+}
+
+.header {
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: var(--box-shadow);
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.header-title {
+    margin: 0;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+.btn-light {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 0.5rem 1.25rem;
+    transition: all 0.3s ease;
+}
+
+.btn-light:hover {
+    background-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.course-card {
+    border: none;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(58, 113, 87, 0.2);
+}
+
+.card-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #5b9292 0%, #3a7157 100%);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+}
+
+.card-header {
+    background: linear-gradient(135deg, rgba(91, 146, 146, 0.1) 0%, rgba(58, 113, 87, 0.1) 100%);
+    border-bottom: none;
+    padding: 1rem;
+}
+
+.card-title {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text {
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+    flex-grow: 1;
+}
+
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 1rem 1.5rem;
+}
+
+.course-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #6c757d;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+}
+
+.course-stat {
+    display: flex;
+    align-items: center;
+}
+
+.course-stat i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.btn-apply {
+    background: linear-gradient(135deg, #5b9292 0%, #3a7157 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58, 113, 87, 0.4);
+}
+
+.btn-apply i {
+    margin-right: 0.5rem;
+}
+
+.filter-bar {
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+}
+
+.search-input {
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #ced4da;
+}
+
+.search-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(91, 146, 146, 0.25);
+    border-color: var(--secondary-color);
+}
+
+.filter-dropdown {
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+}
+
+.section-title {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(135deg, #5b9292 0%, #3a7157 100%);
+}
+
+.course-type-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    margin-right: 0.5rem;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.featured-marker {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    background-color: #ffc107;
+    color: #212529;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0 0 8px 8px;
+    font-weight: 600;
+}
+
+.bg-pattern {
+    background-color: #f8f9fa;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233a7157' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.pagination .page-item .page-link {
+    color: var(--primary-color);
+    border-radius: 50%;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.empty-courses {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    box-shadow: var(--box-shadow);
+}
+
+.empty-courses i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.empty-courses h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.empty-courses p {
+    color: #6c757d;
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 1.5rem;
+}
+
+footer {
+    background: linear-gradient(135deg, #3a7157 0%, #5b9292 100%);
+    color: var(--text-light);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.social-icons a {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: scale(1.2);
+}
+
+/* Media Queries - Fixed for mobile */
+@media (max-width: 768px) {
+    .header-title {
+        font-size: 1.25rem;
     }
 
-    @media (max-width: 768px) {
-        .header-text {
-            font-size: 1.25rem; /* Even smaller font size */
-        }
-        .header-button {
-            padding: 2px 4px; /* Even smaller button */
-            font-size: 0.75rem;
-        }
+    .logo {
+        width: 40px;
+        height: 40px;
     }
 
-    @media (max-width: 576px) {
-        .header-text {
-            font-size: 1rem; /* Smallest font size for mobile */
-        }
-        .logo {
-            width: 30px; /* Slightly smaller logo on small screens */
-        }
-        .header-button {
-            padding: 1px 2px; /* Smallest button */
-            font-size: 0.7rem;
-        }
+    .course-card {
+        margin-bottom: 1.5rem;
     }
-   </style>
+
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch !important;
+    }
+
+    .input-group, .form-select {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 1rem;
+    }
+
+    .input-group:last-child, .form-select:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-title {
+        font-size: 1rem;
+    }
+
+    .logo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .course-stats {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .course-stat {
+        margin-bottom: 0.5rem;
+    }
+
+    .search-input, .filter-dropdown {
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+}
+    </style>
 </head>
-<body>
-    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
-        <div class="container-fluid d-flex justify-content-between align-items-center" style="padding: 0;">
-            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px; left: 0px;">
-            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-            <a href="{{ url_for('home') }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+<body class="bg-pattern d-flex flex-column min-vh-100">
+    <!-- Header -->
+    <header class="bg-gradient-primary header text-white fixed-top">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <div class="logo bg-light d-flex align-items-center justify-content-center me-3">
+                        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="" class="logo">
+                    </div>
+                    <h1 class="header-title">Oxford Maths Group Of Education</h1>
+                </div>
+                <a href="{{ url_for('home') }}" class="btn btn-light d-flex align-items-center">
+                    <i class="fas fa-home me-2"></i> Home
+                </a>
+            </div>
         </div>
     </header>
 
-    <div class="container mt-4">
-        <form action="/apply" method="GET">
+    <!-- Main Content -->
+    <main class="container flex-grow-1 py-3">
+
+        <!-- Featured Courses Section -->
+        <section class="mb-5">
+            <h2 class="section-title mb-4">Featured Courses</h2>
+
             <div class="row">
-                {% for course in courses %}
-                    <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex">
-                        <div class="card shadow-sm w-100">
-                            <div class="card-body">
-                                <h3 class="card-title">{{ course.name }}</h3>
-                                <p class="card-text">{{ course.description }}</p>
-                                <button class="btn btn-primary w-100 mt-auto" type="submit">Apply</button>
+                <!-- Featured Course 1 -->
+                <div class="col-lg-6 mb-4 course-item" data-grade="high" data-name="10th Standard Excellence Program">
+                    <div class="course-card">
+                        <div class="featured-marker">
+                            <i class="fas fa-star me-1"></i> Featured
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="course-type-badge badge-primary">10th Standard</span>
+                                <small class="text-muted"><i class="fas fa-users me-1"></i> Limited Seats</small>
                             </div>
+                            <h5 class="card-title">10th Standard Excellence Program</h5>
+                            <p class="card-text">Comprehensive mathematics program designed to achieve excellence in board exams with advanced problem-solving techniques.</p>
+                            <div class="course-stats mb-3">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>5 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>6 months</span>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
                         </div>
                     </div>
-                {% else %}
-                    <p class="text-center">No courses available at the moment.</p>
-                {% endfor %}
-            </div>
-        </form>
-    </div>
+                </div>
 
-    <!-- Bootstrap JS (Optional) -->
+                <!-- Featured Course 2 -->
+                <div class="col-lg-6 mb-4 course-item" data-grade="puc" data-name="PUC II Advanced Mathematics">
+                    <div class="course-card">
+                        <div class="featured-marker">
+                            <i class="fas fa-star me-1"></i> Featured
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="course-type-badge badge-primary">PUC II</span>
+                                <small class="text-muted"><i class="fas fa-users me-1"></i> Limited Seats</small>
+                            </div>
+                            <h5 class="card-title">PUC II Advanced Mathematics</h5>
+                            <p class="card-text">Advanced mathematics program for PUC II students focusing on competitive exam preparation.</p>
+                            <div class="course-stats mb-3">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>8 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>12 months</span>
+                                </div>
+                            </div>
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Courses Section -->
+        <section>
+            <h2 class="section-title mb-4">All Courses</h2>
+
+            <div class="row" id="coursesContainer">
+                <!-- Course 1 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="elementary" data-name="1st Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">1st</div>
+                        <div class="card-body">
+                            <h5 class="card-title">1st Standard Mathematics</h5>
+                            <p class="card-text">Foundation mathematics program designed to build strong number sense and basic mathematical skills.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>3 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="elementary" data-name="2nd Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">2nd</div>
+                        <div class="card-body">
+                            <h5 class="card-title">2nd Standard Mathematics</h5>
+                            <p class="card-text">Building upon foundational concepts with a focus on addition, subtraction, and basic geometry.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>3 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="elementary" data-name="3rd Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">3rd</div>
+                        <div class="card-body">
+                            <h5 class="card-title">3rd Standard Mathematics</h5>
+                            <p class="card-text">Introduction to multiplication, division, and fractions with interactive problem-solving.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>3 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 4 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="elementary" data-name="4th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">4th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">4th Standard Mathematics</h5>
+                            <p class="card-text">Advanced operations with larger numbers, introduction to decimals, and measurement concepts.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 5 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="elementary" data-name="5th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">5th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">5th Standard Mathematics</h5>
+                            <p class="card-text">Comprehensive math curriculum covering fractions, decimals, percentages, and basic algebraic concepts.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 6 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="middle" data-name="6th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">6th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">6th Standard Mathematics</h5>
+                            <p class="card-text">Introduction to pre-algebra concepts, ratios, proportions, and fundamental geometry principles.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 7 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="middle" data-name="7th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">7th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">7th Standard Mathematics</h5>
+                            <p class="card-text">Algebra fundamentals, geometric constructions, and introduction to data analysis and statistics.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 8 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="middle" data-name="8th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">8th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">8th Standard Mathematics</h5>
+                            <p class="card-text">Advanced algebra concepts, coordinate geometry, and preparation for high school mathematics.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>5 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 9 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="high" data-name="9th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">9th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">9th Standard Mathematics</h5>
+                            <p class="card-text">Complete curriculum covering algebra, geometry, trigonometry, and statistics with exam preparation.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>5 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 10 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="high" data-name="10th Standard Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">10th</div>
+                        <div class="card-body">
+                            <h5 class="card-title">10th Standard Mathematics</h5>
+                            <p class="card-text">Comprehensive board exam preparation covering all mathematical concepts with practice tests.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>6 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 11 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="puc" data-name="PUC I Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">PUC I</div>
+                        <div class="card-body">
+                            <h5 class="card-title">PUC I Mathematics</h5>
+                            <p class="card-text">First-year pre-university course focusing on advanced algebra, calculus, and coordinate geometry.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>8 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}" class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 12 -->
+                <div class="col-md-6 col-lg-4 mb-4 course-item" data-grade="puc" data-name="PUC II Mathematics">
+                    <div class="course-card">
+                        <div class="card-badge">PUC II</div>
+                        <div class="card-body">
+                            <h5 class="card-title">PUC II Mathematics</h5>
+                            <p class="card-text">Second-year pre-university course with advanced calculus, vector algebra, and probability for engineering entrance exams.</p>
+                            <div class="course-stats">
+                                <div class="course-stat">
+                                    <i class="fas fa-clock"></i>
+                                    <span>8 hours/week</span>
+                                </div>
+                                <div class="course-stat">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>Full year</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('apply_for_course') }}"  class="btn btn-apply">
+                                <i class="fas fa-graduation-cap"></i> Apply Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- No Results Message (Hidden by default) -->
+            <div id="noResults" class="no-results mt-4" style="display: none;">
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4>No matching courses found</h4>
+                <p class="text-muted">Try adjusting your search or filter criteria</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Oxford Maths Group</h5>
+                    <p class="mb-0">Providing excellence in mathematics education since 2005. Our mission is to inspire mathematical thinking and problem-solving skills in students of all ages.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Courses</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>123 Education Street, Oxford, UK</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-phone me-2"></i>
+                        <span>+44 123 456 7890</span>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-envelope me-2"></i>
+                        <span>info@oxfordmathsgroup.com</span>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top border-secondary pt-3 mt-3 text-center">
+                <p class="mb-0">&copy; 2025 Oxford Maths Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+
+    <!-- Custom Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get elements
+            const searchInput = document.getElementById('searchInput');
+            const gradeFilter = document.getElementById('gradeFilter');
+            const sortFilter = document.getElementById('sortFilter');
+            const coursesContainer = document.getElementById('coursesContainer');
+            const noResults = document.getElementById('noResults');
+            const courseItems = document.querySelectorAll('.course-item');
+
+            // Function to filter courses
+            function filterCourses() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const gradeValue = gradeFilter.value;
+
+                let visibleCount = 0;
+
+                // Loop through all course items
+                courseItems.forEach(item => {
+                    const courseName = item.getAttribute('data-name').toLowerCase();
+                    const courseGrade = item.getAttribute('data-grade');
+
+                    // Check if course matches search term and grade filter
+                    const matchesSearch = courseName.includes(searchTerm);
+                    const matchesGrade = gradeValue === 'all' || courseGrade === gradeValue;
+
+                    // Show or hide based on filters
+                    if (matchesSearch && matchesGrade) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Show "No Results" message if no courses are visible
+                if (visibleCount === 0) {
+                    noResults.style.display = 'block';
+                } else {
+                    noResults.style.display = 'none';
+                }
+            }
+
+            // Function to sort courses
+            function sortCourses() {
+                const sortValue = sortFilter.value;
+                const courseItemsArray = Array.from(courseItems);
+
+                // Sort courses based on selected option
+                if (sortValue === 'name') {
+                    // Sort by name (A-Z)
+                    courseItemsArray.sort((a, b) => {
+                        const nameA = a.getAttribute('data-name');
+                        const nameB = b.getAttribute('data-name');
+                        return nameA.localeCompare(nameB);
+                    });
+                } else if (sortValue === 'popularity') {
+                    // For demo purposes, we'll use predefined popularity (this would normally come from backend data)
+                    // Here we're just moving featured courses to the top
+                    courseItemsArray.sort((a, b) => {
+                        const isAFeatured = a.querySelector('.featured-marker') !== null;
+                        const isBFeatured = b.querySelector('.featured-marker') !== null;
+
+                        if (isAFeatured && !isBFeatured) return -1;
+                        if (!isAFeatured && isBFeatured) return 1;
+                        return 0;
+                    });
+                } else if (sortValue === 'recent') {
+                    // For demo purposes, we'll sort in reverse order (assuming newer courses are at the bottom)
+                    courseItemsArray.reverse();
+                }
+
+                // Reapply sorted items to container
+                courseItemsArray.forEach(item => {
+                    coursesContainer.appendChild(item);
+                });
+            }
+
+            // Add event listeners
+            searchInput.addEventListener('input', filterCourses);
+            gradeFilter.addEventListener('change', filterCourses);
+            sortFilter.addEventListener('change', function() {
+                sortCourses();
+                filterCourses(); // Reapply filters after sorting
+            });
+
+            // Initialize sorting and filtering
+            sortCourses();
+            filterCourses();
+
+            // Add hover effect for course cards
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 8px 18px rgba(0, 0, 0, 0.12)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                });
+            });
+
+            // Apply Now button click handler
+            document.querySelectorAll('.btn-apply').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Get course title from the parent card
+                    const courseCard = this.closest('.course-card');
+                    const courseTitle = courseCard.querySelector('.card-title').textContent;
+
+                    // Show alert for demo purposes (in real app, would open a form or redirect)
+                    alert(`Thank you for your interest in "${courseTitle}"! Application form will be available soon.`);
+                });
+            });
+        });
