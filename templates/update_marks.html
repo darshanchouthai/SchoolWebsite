@@ -6,7 +6,30 @@
     <title>Update Marks</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
+        :root {
+            --primary: #4e42d4;
+            --secondary: #8684ef;
+            --accent: #6c63ff;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
         /* Fixed Header */
         header {
             position: fixed;
@@ -14,47 +37,263 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background-color: #dc3545; /* Bootstrap danger color */
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        header:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
         }
 
         .header-text {
-            font-size: 24px;
+            font-size: 22px;
+            font-weight: 600;
+            margin-left: 15px;
+            letter-spacing: 0.5px;
         }
 
-        /* Adjust content to prevent it from being hidden behind the fixed header */
-        .container {
-            padding-top: 90px; /* Adjusted to ensure content is visible */
+        .back-btn {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .table-wrapper {
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #f8f9fa;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 110px;
+            padding-bottom: 40px;
+        }
+
+        .page-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
             width: 100%;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
+            padding: 15px 20px 15px 50px;
+            border-radius: 12px;
+            border: 1px solid #e1e5ee;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
 
-        table {
-            width: 100%;
-            table-layout: fixed; /* Ensures equal column width */
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 6px 15px rgba(108, 99, 255, 0.15);
+            outline: none;
         }
 
-        th, td {
-            word-break: break-word;
-            overflow-wrap: anywhere; /* Prevents overflow */
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b0b7c3;
+            font-size: 18px;
         }
 
-        td button {
-            padding: 5px 10px;
-            cursor: pointer;
-            background-color: #28a745;
+        /* Card Style Table */
+        .student-card {
+            background-color: white;
+            border-radius: 12px;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8f9fe, #ffffff);
+            padding: 15px 20px;
+            border-bottom: 1px solid #eaedf4;
+        }
+
+        .student-id {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 15px 20px;
+        }
+
+        .student-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .update-btn {
+            background: linear-gradient(135deg, var(--success), #4ade80);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.2);
         }
 
-        td button:hover {
-            background-color: #218838;
+        .update-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+            background: linear-gradient(135deg, #24a23a, #3fcf65);
+        }
+
+        .update-btn i {
+            margin-right: 8px;
+        }
+
+        /* No Results Message */
+        .no-results {
+            text-align: center;
+            padding: 40px 0;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-results i {
+            font-size: 48px;
+            color: #d1d5db;
+            margin-bottom: 15px;
+        }
+
+        .no-results p {
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        /* Empty State Animation */
+        .empty-animation {
+            width: 200px;
+            height: 200px;
+            background-image: url('https://via.placeholder.com/200');
+            background-size: cover;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fade Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Pulse Animation */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Shimmer Effect */
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         /* Responsive Design */
@@ -62,11 +301,34 @@
             .header-text {
                 font-size: 18px;
             }
+
+            .main-container {
+                padding-top: 100px;
+            }
+
+            .student-name {
+                font-size: 16px;
+            }
         }
 
         @media (max-width: 576px) {
             .header-text {
+                font-size: 16px;
+            }
+
+            .logo {
+                width: 35px;
+                height: 35px;
+            }
+
+            .back-btn {
+                padding: 6px 15px;
                 font-size: 14px;
+            }
+
+            .search-input {
+                padding: 12px 15px 12px 45px;
+                font-size: 15px;
             }
         }
     </style>
@@ -74,78 +336,152 @@
 <body>
 
     <!-- Fixed Header -->
-    <header class="d-flex justify-content-between align-items-center p-3 rounded-bottom">
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="me-3" style="width: 40px; border-radius: 5px;">
-        <h1 class="flex-grow-1 text-center h3 m-0 header-text">Oxford Maths Group Of Education</h1>
-        <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }} " class="btn btn-secondary" style="background-color: white; color: black;">Back</a>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="logo">
+                <h1 class="header-text">Oxford Maths Group Of Education</h1>
+            </div>
+            <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }}" class="btn back-btn">
+                <i class="fas fa-arrow-left me-1"></i> Back
+            </a>
+        </div>
     </header>
 
-    <div class="container">
-        <h1 class="text-center mb-4">Update Marks</h1>
+    <div class="container main-container">
+        <h1 class="page-title mb-4" data-aos="fade-right" data-aos-duration="800">Update Student Marks</h1>
 
         <!-- Search Bar -->
-        <div class="mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search by student ID or name..." onkeyup="searchStudents()">
+        <div class="search-container" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search by student ID or name..." onkeyup="searchStudents()">
         </div>
 
-        <!-- Student Table -->
-        <div class="table-wrapper">
-            <table class="table table-sm table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Student Name</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="studentTable">
-                    {% for student in students %}
-                    <tr>
-                        <td>{{ student['student_id'] }}</td>
-                        <td>{{ student['name'] }}</td>
-                        <td>
-                            <a href="{{ url_for('update_marks_form', student_id=student['student_id']) }}">
-                                <button class="btn btn-success">Update Marks</button>
-                            </a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="3" class="text-center">No students found.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Student Cards -->
+        <div id="studentCards" class="row" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+            {% for student in students %}
+            <div class="col-md-6 col-lg-4 mb-4 student-item fade-in" style="animation-delay: {{ loop.index * 100 }}ms;">
+                <div class="student-card">
+                    <div class="card-header">
+                        <p class="student-id"><i class="fas fa-id-card me-2"></i>{{ student['student_id'] }}</p>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="student-name"><i class="fas fa-user-graduate me-2"></i>{{ student['name'] }}</h5>
+                        <a href="{{ url_for('update_marks_form', student_id=student['student_id']) }}">
+                            <button class="update-btn"><i class="fas fa-edit"></i>Update Marks</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="no-results" data-aos="fade-up" data-aos-duration="800">
+                    <i class="fas fa-search"></i>
+                    <p>No students found. Please check your search criteria.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Empty State (will be shown when no search results) -->
+        <div id="emptyState" class="text-center py-5 d-none">
+            <div class="empty-animation pulse"></div>
+            <h3 class="text-muted">No matching students found</h3>
+            <p class="text-secondary">Try adjusting your search terms</p>
+        </div>
+
+        <!-- Loading Indicator (initially hidden) -->
+        <div id="loadingIndicator" class="text-center py-4 d-none">
+            <div class="loading-spinner mb-3"></div>
+            <p>Searching for students...</p>
         </div>
     </div>
-    
-    <!-- Bootstrap JS -->
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-    
-    <!-- JavaScript for searching students -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
     <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            duration: 800
+        });
+
+        // Search functionality with loading animation
         function searchStudents() {
-            var input = document.getElementById('searchInput').value.toLowerCase();
-            var table = document.getElementById('studentTable');
-            var rows = table.getElementsByTagName('tr');
+            // Get the input value and convert to lowercase
+            const input = document.getElementById('searchInput').value.toLowerCase();
 
-            // Loop through all table rows, except the header
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].getElementsByTagName('td');
-                if (cells.length > 0) {
-                    var studentId = cells[0].textContent.toLowerCase();
-                    var studentName = cells[1].textContent.toLowerCase();
+            // Show loading indicator for a brief moment to enhance UX
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const studentCards = document.getElementById('studentCards');
+            const emptyState = document.getElementById('emptyState');
 
-                    // If the search term is found in either column, show the row
+            loadingIndicator.classList.remove('d-none');
+
+            // Simulate loading time (can be removed in production)
+            setTimeout(() => {
+                let studentItems = document.getElementsByClassName('student-item');
+                let foundMatch = false;
+
+                // Loop through all student cards
+                for (let i = 0; i < studentItems.length; i++) {
+                    const card = studentItems[i];
+                    const studentId = card.querySelector('.student-id').textContent.toLowerCase();
+                    const studentName = card.querySelector('.student-name').textContent.toLowerCase();
+
+                    // Check if the search term matches either student ID or name
                     if (studentId.includes(input) || studentName.includes(input)) {
-                        rows[i].style.display = '';
+                        card.style.display = '';
+                        foundMatch = true;
+
+                        // Add animation class when showing results
+                        card.classList.add('fade-in');
+                        setTimeout(() => {
+                            card.classList.remove('fade-in');
+                        }, 600);
                     } else {
-                        rows[i].style.display = 'none';
+                        card.style.display = 'none';
                     }
                 }
-            }
+
+                // Show/hide empty state based on search results
+                if (!foundMatch && studentItems.length > 0) {
+                    emptyState.classList.remove('d-none');
+                } else {
+                    emptyState.classList.add('d-none');
+                }
+
+                // Hide loading indicator
+                loadingIndicator.classList.add('d-none');
+
+            }, 400); // Simulate short loading time for better UX
         }
+
+        // Add entrance animations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Stagger the entrance of student cards
+            const studentItems = document.getElementsByClassName('student-item');
+            for (let i = 0; i < studentItems.length; i++) {
+                const card = studentItems[i];
+                setTimeout(() => {
+                    card.classList.add('fade-in');
+                }, i * 100);
+            }
+
+            // Add hover animation to buttons
+            const buttons = document.querySelectorAll('.update-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.classList.add('pulse');
+                });
+                button.addEventListener('mouseleave', () => {
+                    button.classList.remove('pulse');
+                });
+            });
+        });
     </script>
 </body>
 </html>
