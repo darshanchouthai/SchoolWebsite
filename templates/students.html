@@ -3,109 +3,1088 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student List</title>
+    <title>Student List | Oxford Maths Group</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .header-text {
-            font-size: 24px;
+        :root {
+            --primary-color: #1e40af; /* Blue */
+            --secondary-color: #ebf4ff; /* Light blue background */
+            --accent-color: #1e40af; /* Same blue for accents */
+            --text-color: #334155; /* Slate gray for text */
+            --border-radius: 12px;
+            --shadow-color: rgba(30, 64, 175, 0.1);
+            --success-color: #10b981; /* Green */
+            --warning-color: #f59e0b; /* Amber */
+            --danger-color: #ef4444; /* Red */
+            --info-color: #3b82f6; /* Blue */
         }
-
-        /* Adjust header text size for small screens */
-        @media (max-width: 576px) {
-            .header-text {
-                font-size: 14px;
-            }
+        
+        body {
+            background-color: var(--secondary-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
         }
-
-        .text-center {
-            margin-top: 100px;
+        
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            padding: 0.75rem 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
-
-        /* Styling for search bar */
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+        
+        .logo:hover {
+            transform: rotate(360deg);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+        }
+        
+        .brand-text {
+            color: white;
+            font-weight: 600;
+            margin: 0;
+            font-size: 1.3rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-back {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-back:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .content-wrapper {
+            margin-top: 7rem;
+            padding: 1rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            border-radius: 2px;
+        }
+        
+        .page-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px var(--shadow-color);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            background-color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem;
+        }
+        
         .search-container {
-            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .search-box-container {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .search-box:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(30, 64, 175, 0.25);
+            outline: none;
+            transform: scale(1.02);
+        }
+        
+        .search-box:focus + .search-icon {
+            color: var(--primary-color);
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .select-container {
+            position: relative;
+            min-width: 220px;
+        }
+        
+        .course-select {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .select-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: color 0.3s ease;
+        }
+        
+        .course-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(30, 64, 175, 0.25);
+            outline: none;
+            transform: scale(1.02);
+        }
+        
+        .course-select:focus + .select-icon {
+            color: var(--primary-color);
+        }
+        
+        .btn-filter {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border: none;
+            border-radius: var(--border-radius);
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-filter:hover {
+            background: linear-gradient(135deg, #1631a0, #2563eb);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-filter::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-filter:hover::after {
+            left: 100%;
+        }
+        
+        .action-buttons {
             display: flex;
             justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        
+        .btn-pdf {
+            padding: 12px 20px;
+            font-weight: 500;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-pdf:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-pdf::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-pdf:hover::after {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border: none;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(135deg, #1631a0, #2563eb);
+            border: none;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #059669, #10b981);
+            border: none;
+        }
+        
+        .btn-success:hover, .btn-success:focus {
+            background: linear-gradient(135deg, #047857, #059669);
+            border: none;
+        }
+        
+        .table-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        table {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .table-dark {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+        }
+        
+        .table > :not(caption) > * > * {
+            padding: 1rem 1.2rem;
+            vertical-align: middle;
+        }
+        
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: rgba(30, 64, 175, 0.04);
+        }
+        
+        .table-striped > tbody > tr:hover > * {
+            background-color: rgba(30, 64, 175, 0.08);
+            transition: background-color 0.3s ease;
+        }
+        
+        tbody tr {
+            transition: transform 0.3s ease;
+        }
+        
+        tbody tr:hover {
+            transform: scale(1.01);
+        }
+        
+        .table-bordered {
+            border: none;
+        }
+        
+        .alert {
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-icon {
+            font-size: 1.2rem;
+        }
+        
+        /* Student info icons */
+        .student-icon {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+        
+        .medium-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: white;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+        }
+        
+        /* Tag styles */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.1), rgba(59, 130, 246, 0.1));
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 6px 15px;
+            border-radius: 50px;
+            margin-bottom: 1rem;
+            animation: fadeInLeft 1s ease;
+            box-shadow: 0 2px 5px rgba(30, 64, 175, 0.1);
         }
 
-        .search-box {
-            width: 50%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .tag i {
+            font-size: 0.9rem;
         }
+        
+        /* Secure connection */
+        .secure-connection {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease;
+            padding: 8px 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .secure-icon {
+            color: #10b981;
+        }
+        
+        /* Statistics cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-blue {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+        }
+        
+        .stat-green {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+        
+        .stat-amber {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+        }
+        
+        .stat-purple {
+            background: linear-gradient(135deg, #7e22ce, #8b5cf6);
+        }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 0;
+        }
+        
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .pagination {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .page-item {
+            margin: 0;
+        }
+        
+        .page-link {
+            border-radius: 8px;
+            padding: 8px 16px;
+            color: var(--primary-color);
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .page-link:hover {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Badge for birth date */
+        .birth-date-badge {
+            background-color: rgba(30, 64, 175, 0.1);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .brand-text {
+                font-size: 1rem;
+            }
+            
+            .header {
+                padding: 0.5rem 1rem;
+            }
+            
+            .logo {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .content-wrapper {
+                margin-top: 5.5rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Responsive table styling */
+.table-container {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* Table responsive styles */
+@media screen and (max-width: 992px) {
+    .table-container {
+        overflow-x: auto;
+    }
+}
+
+/* Card-based layout for mobile view */
+@media screen and (max-width: 767px) {
+    /* Hide table header on mobile */
+    #studentTable thead {
+        display: none;
+    }
+    
+    /* Convert rows to cards */
+    #studentTable tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        background-color: white;
+        border-radius: var(--border-radius);
+        box-shadow: 0 2px 10px rgba(30, 64, 175, 0.1);
+        padding: 15px;
+    }
+    
+    /* Make cells behave like blocks */
+    #studentTable tbody td {
+        display: block;
+        text-align: right;
+        padding: 10px 15px;
+        position: relative;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    #studentTable tbody td:last-child {
+        border-bottom: none;
+    }
+    
+    /* Add data labels */
+    #studentTable tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        font-weight: 600;
+        color: var(--primary-color);
+        text-align: left;
+    }
+
+    /* Add spacing for icons */
+    #studentTable td i {
+        margin-right: 8px;
+    }
+    
+    /* Adjust badges for mobile */
+    .birth-date-badge, .medium-badge {
+        display: inline-flex;
+        width: auto;
+        justify-content: flex-end;
+    }
+    
+    /* Reset hover effects */
+    tbody tr:hover {
+        transform: none;
+    }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 480px) {
+    #studentTable tbody tr {
+        padding: 10px;
+    }
+    
+    #studentTable tbody td {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+    }
+    
+    #studentTable tbody td:before {
+        font-size: 0.9rem;
+    }
+    
+    .birth-date-badge, .medium-badge {
+        font-size: 0.8rem;
+        padding: 3px 8px;
+    }
+}
     </style>
 </head>
-<body class="container mt-5">
-    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
-            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Back</a>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="brand-container">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="Oxford Maths Group Logo" class="logo animate__animated animate__flipInY">
+                <h1 class="brand-text animate__animated animate__fadeIn">Oxford Maths Group Of Education</h1>
+            </div>
+            <a href="{{ url_for('admin_panel') }}" class="btn-back animate__animated animate__fadeIn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
         </div>
     </header>
 
-    <h2 class="text-center">Student Details</h2>
+    <div class="container content-wrapper">
+        <div class="tag animate__animated animate__fadeInLeft">
+            <i class="fas fa-user-shield"></i> Admin Area
+        </div>
+        
+        <h2 class="page-title animate__animated animate__fadeInDown">
+            <i class="fas fa-user-graduate"></i> Student Details
+        </h2>
 
-    <!-- Search Bar -->
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search students...">
+        <!-- Stats Section -->
+        <div class="stats-container animate__animated animate__fadeIn">
+            <div class="stat-card">
+                <div class="stat-icon stat-blue">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ students|length if students else '0' }}</div>
+                    <p class="stat-label">Total Students</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-green">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ courses|length if courses else '0' }}</div>
+                    <p class="stat-label">Total Courses</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-amber">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">{{ courses[0] if courses and courses|length > 0 else 'N/A' }}</div>
+                    <p class="stat-label">Most Popular Course</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon stat-purple">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-value">Today</div>
+                    <p class="stat-label">Last Updated</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card animate__animated animate__fadeIn">
+            <div class="card-header">
+                <div class="search-container">
+                    <div class="search-box-container">
+                        <input type="text" id="searchInput" class="search-box" placeholder="Search students by name, course, or ID...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <!-- Updated Filter Section to add Medium filter -->
+<div class="filter-container">
+    <div class="select-container">
+        <select id="courseFilter" class="course-select" name="course_name">
+            <option value="">All Courses</option>
+            {% if courses %}
+                {% for course in courses %}
+                    <option value="{{ course }}">{{ course }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <i class="fas fa-book-open select-icon"></i>
+    </div>
+    
+    <div class="select-container">
+        <select id="mediumFilter" class="course-select" name="medium">
+            <option value="">All Mediums</option>
+            {% if mediums %}
+                {% for medium in mediums %}
+                    <option value="{{ medium }}">{{ medium }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <i class="fas fa-language select-icon"></i>
     </div>
 
-    {% if error %}
-        <div class="alert alert-danger text-center">{{ error }}</div>
-    {% elif students %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="studentTable">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Course Name</th>
-                        <th>Security Number</th>
-                        <th>Birth Date</th>
-                        <th>Medium</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                        <tr>
-                            <td>{{ student.name }}</td>
-                            <td>{{ student.course_name }}</td>
-                            <td>{{ student.security_number if student.security_number else "N/A" }}</td>
-                            <td>{{ student.birth_date }}</td>
-                            <td>{{ student.medium if student.medium else "N/A" }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <button id="filterButton" class="btn-filter">
+        <i class="fas fa-filter"></i> Apply Filter
+    </button>
+</div>
+
+<!-- Updated Action Buttons Section -->
+<div class="action-buttons animate__animated animate__fadeInUp">
+    <a href="{{ url_for('generate_students_pdf') }}" class="btn btn-pdf btn-primary" id="pdfAllBtn">
+        <i class="fas fa-file-pdf"></i> Generate PDF (All Students)
+    </a>
+
+    <button id="pdfFilteredBtn" class="btn btn-pdf btn-success" style="display: none;">
+        <i class="fas fa-file-export"></i> Generate PDF (Filtered)
+    </button>
+</div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="action-buttons animate__animated animate__fadeInUp">
+                    <a href="{{ url_for('generate_students_pdf') }}" class="btn btn-pdf btn-primary" id="pdfAllBtn">
+                        <i class="fas fa-file-pdf"></i> Generate PDF (All Students)
+                    </a>
+
+                    <button id="pdfFilteredBtn" class="btn btn-pdf btn-success" style="display: none;">
+                        <i class="fas fa-file-export"></i> Generate PDF (Filtered Course)
+                    </button>
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger text-center animate__animated animate__fadeIn">
+                        <i class="fas fa-exclamation-circle alert-icon"></i>
+                        {{ error }}
+                    </div>
+                {% elif students %}
+                    <div class="table-container animate__animated animate__fadeIn">
+                        <table class="table table-bordered table-striped" id="studentTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><i class="fas fa-user student-icon"></i> Name</th>
+                                    <th><i class="fas fa-book-open student-icon"></i> Course Name</th>
+                                    <th><i class="fas fa-fingerprint student-icon"></i> Security Number</th>
+                                    <th><i class="fas fa-calendar-alt student-icon"></i> Birth Date</th>
+                                    <th><i class="fas fa-language student-icon"></i> Medium</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+        {% for student in students %}
+            <tr class="table-row-animated">
+                <td data-label="Name"><i class="fas fa-user-graduate text-primary"></i> {{ student.name }}</td>
+                <td data-label="Course Name"><i class="fas fa-graduation-cap text-success"></i> {{ student.course_name }}</td>
+                <td data-label="Security Number"><i class="fas fa-shield-alt text-info"></i> {{ student.security_number if student.security_number else "N/A" }}</td>
+                <td data-label="Birth Date">
+                    <span class="birth-date-badge">
+                        <i class="fas fa-birthday-cake"></i> {{ student.birth_date }}
+                    </span>
+                </td>
+                <td data-label="Medium">
+                    {% if student.medium %}
+                        <span class="medium-badge">
+                            <i class="fas fa-language me-1"></i> {{ student.medium }}
+                        </span>
+                    {% else %}
+                        <span class="text-muted"><i class="fas fa-minus-circle"></i> N/A</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning text-center animate__animated animate__fadeIn">
+                        <i class="fas fa-exclamation-triangle alert-icon"></i>
+                        No students found.
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    {% else %}
-        <div class="alert alert-warning text-center">No students found.</div>
-    {% endif %}
+        
+        <div class="secure-connection animate__animated animate__fadeInUp">
+            <i class="fas fa-shield-alt secure-icon"></i> Secure Admin Connection
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Function to filter table rows based on search input
-        document.getElementById('searchInput').addEventListener('keyup', function () {
-            let filter = this.value.toLowerCase();
-            let table = document.getElementById('studentTable');
-            let rows = table.getElementsByTagName('tr');
+      // Wait for the DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const courseFilter = document.getElementById('courseFilter');
+    const mediumFilter = document.getElementById('mediumFilter');
+    const filterButton = document.getElementById('filterButton');
+    const pdfAllBtn = document.getElementById('pdfAllBtn');
+    const pdfFilteredBtn = document.getElementById('pdfFilteredBtn');
 
-            for (let i = 1; i < rows.length; i++) { // Start from index 1 to skip table headers
-                let cells = rows[i].getElementsByTagName('td');
-                let rowText = "";
-                
-                for (let j = 0; j < cells.length; j++) {
-                    rowText += cells[j].textContent.toLowerCase() + " ";
-                }
+    // Add staggered animation to table rows
+    const tableRows = document.querySelectorAll('.table-row-animated');
+    tableRows.forEach((row, index) => {
+        row.style.animation = `fadeIn 0.5s ease ${0.1 * index}s both`;
+        row.style.opacity = '0';
+    });
 
-                if (rowText.includes(filter)) {
-                    rows[i].style.display = "";
-                } else {
-                    rows[i].style.display = "none";
-                }
+    // Add animation to stat cards
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.5s ease ${0.1 * index}s both`;
+        card.style.opacity = '0';
+    });
+
+    // Search and filter functionality
+    function filterTable() {
+        const searchValue = searchInput.value.toLowerCase();
+        const courseValue = courseFilter.value.toLowerCase();
+        const mediumValue = mediumFilter.value.toLowerCase();
+        const rows = document.querySelectorAll('#studentTable tbody tr');
+        
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+            const name = row.cells[0].textContent.toLowerCase();
+            const course = row.cells[1].textContent.toLowerCase();
+            const securityNumber = row.cells[2].textContent.toLowerCase();
+            const medium = row.cells[4].textContent.toLowerCase();
+            
+            const nameMatch = name.includes(searchValue);
+            const securityMatch = securityNumber.includes(searchValue);
+            const courseMatch = courseValue === '' || course.includes(courseValue);
+            const mediumMatch = mediumValue === '' || medium.includes(mediumValue);
+            
+            if ((nameMatch || securityMatch) && courseMatch && mediumMatch) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
             }
         });
+        
+        // Update PDF filtered button based on applied filters
+        updatePdfFilteredButton(courseValue, mediumValue, visibleCount);
+        
+        return visibleCount;
+    }
+    
+    // Update the PDF filtered button text and visibility based on applied filters
+    function updatePdfFilteredButton(courseValue, mediumValue, visibleCount) {
+        if ((courseValue !== '' || mediumValue !== '') && visibleCount > 0) {
+            let buttonText = '<i class="fas fa-file-export"></i> Generate PDF (';
+            
+            if (courseValue !== '' && mediumValue !== '') {
+                buttonText += `${courseValue} - ${mediumValue}`;
+            } else if (courseValue !== '') {
+                buttonText += `Course: ${courseValue}`;
+            } else if (mediumValue !== '') {
+                buttonText += `Medium: ${mediumValue}`;
+            }
+            
+            buttonText += ')';
+            pdfFilteredBtn.innerHTML = buttonText;
+            pdfFilteredBtn.style.display = 'flex';
+        } else {
+            pdfFilteredBtn.style.display = 'none';
+        }
+    }
+    
+    // Apply filter when button is clicked
+    filterButton.addEventListener('click', function() {
+        const visibleCount = filterTable();
+        if (visibleCount === 0) {
+            // Show no results alert if needed
+            if (!document.querySelector('.alert-no-results')) {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-warning text-center animate__animated animate__fadeIn alert-no-results';
+                alert.innerHTML = '<i class="fas fa-exclamation-triangle alert-icon"></i> No matching students found.';
+                
+                const tableContainer = document.querySelector('.table-container');
+                tableContainer.parentNode.insertBefore(alert, tableContainer);
+                
+                // Hide table if no results
+                tableContainer.style.display = 'none';
+            }
+        } else {
+            // Remove alert if exists
+            const existingAlert = document.querySelector('.alert-no-results');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            
+            // Show table
+            document.querySelector('.table-container').style.display = 'block';
+        }
+    });
+    
+    // Real-time search
+    searchInput.addEventListener('keyup', filterTable);
+    
+    // Handle PDF filtered button
+    pdfFilteredBtn.addEventListener('click', function() {
+        const courseValue = courseFilter.value;
+        const mediumValue = mediumFilter.value;
+        let url = '/generate_students_pdf?';
+        
+        // Add parameters if they have values
+        if (courseValue) {
+            url += `course_name=${encodeURIComponent(courseValue)}`;
+        }
+        
+        if (mediumValue) {
+            url += courseValue ? `&medium=${encodeURIComponent(mediumValue)}` : `medium=${encodeURIComponent(mediumValue)}`;
+        }
+        
+        window.location.href = url;
+    });
+    
+    // Add active class to pagination
+    const pageLinks = document.querySelectorAll('.page-link');
+    pageLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            pageLinks.forEach(l => {
+                l.parentElement.classList.remove('active');
+            });
+            this.parentElement.classList.add('active');
+        });
+    });
+    
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
     </script>
 </body>
 </html>
