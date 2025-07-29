@@ -3,211 +3,689 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard</title>
+    <title>Oxford Maths Group - Staff Dashboard</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom CSS for the header */
-        header {
+        :root {
+            --primary: #3f51b5;
+            --primary-dark: #303f9f;
+            --primary-light: #c5cae9;
+            --secondary: #ff4081;
+            --secondary-dark: #c60055;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --white: #ffffff;
+            --gray-bg: #f5f7fa;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-top: 70px;
+            line-height: 1.6;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            transform: translateX(-250px);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+        }
+
+        /* Added close button for sidebar */
+        .sidebar-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px;
-            background-color: #eb3434;
-            width: 100%;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-close:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            padding: 20px 15px;
+            padding-right: 40px; /* Make room for close button */
+            border-bottom: 1px solid var(--primary-light);
+        }
+
+        .sidebar-logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-menu {
+            padding: 15px 0;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary);
+        }
+
+        .sidebar-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Header */
+        .main-header {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000;
-            box-sizing: border-box;
-            height: 60px;
-            border-radius: 5px;
-            /* Adjusted margin: top, right, bottom, left */
+            right: 0;
+            height: 70px;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            transition: all 0.3s ease;
         }
 
-        header img {
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: 40px;
-            height: auto;
-            margin-right: 20px;
-            border-radius: 5px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary);
+            margin-right: 15px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
 
-        header h1 {
-            font-size: 1.8rem;
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-            color: white;
-            padding-left: 10px;
+        .header-toggle:hover {
+            opacity: 1;
         }
 
-        /* Responsive header font size */
-        @media (max-width: 576px) {
-            header h1 {
-                font-size: 14px;
+        .header-brand {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+        .header-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .header-user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .header-user-info {
+                display: block;
             }
         }
 
-        /* Custom CSS for the navbar */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            background-color: #333;
-            padding: 10px;
-            margin-top: 60px;
-            
+        /* Main Content */
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            transition: all 0.3s ease;
         }
 
-        .navbar-collapse {
-            justify-content: center;  /* Center navbar items */
+        .main-content.active {
+            margin-left: 250px;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
+        /* Responsive */
+        @media (min-width: 992px) {
+            .sidebar {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 250px;
+            }
+
+            /* Hide close button on desktop by default */
+            .sidebar-close {
+                display: none;
+            }
+        }
+
+        /* Mobile sidebar overlay */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Rest of the CSS remains the same */
+        .page-title {
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .page-title h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .card {
+            background-color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background-color: var(--white);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 15px 20px;
+        }
+
+        .card-header h2 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-select, .form-control {
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-right:30px;
+            font-size: 0.9rem;
         }
 
-        .navbar a:hover {
-            background-color: #575757;
+        .form-select:focus, .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(63, 81, 181, 0.25);
+            border-color: var(--primary);
         }
 
-        /* Custom CSS for the container */
-        .container {
-            margin-top: 80px; /* Adjusted for the fixed header */
+        /* Table */
+        .table {
+            margin-bottom: 0;
         }
 
-        /* Custom CSS for buttons */
-        .btn-custom {
-            border: 2px solid #28a745;
-            background-color: #fff;
-            color: #28a745;
+        .table thead th {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            font-weight: 600;
+            border-bottom: none;
+            padding: 12px 15px;
+            vertical-align: middle;
+        }
+
+        .table tbody td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            border-color: var(--secondary-dark);
+        }
+
+        .btn-action {
             padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-            min-width: 100px;
+            border-radius: var(--border-radius);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
-        .btn-custom:hover {
-            background-color: #e8f5e9;
+        .btn-exam {
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border: none;
         }
 
-        .btn-custom[disabled] {
-            background-color: #ddd;
-            border-color: #ddd;
-            color: #aaa;
-            cursor: not-allowed;
+        .btn-exam:hover {
+            background-color: var(--primary);
+            color: var(--white);
         }
 
-        /* Custom CSS for hamburger icon */
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        .btn-attendance {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            border: none;
+        }
+
+        .btn-attendance:hover {
+            background-color: #1976d2;
+            color: var(--white);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo">
-        <h1>Oxford Maths Group Of Education</h1>
-        
-        <!-- Hamburger Icon (for small devices) -->
-        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span> <!-- This is the icon that will show the three lines -->
-        </button>
-    </header>
+    <!-- Added sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
-    <!-- Navbar with links to Update Marks and Attendance -->
-    <div class="navbar navbar-expand-lg">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="{{ url_for('update_marks') }}" class="nav-link">Update Marks</a>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Added close button inside sidebar -->
+        <div class="sidebar-close" id="sidebar-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="Oxford Maths Group">
+            <h2>Oxford Maths Group</h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a href="#" class="active">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('modify_attendance') }}" class="nav-link">Update Attendance</a>
+                <li>
+                    <a href="{{ url_for('update_marks') }}">
+                        <i class="fas fa-edit"></i> Update Marks
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('student_performance', teacher_id=teacher_id) }}" class="nav-link">Student Performance</a>
+                <li>
+                    <a href="{{ url_for('modify_attendance') }}">
+                        <i class="fas fa-calendar-check"></i> Update Attendance
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('staff_login') }}" class="nav-link">Logout</a>
+                <li>
+                    <a href="{{ url_for('student_performance', teacher_id=teacher_id) }}">
+                        <i class="fas fa-chart-line"></i> Student Performance
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('staff_login') }}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
     </div>
 
-    <!-- Main Content with Bootstrap -->
-    <div class="container">
-        <h2 class="text-center bg-primary text-white p-3">Staff Dashboard</h2>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-left">
+            <div class="header-toggle" id="header-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="header-brand">Staff Dashboard</div>
+        </div>
+        <div class="header-right">
+            <div class="header-user">
+                <div class="header-user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="header-user-info">
+                    <div class="user-name">Teacher</div>
+                    <div class="user-role">Faculty Member</div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <!-- Dropdown to filter students by course -->
-        <div class="mb-3">
-            <label for="course_filter" class="form-label">Filter by Class:</label>
-            <select id="course_filter" class="form-select" onchange="filterCourse()">
-                <option value="">Select Class</option>
-                {% for course in courses %}
-                <option value="{{ course[0] }}">{{ course.course_name }}</option>  <!-- Use course[0] since courses are tuples -->
-                {% endfor %}
-            </select>
+    <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <div class="page-title">
+            <h1>Student Management</h1>
         </div>
 
-        <!-- Table with Bootstrap classes -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover" id="students_table">
-                <thead class="table-light">
-                    <tr>
-                        <th>Student ID</th>
-                        <th>Security Number</th>
-                        <th>Student Name</th>
-                        <th>Course Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for student in students %}
-                    <tr class="student_row" data-course="{{ student[3] }}"> <!-- student[2] is the course_name -->
-                        <td>{{ student.student_id }}</td>  <!-- student[0] is student_id -->
-                        <td>{{ student.security_number }}</td>
-                        <td>{{ student.name }}</td>  <!-- student[1] is name -->
-                        <td>{{ student.course_name }}</td>  <!-- student[2] is course_name -->
-                        <td>
-                            <div class="d-flex gap-2">
-                                <a href="{{ url_for('exam', teacher_id=teacher_id) }}" class="btn btn-custom">Exam</a>
-                                <a href="{{ url_for('attendance') }}" class="btn btn-custom">Attendance</a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Filter Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-filter me-2"></i>Filter Students</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="course_filter" class="form-label">Filter by Class:</label>
+                            <select id="course_filter" class="form-select" onchange="filterCourse()">
+                                <option value="">All Classes</option>
+                                <!-- Course options would be here -->
+                                {% for course in courses %}
+                                <option value="{{ course[0] }}">{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="search_student" class="form-label">Search Student:</label>
+                            <input type="text" id="search_student" class="form-control" placeholder="Enter name or ID..." onkeyup="searchStudents()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Table Card -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2><i class="fas fa-users me-2"></i>Student List</h2>
+                <span class="badge bg-primary" id="student-count">0 Students</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table" id="students_table">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-id-card me-2"></i>Student ID</th>
+                                <th><i class="fas fa-shield-alt me-2"></i>Security Number</th>
+                                <th><i class="fas fa-user me-2"></i>Student Name</th>
+                                <th><i class="fas fa-book me-2"></i>Course Name</th>
+                                <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr class="student_row" data-course="{{ student[3] }}" data-name="{{ student.name.lower() }}" data-id="{{ student.student_id }}">
+                                <td>{{ student.student_id }}</td>
+                                <td>{{ student.security_number }}</td>
+                                <td>{{ student.name }}</td>
+                                <td>
+                                    <span class="badge bg-light text-dark">{{ student.course_name }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ url_for('exam', teacher_id=teacher_id) }}" class="btn btn-exam btn-action">
+                                            <i class="fas fa-file-alt me-1"></i> Exam
+                                        </a>
+                                        <a href="{{ url_for('attendance') }}" class="btn btn-attendance btn-action">
+                                            <i class="fas fa-user-check me-1"></i> Attendance
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS (optional, for interactive components) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JavaScript for filtering -->
+    <!-- Custom JavaScript -->
     <script>
-       function filterCourse() {
-            var selectedCourse = document.getElementById('course_filter').value.trim().toLowerCase();
-            var rows = document.querySelectorAll('.student_row');
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('header-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+            const sidebarClose = document.getElementById('sidebar-close');
 
-            rows.forEach(function(row) {
-                var courseName = row.getAttribute('data-course').trim().toLowerCase();
-                if (selectedCourse === "" || courseName === selectedCourse) {
-                    row.style.display = '';  // Show the row
+            // Function to close sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                mainContent.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+
+            // Function to open sidebar
+            function openSidebar() {
+                sidebar.classList.add('active');
+                mainContent.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            }
+
+            // Toggle sidebar when the hamburger icon is clicked
+            toggle.addEventListener('click', function() {
+                if (sidebar.classList.contains('active')) {
+                    closeSidebar();
                 } else {
-                    row.style.display = 'none';  // Hide the row
+                    openSidebar();
                 }
             });
-        }
+
+            // Close sidebar when clicking the close button
+            sidebarClose.addEventListener('click', closeSidebar);
+
+            // Close sidebar when clicking on the overlay (mobile)
+            sidebarOverlay.addEventListener('click', closeSidebar);
+
+            // Close sidebar when pressing Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                }
+            });
+
+            // Handle responsive behavior
+            function handleResponsive() {
+                if (window.innerWidth >= 992) {
+                    // On large screens, show sidebar by default
+                    sidebar.classList.add('active');
+                    mainContent.classList.add('active');
+                    sidebarOverlay.classList.remove('active'); // Always hide overlay on desktop
+
+                    // Show close button on large screens only when hovering
+                    sidebar.addEventListener('mouseenter', function() {
+                        sidebarClose.style.display = 'flex';
+                    });
+
+                    sidebar.addEventListener('mouseleave', function() {
+                        sidebarClose.style.display = 'none';
+                    });
+                } else {
+                    // On small screens, hide sidebar by default
+                    sidebar.classList.remove('active');
+                    mainContent.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+
+                    // Always show close button on mobile when sidebar is visible
+                    sidebarClose.style.display = 'flex';
+
+                    // Remove hover events for mobile
+                    sidebar.removeEventListener('mouseenter', function() {});
+                    sidebar.removeEventListener('mouseleave', function() {});
+                }
+            }
+
+            // Run on page load
+            handleResponsive();
+
+            // Run on window resize
+            window.addEventListener('resize', handleResponsive);
+
+            // Update student count
+            function updateStudentCount() {
+                var visibleRows = document.querySelectorAll('.student_row:not([style*="display: none"])').length;
+                document.getElementById('student-count').textContent = visibleRows + ' Students';
+            }
+
+            // Filter by course function
+            window.filterCourse = function() {
+                filterStudents();
+            };
+
+            // Search students function
+            window.searchStudents = function() {
+                filterStudents();
+            };
+
+            // Combined filter function
+            window.filterStudents = function() {
+                var selectedCourse = document.getElementById('course_filter').value.trim().toLowerCase();
+                var searchText = document.getElementById('search_student').value.trim().toLowerCase();
+                var rows = document.querySelectorAll('.student_row');
+                var visibleCount = 0;
+
+                rows.forEach(function(row) {
+                    var courseName = row.getAttribute('data-course').trim().toLowerCase();
+                    var studentName = row.getAttribute('data-name').trim().toLowerCase();
+                    var studentId = row.getAttribute('data-id').trim().toLowerCase();
+
+                    var courseMatch = selectedCourse === "" || courseName === selectedCourse;
+                    var searchMatch = searchText === "" ||
+                                     studentName.includes(searchText) ||
+                                     studentId.includes(searchText);
+
+                    if (courseMatch && searchMatch) {
+                        row.style.display = '';  // Show the row
+                        visibleCount++;
+                    } else {
+                        row.style.display = 'none';  // Hide the row
+                    }
+                });
+
+                // Update student count badge
+                document.getElementById('student-count').textContent = visibleCount + ' Students';
+            };
+
+            // Try to update student count
+            try {
+                updateStudentCount();
+            } catch(e) {
+                console.log("Student table not fully loaded yet");
+            }
+        });
     </script>
 </body>
 </html>
