@@ -3,81 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teachers List</title>
+    <title>Teachers Directory | Oxford Maths Group</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
-        .header-text {
-          font-size: 24px;
-      }
+        :root {
+            --primary-color: #40269f;
+            --secondary-color: #5c007a;
+            --accent-color: #c158dc;
+            --light-color: #f3e5f5;
+            --dark-color: #2d197e;
+            --white: #ffffff;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-800: #fafcff;
+        }
 
-      @media (max-width: 576px) {
-          .header-text {
-              font-size: 14px;
-          }
-      }
-      .text-center {
-          margin-top: 100px;
-      }
-      #searchInput {
-          width: 100%;
-          max-width: 400px;
-          margin-bottom: 20px;
-      }
-  </style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-100);
+            overflow-x: hidden;
+            padding-top: 100px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .header-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 576px) {
+            .header-text {
+                font-size: 16px;
+            }
+        }
+
+        .logo {
+            width: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .page-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-input {
+            border-radius: 50px;
+            padding: 12px 20px 12px 50px;
+            border: 2px solid var(--gray-200);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(142, 36, 170, 0.25);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 20px;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table td {
+            padding: 15px;
+            vertical-align: middle;
+            font-size: 15px;
+             color: blue;
+            border-bottom: 1px solid blue;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: var(--light-color);
+        }
+
+        .btn-back {
+            background-color: var(--gray-800);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-back:hover {
+            background-color: var(--gray-800);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-pdf {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-pdf:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-pdf i {
+            margin-right: 8px;
+        }
+
+        .no-data {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-data i {
+            font-size: 60px;
+            color: var(--gray-200);
+            margin-bottom: 20px;
+        }
+
+        .no-data h3 {
+            color: var(--gray-800);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .no-data p {
+            color: var(--gray-800);
+            opacity: 0.7;
+        }
+
+        .alert {
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-in-out;
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-in-out;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s ease;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Shimmer effect for table rows on load */
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.6) 50%,
+                rgba(255,255,255,0) 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+    </style>
 </head>
-<body class="container mt-5">
-    <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
+<body>
+    <header class="header fixed-top p-3">
         <div class="container-fluid d-flex justify-content-between align-items-center">
-            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
-            <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Back</a>
+            <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="logo animate__animated animate__bounceIn">
+            <h1 class="m-0 text-center flex-grow-1 header-text animate__animated animate__fadeIn">Oxford Maths Group Of Education</h1>
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-back animate__animated animate__fadeIn">
+                <i class="fas fa-arrow-left me-2" style="colour:blue"> </i>
+            </a>
         </div>
     </header>
 
-    <h2 class="text-center">Teachers Details</h2>
+    <div class="container">
+        <h2 class="text-center page-title animate__animated animate__fadeInDown">Teachers Directory</h2>
 
-    <div class="d-flex justify-content-center">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search teachers...">
-    </div>
-
-    {% if error %}
-        <div class="alert alert-danger text-center">{{ error }}</div>
-    {% elif teachers %}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="teachersTable">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Teacher Security Key</th>
-                        <th>Email</th>
-                        <th>Mobile Number</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for teacher in teachers %}
-                        <tr>
-                            <td>{{ teacher.name }}</td>
-                            <td>{{ teacher.teacher_security_key }}</td>
-                            <td>{{ teacher.Email }}</td>
-                            <td>{{ teacher.Mobile_no if teacher.Mobile_no else "N/A" }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <div class="search-container animate__animated animate__fadeIn" style="animation-delay: 0.3s;">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search teachers by name, email, or mobile...">
         </div>
-    {% else %}
-        <div class="alert alert-warning text-center">No teachers found.</div>
-    {% endif %}
+
+        <div class="text-center mb-4 animate__animated animate__fadeIn" style="animation-delay: 0.5s;">
+            <a href="{{ url_for('generate_teachers_pdf') }}" class="btn btn-pdf floating">
+                <i class="fas fa-file-pdf"></i> Download PDF Report
+            </a>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger text-center animate__animated animate__fadeIn">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+            </div>
+        {% elif teachers %}
+            <div class="card animate__animated animate__fadeIn" style="animation-delay: 0.7s;">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-chalkboard-teacher me-2"></i>Teacher Records</span>
+                        <span class="badge bg-light text-dark">{{ teachers|length }} Records</span>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" id="teachersTable">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-user me-2"></i>Name</th>
+                                <th><i class="fas fa-key me-2"></i>Security Key</th>
+                                <th><i class="fas fa-envelope me-2"></i>Email</th>
+                                <th><i class="fas fa-phone me-2"></i>Mobile Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher in teachers %}
+                                <tr class="shimmer">
+                                    <td>{{ teacher['name'] }}</td>
+                                    <td>{{ teacher['teacher_security_key'] }}</td>
+                                    <td>{{ teacher['Email'] }}</td>
+                                    <td>{{ teacher['Mobile_no'] if teacher['Mobile_no'] else "N/A" }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% else %}
+            <div class="no-data animate__animated animate__fadeIn">
+                <i class="fas fa-user-slash"></i>
+                <h3>No Teachers Found</h3>
+                <p>There are no teacher records in the database at the moment.</p>
+            </div>
+        {% endif %}
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('searchInput').addEventListener('keyup', function() {
-            let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll('#teachersTable tbody tr');
-            
-            rows.forEach(row => {
-                let text = row.textContent.toLowerCase();
-                row.style.display = text.includes(filter) ? '' : 'none';
+        // Wait for document to load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Remove shimmer effect after loading
+            setTimeout(function() {
+                const shimmerElements = document.querySelectorAll('.shimmer');
+                shimmerElements.forEach(element => {
+                    element.classList.remove('shimmer');
+                });
+            }, 2000);
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('keyup', function() {
+                let filter = this.value.toLowerCase();
+                let rows = document.querySelectorAll('#teachersTable tbody tr');
+
+                rows.forEach(row => {
+                    let text = row.textContent.toLowerCase();
+                    let shouldShow = text.includes(filter);
+
+                    if (shouldShow) {
+                        row.style.display = '';
+                        // Add highlighting animation for matching rows
+                        row.classList.add('animate__animated', 'animate__pulse');
+                        setTimeout(() => {
+                            row.classList.remove('animate__animated', 'animate__pulse');
+                        }, 1000);
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+
+            // Add hover effect to table rows
+            const tableRows = document.querySelectorAll('#teachersTable tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = 'var(--light-color)';
+                    this.style.transform = 'scale(1.01)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                    this.style.transform = 'scale(1)';
+                });
+            });
+
+            // Add animation to PDF button
+            const pdfButton = document.querySelector('.btn-pdf');
+            pdfButton.addEventListener('mouseenter', function() {
+                this.classList.add('animate__animated', 'animate__pulse');
+            });
+
+            pdfButton.addEventListener('mouseleave', function() {
+                this.classList.remove('animate__animated', 'animate__pulse');
             });
         });
     </script>
