@@ -3,294 +3,996 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDE Education Trust</title>
+    <title>Oxford Maths Group Of Education</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         /* General styles */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding-top: 120px; /* Adjusted for navbar + marquee height */
-    background-color: #f8f9fa;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding-top: 120px;
+            background-color: #f8f9fa;
+        }
 
-/* Fixed Navbar Styling */
-.navbar {
-    border-radius: 5px;
-    padding: 0px;
-}
+        /* Fixed Navbar Styling - Redesigned */
+        /* Fixed Navbar Styling - Updated Color Scheme */
+        .navbar {
+            background: linear-gradient(135deg, #5b9292 0%, #3a7157 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 10px 0;
+            transition: all 0.3s ease;
+        }
 
-/* Navbar Brand (Logo & Title) */
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    gap: 0px;
-    white-space: nowrap;
-    margin-right: auto;
-}
+        .navbar.scrolled {
+            padding: 5px 0;
+            background: rgba(91, 146, 121, 0.95);
+            backdrop-filter: blur(10px);
+        }
 
-.navbar-brand img {
-    width: 50px;
-    height: auto;
-   border-radius: 5px;
-    margin-left: 0;
-    padding-left: 0;
-}
+        /* Navbar Brand (Logo & Title) */
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
 
+        .navbar-brand img {
+            width: 50px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
 
-.navbar-brand h1 {
-    font-size: 1.8rem;
-    margin: 0;
-}
+        .navbar-brand:hover img {
+            transform: scale(1.1);
+        }
 
-/* Navbar content alignment */
-.navbar .container-fluid {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding:3px;
-}
+        .navbar-brand h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(45deg, #ffffff, #f5f5f5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
 
-/* Navbar toggler styling */
-.navbar-toggler {
-    border-radius: 5px;
-    padding: 0.5rem;
-    margin-left: auto;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-}
+        /* Navbar content alignment */
+        .navbar .container-fluid {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 15px;
+        }
 
-/* Dropdown menu styling */
-.navbar-nav .dropdown-menu {
-    padding: 10px 15px;
-    margin-top: 10px;
-    min-width: 200px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-}
+        /* Navbar toggler styling */
+        .navbar-toggler {
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin-left: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
 
-.navbar-nav .dropdown-item {
-    padding: 8px 15px;
-    margin: 5px 0;
-    font-size: 1rem;
-    color: #000;
-    white-space: nowrap;
-}
+        .navbar-toggler:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
 
-.navbar-nav .dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #000;
-}
+        /* Navbar links styling */
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-weight: 500;
+            padding: 8px 15px;
+            margin: 0 3px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar-nav .dropdown-menu {
-        position: static;
-        margin-top: 0;
+        .navbar-nav .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 70%;
+        }
+
+        /* Dropdown menu styling */
+        .navbar-nav .dropdown-menu {
+            padding: 10px;
+            margin-top: 10px;
+            min-width: 220px;
+            background-color: #fff;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 0.4s ease;
+        }
+
+        .navbar-nav .dropdown-item {
+            padding: 10px 15px;
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: #333;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .dropdown-item:hover {
+            background-color: #f1f1f1;
+            transform: translateX(5px);
+        }
+
+        .navbar-nav .dropdown-item i {
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+
+        /* Navbar toggler icon */
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        /* Redesigned Marquee Styling */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(135deg, #343a40 0%, #212529 100%);
+            color: white;
+            padding: 12px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            position: fixed;
+            z-index: 999;
+            top: 70px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            animation: scrollText 25s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 50px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .marquee-item:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .marquee-icon {
+            margin-right: 8px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes scrollText {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(-180%);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        /* Hero Section Animation */
+        .hero-section {
+            background: linear-gradient(135deg, #5B9279 0%, #3a7157 100%);
+            color: white;
+            padding: 100px 0 80px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(255,255,255,0.05)' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            animation: fadeInDown 1s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-section h1::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: #F8D195;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .hero-section p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 35px;
+            line-height: 1.7;
+            animation: fadeInUp 1s ease 0.3s;
+            animation-fill-mode: both;
+        }
+
+        .btn-primary {
+            background-color: #F8D195;
+            border: none;
+            color: #333;
+            padding: 12px 30px;
+            font-weight: bold;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1s ease 0.6s;
+            animation-fill-mode: both;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover {
+            background-color: #e8c080;
+            color: #333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .quote {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            margin-top: 20px;
+            animation: fadeIn 1s ease 0.9s;
+            animation-fill-mode: both;
+        }
+
+        /* Feature Section animations */
+        .feature-box {
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-box::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            z-index: -1;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-box::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            bottom: -20px;
+            right: -20px;
+            transition: all 0.5s ease;
+        }
+
+        .feature-box:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        .feature-box h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .feature-box h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            background-color: rgba(255, 255, 255, 0.5);
+            bottom: 0;
+            left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover h3::after {
+            width: 80px;
+        }
+
+        .feature-box p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover .feature-icon {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        .bg-light-green {
+            background: linear-gradient(135deg, #8FCB9B 0%, #7dbd89 100%);
+            color: white;
+        }
+
+        .bg-dark-green {
+            background: linear-gradient(135deg, #1D3C34 0%, #132920 100%);
+            color: white;
+        }
+
+        .bg-yellow {
+            background: linear-gradient(135deg, #F8D195 0%, #f0c27b 100%);
+            color: #333;
+        }
+
+        .bg-light-yellow {
+            background: linear-gradient(135deg, #F9F2E5 0%, #f0e6d2 100%);
+            color: #333;
+        }
+
+        /* Animation classes */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .animate-delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        .animate-delay-4 {
+            animation-delay: 0.8s;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .navbar-brand h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar-brand h1 {
+                font-size: 1.2rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-brand h1 {
+                font-size: 1.1rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+
+            .navbar-collapse {
+                background-color:(135deg, #5b9292 0%, #3a7157 100%);
+                border-radius: 10px;
+                padding: 15px;
+                margin-top: 10px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-nav .nav-item {
+                margin: 5px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                margin-left: 5px;
+            }
+
+            .navbar-brand h1 {
+                font-size: 0.9rem;
+            }
+
+            .navbar-brand img {
+                width: 40px;
+            }
+
+            .hero-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-section p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+        }
+        .team-section {
+        background-color: #f8f9fa;
+        position: relative;
+        overflow: hidden;
+        padding: 80px 0 100px;
+    }
+
+    .team-section::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(211, 47, 47, 0.05);
+        top: -100px;
+        left: -100px;
+        z-index: 0;
+    }
+
+    .team-section::after {
+        content: '';
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background: rgba(91, 146, 121, 0.05);
+        bottom: -50px;
+        right: -50px;
+        z-index: 0;
+    }
+
+    /* 3D Card Effect */
+    .team-card {
+        position: relative;
         width: 100%;
+        height: 400px;
+        perspective: 1000px;
+        margin-bottom: 30px;
+        z-index: 1;
     }
 
-    .navbar-nav .dropdown-item {
-        padding: 8px 10px;
-    }
-}
-
-/* Navbar toggler icon */
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-}
-
-/* Navbar links spacing */
-.navbar-nav {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-.nav-item {
-    margin-left: 15px;
-}
-
-/* Navbar collapse behavior */
-.navbar-collapse {
-    flex-basis: 100%;
-    flex-grow: 1;
-    align-items: center;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 1200px) {
-    .navbar-brand h1 {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 992px) {
-    .navbar-brand h1 {
-        font-size: 1.3rem;
+    .card-3d-wrap {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: all 0.8s ease;
     }
 
-    .navbar-toggler {
-        padding: 0.4rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar-brand h1 {
-        font-size: 1.2rem;
+    .team-card:hover .card-3d-wrap {
+        transform: rotateY(180deg);
     }
 
-    .navbar-toggler {
-        padding: 0.3rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .navbar-brand {
-        margin-left: 5px;
+    .card-3d-wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
     }
 
-    .navbar-brand h1 {
-        font-size: 0.9rem;
+    .card-front, .card-back {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 25px rgba(0,0,0,0.15);
     }
 
-    .navbar-brand img {
-        width: 40px;
-        margin-right: 5px;
+    .card-back {
+        transform: rotateY(180deg);
+        color: white;
     }
 
-    .navbar-toggler {
-        padding: 0.25rem;
-        margin-right: 0; /* Remove margin to align to the right corner */
+    /* Team Image and Overlay */
+    .team-image {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
 
-    .navbar-toggler-icon {
-        width: 1.2em;
-        height: 1.2em;
+    .team-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s ease;
     }
 
-    .navbar-nav {
-        flex-direction: column;
+    .team-card:hover .team-image img {
+        transform: scale(1.1);
+    }
+
+    .team-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+        transition: all 0.3s ease;
+    }
+
+    /* Social Icons */
+    .social-icons a {
+        display: inline-flex;
+        justify-content: center;
         align-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba(255,255,255,0.2);
+        color: inherit;
+        transition: all 0.3s ease;
+    }
+
+    .social-icons a:hover {
+        transform: translateY(-3px);
+        background-color: rgba(255,255,255,0.4);
+    }
+
+    /* ===== PROGRAMS & CAMPUS SECTION STYLING ===== */
+    .program-parallax-container, .campus-parallax-container {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .program-parallax-container {
+        background-color: #5B9279;
+    }
+
+    .campus-parallax-container {
+        background-color: #1D3C34;
+    }
+
+    .parallax-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        padding-top: 10px;
+        height: 100%;
+        z-index: 1;
+        opacity: 0.3;
+        transform: translateZ(-1px) scale(1.5);
+        background-size: cover;
+        background-position: center;
     }
 
-    .nav-item {
-        margin: 10px 0;
-    }
-
-    .navbar-collapse {
-        text-align: center;
-    }
-
-    .navbar-nav .nav-link {
-        font-size: 1rem;
-    }
+    .program-parallax-container .parallax-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
-/* Marquee Styling */
-.marquee-container {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    background-color: #343a40;
-    color: white;
-    padding: 10px 0;
-    font-size: 1rem;
-    font-weight: bold;
-    position: fixed;
-    z-index: 1000; /* Ensure it stays above other content */
-    top: 70px; /* Default value, will be overridden by JavaScript */
+.campus-parallax-container .parallax-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6h-2c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h-2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
-.marquee {
-    display: inline-block;
-    white-space: nowrap;
-    will-change: transform;
-    animation: scrollText 15s linear infinite;
-}
-
-@keyframes scrollText {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(-100%);
-    }
-}
-
-.marquee-container:hover .marquee {
-    animation-play-state: paused;
-}
-
-@media (max-width: 768px) {
-    .marquee-container {
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .marquee-container {
-        font-size: 0.8rem;
-    }
-}
-
-/* Content styling */
-.content {
-    padding: 20px;
-}
-
-.col-md-6, .col-lg-4 {
-    padding-bottom: 15px;
-}
-
-@media (min-width: 1200px) {
-    .content {
-        padding: 40px;
-    }
-}
-
-/* Footer Styling */
-footer {
-    background-color: rgb(38, 34, 34);
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
+.programme-content, .campus-content {
     position: relative;
-    bottom: 0;
-    left: 0;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+    color: white;
+    max-width: 500px;
+}
+
+.floating-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating-icon i {
+    font-size: 32px;
+    color: white;
+}
+
+.parallax-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.parallax-title:after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 4px;
+    background-color: #fff;
+    bottom: -10px;
+    left: 25%;
+    border-radius: 2px;
+}
+
+.parallax-text {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.btn-glow {
+    position: relative;
+    border: 2px solid white;
+    border-radius: 30px;
+    padding: 10px 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-glow:hover {
+    background-color: rgba(255,255,255,0.2);
+    box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    transform: translateY(-3px);
+}
+
+/* ===== FAQ SECTION STYLING ===== */
+.faq-section {
+    background-color: #f8f9fa;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 0;
+}
+
+.faq-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.faq-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 20px rgba(78, 115, 223, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.faq-icon i {
+    font-size: 36px;
+    color: white;
+}
+
+/* 3D Accordion */
+.accordion-3d {
+    position: relative;
+    z-index: 1;
+}
+
+.accordion-item-3d {
+    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background-color: white;
+}
+
+.accordion-item-3d:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.accordion-header-3d {
+    position: relative;
+}
+
+.accordion-button-3d {
+    display: flex;
+    align-items: center;
     width: 100%;
+    padding: 20px;
+    background-color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
-/* Ensure content does not overlap with the footer */
-.content {
-    padding-bottom: 80px; /* Adjust according to the footer's height */
+.accordion-button-3d:not(.collapsed) {
+    background-color: #f8f9fa;
+    box-shadow: inset 0 -3px 0 #4e73df;
 }
 
-footer a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
+.accordion-icon {
+    margin-right: 15px;
+    color: #4e73df;
+    font-size: 24px;
 }
 
-footer a:hover {
-    color: #f8f9fa;
+.accordion-arrow {
+    margin-left: auto;
+    transition: transform 0.3s ease;
 }
 
-.social-icons {
-    margin-top: 10px;
+.accordion-button-3d:not(.collapsed) .accordion-arrow {
+    transform: rotate(180deg);
 }
 
-.social-icons a {
-    font-size: 1.5rem;
-    margin: 0 10px;
+.accordion-body-3d {
+    padding: 20px;
+    background-color: white;
+    border-top: 1px solid #eef0f7;
 }
+
+.accordion-details {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.accordion-detail-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+    padding: 8px 15px;
+    border-radius: 30px;
+}
+
+.accordion-detail-item i {
+    margin-right: 8px;
+    color: #4e73df;
+}
+
+/* Contact buttons in FAQ */
+.contact-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Refund timeline */
+.refund-timeline {
+    margin-top: 20px;
+    position: relative;
+}
+
+.refund-timeline:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15px;
+    height: 100%;
+    width: 2px;
+    background-color: #e9ecef;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 15px;
+}
+
+.timeline-point {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #4e73df;
+    z-index: 1;
+}
+
+.timeline-content h6 {
+    margin-bottom: 5px;
+    color: #4e73df;
+}
+
+/* Application CTA */
+.application-cta {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ===== MAP SECTION STYLING ===== */
+.map-section {
+    background-color: #fff;
+    padding: 80px 0;
+}
+
+.map-3d-container {
+    position: relative;
+    z-index: 1;
+}
+
+.map-3d-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.map-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #5a5c69 0%, #343a40 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.map-icon i {
+    font-size: 36px;
+    color: white;
+}
+
+.map-3d-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+}
+
+.map-3d-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
 .map-responsive {
     position: relative;
     overflow: hidden;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    padding-bottom: 56.25%;
+    height: 0;
 }
 
 .map-responsive iframe {
@@ -302,41 +1004,391 @@ footer a:hover {
     border: 0;
 }
 
+.map-info-overlay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.map-info-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+.map-info-card h4 {
+    margin-bottom: 15px;
+    color: #5a5c69;
+    font-weight: 700;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.info-item i {
+    width: 30px;
+    height: 30px;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    color: #5a5c69;
+}
+
+/* ===== FOOTER STYLING ===== */
+.footer-3d {
+    position: relative;
+    background-color: #212529;
+    padding: 80px 0 30px;
+    overflow: hidden;
+}
+
+.footer-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.wave {
+    position: absolute;
+    width: 200%;
+    height: 200px;
+    bottom: 0;
+    left: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23ffffff'/%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23ffffff'/%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23ffffff'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+#wave1 {
+    z-index: 5;
+    opacity: 0.2;
+    bottom: 0;
+    animation: wave 20s linear infinite;
+}
+
+#wave2 {
+    z-index: 4;
+    opacity: 0.5;
+    bottom: 10px;
+    animation: wave 15s linear infinite reverse;
+}
+
+#wave3 {
+    z-index: 3;
+    opacity: 0.2;
+    bottom: 15px;
+    animation: wave 30s linear infinite;
+}
+
+#wave4 {
+    z-index: 2;
+    opacity: 0.7;
+    bottom: 20px;
+    animation: wave 5s linear infinite reverse;
+}
+
+@keyframes wave {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-25%); }
+    100% { transform: translateX(-50%); }
+}
+
+.footer-about p {
+    margin-bottom: 20px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background-color: #4e73df;
+    transform: translateY(-5px);
+}
+
+.footer-links h5 {
+    position: relative;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-links h5:after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 3px;
+    background-color: #4e73df;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: #adb5bd;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-links ul li a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.newsletter-input {
+    margin-top: 20px;
+}
+
+.newsletter-input .form-control {
+    border-radius: 30px 0 0 30px;
+    padding: 12px 20px;
+    background-color: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+}
+
+.newsletter-input .btn {
+    border-radius: 0 30px 30px 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    color: #adb5bd;
+    margin-bottom: 10px;
+}
+
+.contact-item i {
+    margin-right: 10px;
+    color: #4e73df;
+}
+
+.footer-bottom {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.copyright {
+    color: #adb5bd;
+    margin-bottom: 0;
+}
+
+.footer-links-bottom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.footer-links-bottom a {
+    color: #adb5bd;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-links-bottom a:hover {
+    color: white;
+}
+
+.scroll-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #4e73df;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+}
+
+.scroll-top.active {
+    opacity: 1;
+    visibility: visible;
+    bottom: 30px;
+}
+
+.scroll-top:hover {
+    background-color: #224abe;
+    transform: translateY(-5px);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0.5); }
+    70% { box-shadow: 0 0 0 15px rgba(78, 115, 223, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(78, 115, 223, 0); }
+}
+
+.animate-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.4s;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.6s;
+}
+
+/* Color variables for team cards */
+.bg-light-green {
+    background: linear-gradient(135deg, #5B9279 0%, #32543D 100%);
+}
+
+.bg-dark-green {
+    background: linear-gradient(135deg, #1D3C34 0%, #0D2015 100%);
+}
+
+.bg-yellow {
+    background: linear-gradient(135deg, #FFCF56 0%, #F3B61F 100%);
+}
+
+.bg-light-yellow {
+    background: linear-gradient(135deg, #FFEB99 0%, #FFD652 100%);
+}
+
 /* Responsive adjustments */
-@media (max-width: 768px) {
-    .map-responsive {
-        padding-top: 75%; /* Adjust the aspect ratio for smaller screens if needed */
+@media (max-width: 991.98px) {
+    .map-info-overlay {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 20px;
+    }
+
+    .map-info-card {
+        width: 100%;
+    }
+
+    .programme-content, .campus-content {
+        padding: 30px 20px;
+    }
+
+    .parallax-title {
+        font-size: 2rem;
     }
 }
 
+@media (max-width: 767.98px) {
+    .footer-links-bottom {
+        justify-content: flex-start;
+        margin-top: 15px;
+    }
 
+    .team-card {
+        height: 350px;
+    }
+}
+        /* Keep other styles from the original template */
+        /* (Rest of the styles remain the same) */
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
+    <!-- Redesigned Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
-            <div class="d-flex align-items-center w-100">
-                <a class="navbar-brand" href="#">
-                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo">
-                    <h1>Oxford Maths Group Of Education</h1>
-                </a>
-                <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="animate__animated animate__fadeIn">
+                <h1 class="animate__animated animate__fadeIn">Oxford Maths Group Of Education</h1>
+            </a>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('get_courses') }}">Courses</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#staff">Staff</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('apply_for_course') }}">Application</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link animate__animated animate__fadeIn" href="#home">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate__animated animate__fadeIn animate-delay-1" href="{{ url_for('about') }}">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate__animated animate__fadeIn animate-delay-2" href="{{ url_for('get_courses') }}">
+                            <i class="fas fa-book me-1"></i> Courses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate__animated animate__fadeIn animate-delay-3" href="#staff">
+                            <i class="fas fa-users me-1"></i> Staff
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link animate__animated animate__fadeIn animate-delay-4" href="{{ url_for('apply_for_course') }}">
+                            <i class="fas fa-pen-to-square me-1"></i> Application
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Others</a>
+                        <a class="nav-link dropdown-toggle animate__animated animate__fadeIn animate-delay-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h me-1"></i> Others
+                        </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="{{ url_for('student_login') }}">Student Info</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('staff_login') }}">Staff Info</a></li>
-                            <li><a class="dropdown-item" href="{{ url_for('admin_login') }}">Admin Info</a></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('student_login') }}">
+                                    <i class="fas fa-user-graduate me-2"></i> Student Info
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('staff_login') }}">
+                                    <i class="fas fa-chalkboard-teacher me-2"></i> Staff Info
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ url_for('admin_login') }}">
+                                    <i class="fas fa-user-shield me-2"></i> Admin Info
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -344,86 +1396,527 @@ footer a:hover {
         </div>
     </nav>
 
-    <!-- Marquee Section -->
+    <!-- Redesigned Marquee Section -->
     <div class="marquee-container">
-        <marquee behavior="scroll" direction="left" scrollamount="7">
-            📢 Admissions for the new batch are now open!      |     🏆 100% pass rate in SSLC & PUC Exams!     |     🎓 Join Oxford Maths Group Of Education and excel in your career!     |     📞 Contact us: +91 123 456 7890
-        </marquee>
+        <div class="marquee-content">
+            <div class="marquee-item">
+                <i class="fas fa-bullhorn marquee-icon"></i>
+                Admissions for the new batch are now open!
+            </div>
+            <div class="marquee-item">
+                <i class="fas fa-trophy marquee-icon"></i>
+                100% pass rate in SSLC & PUC Exams!
+            </div>
+            <div class="marquee-item">
+                <i class="fas fa-graduation-cap marquee-icon"></i>
+                Join Oxford Maths Group Of Education and excel in your career!
+            </div>
+            <div class="marquee-item">
+                <i class="fas fa-phone-alt marquee-icon"></i>
+                Contact us: +91 123 456 7890
+            </div>
+            <div class="marquee-item">
+                <i class="fas fa-star marquee-icon"></i>
+                Limited seats available - Apply Now!
+            </div>
+            <div class="marquee-item">
+                <i class="fas fa-calendar-alt marquee-icon"></i>
+                New session starting June 2025
+            </div>
+        </div>
     </div>
 
-    <!-- Content Section -->
-    <div class="content container" style="padding-bottom: 0;"> 
-        <div class="row g-4 text-center"> 
-            <div class="col-12"> 
-                <div class="card border-0 shadow-sm mb-4"> 
-                    <div class="card-body"> 
-                        <h4 class="card-title">Our performance in the 2024 UG-NEET</h4> 
-                        <img src="{{ url_for('static', filename='images/neet.jpg') }}" class="img-fluid rounded" alt="neet" style="width: 100%; height: auto;"> 
-                    </div> 
-                </div> 
-            </div> 
-            <div class="col-12"> 
-                <div class="card border-0 shadow-sm mb-4"> 
-                    <div class="card-body"> 
-                        <h4 class="card-title">Our performance in the 2024 PUC examinations</h4> 
-                        <img src="{{ url_for('static', filename='images/puc.jpg') }}" class="img-fluid rounded" alt="puc" style="width: 100%; height: auto;"> 
-                    </div> 
-                </div> 
-            </div> 
-            <div class="col-12"> 
-                <div class="card border-0 shadow-sm mb-4"> 
-                    <div class="card-body"> 
-                        <h4 class="card-title">Our performance in the 2024 SSLC Kannada Medium Examinations</h4> 
-                        <img src="{{ url_for('static', filename='images/10th.jpg') }}" class="img-fluid rounded" alt="10th" style="width: 100%; height: auto;"> 
-                    </div> 
-                </div> 
-            </div> 
-            <div class="col-12"> 
-                <div class="card border-0 shadow-sm mb-4"> 
-                    <div class="card-body"> 
-                        <h4 class="card-title">Our performance in the 2024 SSLC English Medium Examinations</h4> 
-                        <img src="{{ url_for('static', filename='images/10eng.jpg') }}" class="img-fluid rounded" alt="10eng" style="width: 100%; height: auto; padding-bottom: 0px;"> 
-                    </div> 
-                </div> 
-            </div> 
-        </div> 
+    <!-- Hero Section (Enhanced) -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <h1 class="animate__animated animate__fadeInDown">Shaping Tomorrow's Leaders</h1>
+            <p class="animate__animated animate__fadeInUp">Empower young minds with a holistic education and inspiring learning experiences that foster creativity, collaboration, and academic success.</p>
+            <a href="{{ url_for('apply_for_course') }}" class="btn btn-primary animate__animated animate__fadeInUp">
+                Enroll Today <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            <div class="mt-4">
+                <p class="quote animate__animated animate__fadeIn">Where tradition meets innovation - a legacy of excellence in education.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Section (Enhanced) -->
+    <section class="section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box bg-light-green animate__animated animate__fadeInUp">
+                        <i class="fas fa-award feature-icon"></i>
+                        <h3>Key Achievements</h3>
+                        <p>Reaching new heights with innovative teaching methods and outstanding results.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box bg-dark-green animate__animated animate__fadeInUp animate-delay-1">
+                        <i class="fas fa-hands-helping feature-icon"></i>
+                        <h3>Greater Impact</h3>
+                        <p>Making a difference every day in the lives of our students and community.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box bg-yellow animate__animated animate__fadeInUp animate-delay-2">
+                        <i class="fas fa-lightbulb feature-icon"></i>
+                        <h3>Innovation Center</h3>
+                        <p>Where learning comes to life through cutting-edge technology and creative spaces.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box bg-light-yellow animate__animated animate__fadeInUp animate-delay-3">
+                        <i class="fas fa-users feature-icon"></i>
+                        <h3>Community Engagement</h3>
+                        <p>Building connections and partnerships for holistic development and growth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- Dedicated Team Section - Redesigned with 3D effects -->
+<section class="team-section py-5">
+    <div class="container mb-5">
+        <div class="section-header text-center position-relative">
+            <h6 class="text-uppercase fw-bold text-danger mb-2 animate__animated animate__fadeIn">Meet Our Experts</h6>
+            <h2 class="section-title position-relative d-inline-block fw-bold mb-4 animate__animated animate__fadeIn">
+                Our Dedicated Team
+                <span class="position-absolute w-50 h-1 bg-danger start-50 translate-middle-x" style="height: 4px; bottom: -10px; border-radius: 2px;"></span>
+            </h2>
+            <p class="text-muted col-lg-8 mx-auto animate__animated animate__fadeInUp">
+                Our team of educators brings years of experience, passion, and dedication to create a nurturing
+                learning environment that brings out the best in every student.
+            </p>
+        </div>
     </div>
-    
-   <!-- HTML -->
-<div class="content container">
-    <div class="row g-4 text-center">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">Our Location</h4>
-                    <!-- Google Maps Embed Code -->
-                    <div class="map-responsive">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3829.8689367445127!2d76.25104847497218!3d16.27848643380232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc7ef26854eacc5%3A0x56b836fb3dda1ef6!2sExpert%20PU%20SCIENCE%20COLLEGE%20Nagarabetta!5e0!3m2!1sen!2sin!4v1738953688850!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    <!-- 3D Team Cards -->
+    <div class="container">
+        <div class="row g-4">
+            <!-- Team Member 1 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="team-card animate__animated animate__fadeInUp">
+                    <div class="card-3d-wrap">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="team-image">
+                                    <img src="{{ url_for('static', filename='images/nayak.jpg') }}"  alt="Faculty member" class="img-fluid">
+                                    <div class="team-overlay d-flex flex-column justify-content-end p-3">
+                                        <h4 class="text-white mb-0">Heeroo Nayak</h4>
+                                        <p class="text-white-50">Head Master S.D.K High School</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back bg-light-green d-flex flex-column justify-content-center p-4">
+                                <h4 class="mb-3">Heeroo Nayak</h4>
+                                <p class="mb-3">Bachelor of Arts (B.A.), Bachelor of Education (B.Ed.), with over 10 years of teaching experience.</p>
+                                <div class="social-icons">
+                                    <a href="#" class="me-2"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="team-card animate__animated animate__fadeInUp animate-delay-1">
+                    <div class="card-3d-wrap">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="team-image">
+                                    <img src="{{ url_for('static', filename='images/Shivayya.jpg') }}"  alt="Faculty member" class="img-fluid">
+                                    <div class="team-overlay d-flex flex-column justify-content-end p-3">
+                                        <h4 class="text-white mb-0">Shivayya Hiremath</h4>
+                                        <p class="text-white-50">Head Master English Medium School</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back bg-dark-green d-flex flex-column justify-content-center p-4">
+                                <h4 class="mb-3">Shivayya Hiremath</h4>
+                                <p class="mb-3">Master of Arts (M.A.), Bachelor of Education (B.Ed.), with 10+ years of teaching experience.</p>
+                                <div class="social-icons">
+                                    <a href="#" class="me-2"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="team-card animate__animated animate__fadeInUp animate-delay-2">
+                    <div class="card-3d-wrap">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="team-image">
+                                    <img src="{{ url_for('static', filename='images/malinga.jpg') }}"  alt="Faculty member" class="img-fluid">
+                                    <div class="team-overlay d-flex flex-column justify-content-end p-3">
+                                        <h4 class="text-white mb-0">Malingaraya</h4>
+                                        <p class="text-white-50">Teacher</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back bg-yellow d-flex flex-column justify-content-center p-4">
+                                <h4 class="mb-3 text-dark">Malingaraya</h4>
+                                <p class="mb-3 text-dark">Master of Science (M.Sc.), Bachelor of Education (B.Ed.), with 5+ years of teaching experience.</p>
+                                <div class="social-icons">
+                                    <a href="#" class="me-2 text-dark"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" class="me-2 text-dark"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="text-dark"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="col-md-6 col-lg-3">
+                <div class="team-card animate__animated animate__fadeInUp animate-delay-3">
+                    <div class="card-3d-wrap">
+                        <div class="card-3d-wrapper">
+                            <div class="card-front">
+                                <div class="team-image">
+                                    <img src="{{ url_for('static', filename='images/malinga.jpg') }}"  alt="Faculty member" class="img-fluid">
+                                    <div class="team-overlay d-flex flex-column justify-content-end p-3">
+                                        <h4 class="text-white mb-0">Irfan Bhagvan</h4>
+                                        <p class="text-white-50">Principal Expert P U Science Collage</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-back bg-light-yellow d-flex flex-column justify-content-center p-4">
+                                <h4 class="mb-3 text-dark">Irfan Bhagwan</h4>
+                                <p class="mb-3 text-dark">MA in English Literature with specialization in classic literature and creative writing techniques.</p>
+                                <div class="social-icons">
+                                    <a href="#" class="me-2 text-dark"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#" class="me-2 text-dark"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="text-dark"><i class="fas fa-envelope"></i></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-    
-    
+</section>
 
-    <!-- Footer -->
-    <footer style=" color: white; text-align: center; padding: 20px 0; border-radius: 5px;">
-        <div class="container">
-            <p>&copy; 2024 Oxford Maths Group Of Education. All rights reserved.</p>
-            <div class="social-icons" style="margin-bottom: 10px;">
-                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-twitter"></i></a>
-                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" style="text-decoration: none; margin: 0 10px; font-size: 24px; color: white;"><i class="fab fa-linkedin-in"></i></a>
+<!-- Programs and Campus Section - Redesigned with 3D parallax -->
+<section class="programs-campus-section py-0">
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-lg-6">
+                <div class="program-parallax-container">
+                    <div class="parallax-bg"></div>
+                    <div class="programme-content">
+                        <div class="floating-icon"><i class="fas fa-book-open"></i></div>
+                        <h2 class="parallax-title">Programmes</h2>
+                        <p class="parallax-text">Are you looking for a school that offers innovative programs in a vibrant and supportive environment? Look no further!</p>
+                        <a href="{{ url_for('get_courses') }}" class="btn btn-outline-light btn-glow">
+                            <span><i class="fas fa-info-circle me-2"></i> Explore Our Courses</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <p>Contact us: <a href="mailto:info@oxfordmaths.edu" style="color: white;">info@oxfordmaths.edu</a> | Phone: +91 123 456 7890</p>
+            <div class="col-lg-6">
+                <div class="campus-parallax-container">
+                    <div class="parallax-bg"></div>
+                    <div class="campus-content">
+                        <div class="floating-icon"><i class="fas fa-university"></i></div>
+                        <h2 class="parallax-title">The Campus</h2>
+                        <p class="parallax-text">Our modern campus is conveniently located just a 10-minute walk from the city center, easily accessible by car and public transport.</p>
+                        <a href="#" class="btn btn-outline-light btn-glow">
+                            <span><i class="fas fa-map-marker-alt me-2"></i> Virtual Tour</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
+</section>
+
+<!-- FAQ Section - Redesigned with 3D cards -->
+<section class="faq-section py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <div class="faq-icon-container">
+                <div class="faq-icon">
+                    <i class="fas fa-question"></i>
+                </div>
+            </div>
+            <h2 class="section-title position-relative d-inline-block fw-bold mb-4">
+                Frequently Asked Questions
+                <span class="position-absolute w-50 h-1 bg-primary start-50 translate-middle-x" style="height: 4px; bottom: -10px; border-radius: 2px;"></span>
+            </h2>
+            <p class="text-muted col-lg-8 mx-auto">Here are some common questions about our school.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="accordion-3d" id="faqAccordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="accordion-item-3d">
+                        <div class="accordion-header-3d" id="headingOne">
+                            <button class="accordion-button-3d" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="accordion-icon"><i class="fas fa-question-circle"></i></div>
+                                <span>What programs does your school offer?</span>
+                                <div class="accordion-arrow"><i class="fas fa-chevron-down"></i></div>
+                            </button>
+                        </div>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body-3d">
+                                <p>Our school specializes in providing quality education, personal development, and extracurricular activities. We tailor our programs to fit the unique needs of students across various age groups, helping them grow and succeed in a competitive world.</p>
+                                <div class="accordion-details">
+                                    <div class="accordion-detail-item">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span>Science Specialization</span>
+                                    </div>
+                                    <div class="accordion-detail-item">
+                                        <i class="fas fa-calculator"></i>
+                                        <span>Mathematics Excellence</span>
+                                    </div>
+                                    <div class="accordion-detail-item">
+                                        <i class="fas fa-laptop-code"></i>
+                                        <span>Computer Science</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="accordion-item-3d">
+                        <div class="accordion-header-3d" id="headingTwo">
+                            <button class="accordion-button-3d collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <div class="accordion-icon"><i class="fas fa-envelope"></i></div>
+                                <span>How can I contact admissions support?</span>
+                                <div class="accordion-arrow"><i class="fas fa-chevron-down"></i></div>
+                            </button>
+                        </div>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body-3d">
+                                <p>You can contact our admissions team by email at info@oxfordmaths.edu or by phone at +91 123 456 7890. You can also visit our campus during office hours (Monday to Friday, 9 AM to 5 PM) to speak with an admissions officer in person.</p>
+                                <div class="contact-buttons">
+                                    <a href="mailto:info@oxfordmaths.edu" class="btn btn-sm btn-outline-primary"><i class="fas fa-envelope me-2"></i>Email Us</a>
+                                    <a href="tel:+911234567890" class="btn btn-sm btn-outline-primary"><i class="fas fa-phone me-2"></i>Call Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="accordion-item-3d">
+                        <div class="accordion-header-3d" id="headingThree">
+                            <button class="accordion-button-3d collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <div class="accordion-icon"><i class="fas fa-money-bill-wave"></i></div>
+                                <span>What is your refund policy for tuition?</span>
+                                <div class="accordion-arrow"><i class="fas fa-chevron-down"></i></div>
+                            </button>
+                        </div>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body-3d">
+                                <p>Our refund policy allows for a full refund if withdrawal is requested within 14 days of enrollment. After that period, refunds are prorated based on the remaining portion of the academic term. A detailed refund policy document is provided during the admission process.</p>
+                                <div class="refund-timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-point"></div>
+                                        <div class="timeline-content">
+                                            <h6>Within 14 days</h6>
+                                            <p>100% refund</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-point"></div>
+                                        <div class="timeline-content">
+                                            <h6>15-30 days</h6>
+                                            <p>75% refund</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-point"></div>
+                                        <div class="timeline-content">
+                                            <h6>31-60 days</h6>
+                                            <p>50% refund</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 (New) -->
+                    <div class="accordion-item-3d">
+                        <div class="accordion-header-3d" id="headingFour">
+                            <button class="accordion-button-3d collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <div class="accordion-icon"><i class="fas fa-calendar-alt"></i></div>
+                                <span>When do applications open for the next academic year?</span>
+                                <div class="accordion-arrow"><i class="fas fa-chevron-down"></i></div>
+                            </button>
+                        </div>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body-3d">
+                                <p>Applications for the next academic year open in November and close in March. We recommend applying early as spaces fill up quickly. Early bird applicants receive priority consideration and may be eligible for scholarship opportunities.</p>
+                                <div class="application-cta">
+                                    <a href="{{ url_for('apply_for_course') }}" class="btn btn-primary">Apply Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section - Redesigned with 3D elements -->
+<section class="map-section py-5">
+    <div class="container">
+        <div class="map-3d-container">
+            <div class="map-3d-header">
+                <div class="map-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3>Find Us</h3>
+            </div>
+            <div class="map-3d-card">
+                <div class="map-responsive">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3829.8689367445127!2d76.25104847497218!3d16.27848643380232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc7ef26854eacc5%3A0x56b836fb3dda1ef6!2sExpert%20PU%20SCIENCE%20COLLEGE%20Nagarabetta!5e0!3m2!1sen!2sin!4v1738953688850!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="map-info-overlay">
+                    <div class="map-info-card">
+                        <h4>Oxford Maths Group Of Education</h4>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>123 Education St., City</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <p>+91 123 456 7890</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>info@oxfordmaths.edu</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <p>Mon-Fri: 8:00 AM - 5:00 PM</p>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm mt-3">Get Directions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer - Redesigned with modern styling -->
+<footer class="footer-3d">
+    <div class="footer-waves">
+        <div class="wave" id="wave1"></div>
+        <div class="wave" id="wave2"></div>
+        <div class="wave" id="wave3"></div>
+        <div class="wave" id="wave4"></div>
+    </div>
+
+    <div class="container position-relative">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-about">
+                    <div class="footer-logo d-flex align-items-center mb-4">
+                        <img src="/api/placeholder/50/50" alt="logo" class="me-3">
+                        <h3 class="text-white m-0">Oxford Maths</h3>
+                    </div>
+                    <p class="text-white-50">Empowering students with knowledge, skills, and values to excel in a competitive world and become responsible global citizens.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <div class="footer-links">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('home') }}"><i class="fas fa-chevron-right me-2"></i>Home</a></li>
+                        <li><a href="{{ url_for('about') }}"><i class="fas fa-chevron-right me-2"></i>About</a></li>
+                        <li><a href="{{ url_for('get_courses') }}"><i class="fas fa-chevron-right me-2"></i>Courses</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2"></i>Staff</a></li>
+                        <li><a href="{{ url_for('apply_for_course') }}"><i class="fas fa-chevron-right me-2"></i>Apply Now</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6">
+                <div class="footer-links">
+                    <h5 class="text-white mb-4">Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ url_for('student_login') }}"><i class="fas fa-chevron-right me-2"></i>Student Portal</a></li>
+                        <li><a href="{{ url_for('staff_login') }}"><i class="fas fa-chevron-right me-2"></i>Staff Info</a></li>
+                        <li><a href="{{ url_for('student_login') }}"><i class="fas fa-chevron-right me-2"></i>Parent Portal</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2"></i>Career</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2"></i>FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <div class="footer-newsletter">
+                    <h5 class="text-white mb-4">Newsletter</h5>
+                    <p class="text-white-50">Subscribe to our newsletter to receive updates and news about our programs.</p>
+                    <div class="input-group newsletter-input">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+91 123 456 7890</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@oxfordmaths.edu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="copyright">&copy; 2025 Oxford Maths Group Of Education. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="footer-links-bottom">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <script>
         // Function to adjust marquee position
         function adjustMarqueePosition() {
@@ -436,9 +1929,123 @@ footer a:hover {
             }
         }
 
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Initialize animations for elements as they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configure Intersection Observer
+            let options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            let observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Add animation classes when element comes into view
+                        if (entry.target.classList.contains('feature-box')) {
+                            entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        } else if (entry.target.tagName === 'H2' || entry.target.tagName === 'H3') {
+                            entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                        } else if (entry.target.tagName === 'P') {
+                            entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            // Observe elements
+            document.querySelectorAll('.feature-box, h2, h3, .card, .animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+
         // Adjust marquee position on page load and window resize
         window.addEventListener('load', adjustMarqueePosition);
         window.addEventListener('resize', adjustMarqueePosition);
+
+        // Hover effects for navbar items (using JavaScript for dynamic effects)
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.querySelector('.nav-link').style.transform = 'translateY(-2px)';
+            });
+
+            item.addEventListener('mouseleave', function() {
+                this.querySelector('.nav-link').style.transform = 'translateY(0)';
+            });
+        });
+
+        // Animate elements on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        document.addEventListener('DOMContentLoaded', function() {
+        const scrollTopBtn = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.classList.add('active');
+            } else {
+                scrollTopBtn.classList.remove('active');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 3D parallax effect for program and campus sections
+        const programContainer = document.querySelector('.program-parallax-container');
+        const campusContainer = document.querySelector('.campus-parallax-container');
+
+        if (programContainer && campusContainer) {
+            window.addEventListener('mousemove', function(e) {
+                const xPos = (e.clientX / window.innerWidth) - 0.5;
+                const yPos = (e.clientY / window.innerHeight) - 0.5;
+
+                programContainer.querySelector('.parallax-bg').style.transform = `translateX(${xPos * 20}px) translateY(${yPos * 20}px) scale(1.1)`;
+                programContainer.querySelector('.programme-content').style.transform = `translateX(${xPos * -10}px) translateY(${yPos * -10}px)`;
+
+                campusContainer.querySelector('.parallax-bg').style.transform = `translateX(${xPos * 20}px) translateY(${yPos * 20}px) scale(1.1)`;
+                campusContainer.querySelector('.campus-content').style.transform = `translateX(${xPos * -10}px) translateY(${yPos * -10}px)`;
+            });
+        }
+
+        // Floating animation for team cards on hover
+        const teamCards = document.querySelectorAll('.team-card');
+        teamCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                card.style.transform = 'translateY(-10px)';
+            });
+            card.addEventListener('mouseleave', function() {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    });
     </script>
 </body>
 </html>
