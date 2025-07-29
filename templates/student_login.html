@@ -3,138 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
+    <title>Student Login | Oxford Maths Group</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom Styles for the background and header */
-       /* Custom Styles for the background and header */
-/* Custom Styles for the background and header */
-body {
-    background-image: url('{{ url_for('static', filename='images/collage.jpg') }}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0; /* Remove default body margin */
-}
+        :root {
+            --primary: #4F8B82;
+            --primary-light: #E6F2F0;
+            --primary-dark: #3d6d66;
+            --background: #FCFCFD;
+            --text-primary: #101828;
+            --text-secondary: #667085;
+            --gray-50: #F9FAFB;
+            --gray-100: #F2F4F7;
+            --gray-200: #EAECF0;
+            --gray-300: #D0D5DD;
+            --gray-400: #98A2B3;
+            --success: #12B76A;
+            --error: #F04438;
+            --warning: #F79009;
+        }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Space out logo, text, and button */
-    padding: 10px 20px; /* Add horizontal padding */
-    background-color: #eb3434;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    border-radius: 5px;
-}
+        body {
+            background: linear-gradient(135deg, #E6F2F0, #F9FAFB);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
 
-header img {
-    width: 40px;
-    height: auto;
-    border-radius: 5px;
-}
+        .page-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-header h1 {
-    font-size: 1.8rem;
-    margin: 0;
-    text-align: center;
-    flex-grow: 1; /* Allow text to take up remaining space */
-}
+        /* Teal Header */
+        header {
+            background: #4F8B82; /* The teal/green color from the image */
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
 
-header .button {
-    padding: 10px 20px;
-    background-color:white;
-    color: black;
-    font-size: 1rem;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    border: none; /* Remove default button border */
-    cursor: pointer; /* Add pointer cursor for better UX */
-}
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-header .button:hover {
-    background-color: #5a3a6e; /* Darker shade on hover */
-}
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-.login-container {
-    width: 100%;
-    max-width: 400px;
-    margin-top: 120px; /* Space for header */
-    padding: 30px;
-    background-color: rgba(0, 0, 0, 0.6); /* Black transparent background */
-    border-radius: 8px;
-    color: white;
-}
+        .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 1.5rem; /* Slightly smaller text for medium screens */
-    }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    header .button {
-        font-size: 0.7rem;
-        padding: 8px 16px;
-    }
-}
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin: 0;
+            line-height: 1.2;
+        }
 
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 14px; /* Smaller text for mobile screens */
-    }
+        .home-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background-color: white;
+            border: none;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #4F8B82;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-    header .button {
-        font-size: 0.7rem;
-        padding: 6px 12px;
-    }
-}
+        .home-button:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: #3d6d66;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.18);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Decorative Elements */
+        .card-decoration {
+            position: absolute;
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            opacity: 0.6;
+            top: -80px;
+            right: -60px;
+        }
+
+        .circle-2 {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0.1;
+            bottom: -30px;
+            left: -30px;
+        }
+
+        .dots-pattern {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.2;
+            background-image: radial-gradient(var(--primary) 2px, transparent 2px);
+            background-size: 12px 12px;
+        }
+
+        /* Card Content */
+        .card-content {
+            position: relative;
+            z-index: 1;
+            padding: 48px 32px;
+        }
+
+        .login-header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .login-title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            font-size: 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+            background-color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: 18px;
+            pointer-events: none;
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--primary);
+        }
+
+        /* Alert Styling */
+        .alert {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 1px solid transparent;
+            font-weight: 500;
+        }
+
+        .alert-danger {
+            background-color: #FEF3F2;
+            border-color: #FEE4E2;
+            color: var(--error);
+        }
+
+        .alert-icon {
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Button Styling */
+        .login-button {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+            margin-top: 32px;
+        }
+
+        .login-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px -4px rgba(127, 86, 217, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            margin-top: 32px;
+            padding: 16px;
+            background-color: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .highlight-box a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .highlight-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            padding: 8px 16px;
+            background-color: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 100px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .security-badge i {
+            color: var(--success);
+        }
+
+        .security-badge span {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .brand-name {
+                font-size: 14px;
+            }
+            
+            .login-card {
+                border-radius: 20px;
+            }
+            
+            .card-content {
+                padding: 40px 24px;
+            }
+            
+            .login-title {
+                font-size: 24px;
+            }
+            
+            .circle-1, .circle-2, .dots-pattern {
+                opacity: 0.1;
+            }
+        }
+
+        /* Loading Animation for Button */
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .btn-loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 1.5s infinite;
+            transform: translateX(-100%);
+        }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header class="d-flex align-items-center p-3">
-        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo">
-        <h1>Oxford Maths Group Of Education</h1>
-        <a href="{{ url_for('home') }}" class="button">Home</a>
-    </header>
-
-    <!-- Main Content Section -->
-    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <div class="login-container">
-            <h1 class="text-center">Student Login</h1>
-            <form method="POST" action="/student_login">
-                {% if message %}
-                    <div class="alert alert-danger text-center">{{ message }}</div>
-                {% endif %}
-                <div class="mb-3">
-                    <label for="securityNumber" class="form-label">Security Number:</label>
-                    <input type="text" id="securityNumber" name="securityNumber" class="form-control" required>
+    <div class="page-container">
+        <!-- Header Section -->
+        <header>
+            <div class="header-content">
+                <div class="brand">
+                    <div class="logo">
+                        <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="Oxford Maths Logo">
+                    </div>
+                    <h1 class="brand-name">Oxford Maths Group Of Education</h1>
                 </div>
+                <a href="{{ url_for('home') }}" class="home-button">
+                    <i class="bi bi-house-fill"></i>
+                    <span>Home</span>
+                </a>
+            </div>
+        </header>
 
-                <div class="mb-3">
-                    <label for="birthDate" class="form-label">Birth Date:</label>
-                    <input type="date" id="birthDate" name="birthDate" class="form-control" required>
+        <!-- Main Content -->
+        <div class="content-wrapper">
+            <div class="login-card">
+                <!-- Decorative Elements -->
+                <div class="card-decoration circle-1"></div>
+                <div class="card-decoration circle-2"></div>
+                <div class="card-decoration dots-pattern"></div>
+                
+                <!-- Card Content -->
+                <div class="card-content">
+                    <div class="login-header">
+                        <h2 class="login-title">Student Portal</h2>
+                        <p class="login-subtitle">Enter your credentials to access your account</p>
+                    </div>
+                    
+                    <form method="POST" action="/student_login">
+                        {% if message %}
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-circle-fill alert-icon"></i>
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group">
+                            <label for="securityNumber" class="form-label">Security Number</label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="securityNumber" 
+                                    name="securityNumber" 
+                                    class="form-control" 
+                                    placeholder="Enter your security number" 
+                                    autocomplete="off"
+                                    required
+                                >
+                                <i class="bi bi-shield-lock input-icon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birthDate" class="form-label">Birth Date</label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="date" 
+                                    id="birthDate" 
+                                    name="birthDate" 
+                                    class="form-control" 
+                                    required
+                                >
+                                <i class="bi bi-calendar3 input-icon"></i>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="login" class="login-button">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>
+                            Sign In
+                        </button>
+                    </form>
+                    
+                    <div class="highlight-box">
+                        Forgot your security number? Please contact your teacher or 
+                        <a href="#" class="contact-link">school administrator</a>
+                    </div>
+                    
+                    <div class="security-badge">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Secure Connection</span>
+                    </div>
                 </div>
-
-                <button type="submit" id="login" class="btn btn-success w-100">Login</button>
-            </form>
+            </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS (optional for some components) -->
+    <!-- Optional JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple form validation feedback
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const loginButton = document.getElementById('login');
+            loginButton.innerHTML = '<i class="bi bi-arrow-repeat spin me-2"></i> Signing in...';
+            loginButton.classList.add('btn-loading');
+        });
+    </script>
 </body>
 </html>
