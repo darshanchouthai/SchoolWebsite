@@ -6,131 +6,446 @@
     <title>Staff Dashboard - Exam Marks</title>
     <!-- Include Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Include Animate.css for animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
+        :root {
+            --primary-color: #3a36e0;
+            --secondary-color: #301f84;
+            --background-color: #f5f7fa;
+            --card-color: #ffffff;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --success-color: #38b2ac;
+            --warning-color: #ed8936;
+            --danger-color: #e53e3e;
+        }
+
         body {
-            background-color: #f4f4f4;
-            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
         }
+
         .container {
-            margin-top: 30px;
+            margin-top: 0;
         }
-        .table th, .table td {
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .btn-submit {
+
+        /* Header styling */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            position: fixed;
             width: 100%;
-            
+            top: 0;
+            z-index: 1000;
         }
-        #students-list {
-            display: none;
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        
-    .logo {
-        width: 40px;
-        height: auto;
-        border-radius: 5px;
-    }
-    header {
-        background-color: rgba(235, 52, 52, 0.9) !important;
-        padding: 2px;
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
-       
-    }
-    
-    @media (max-width: 768px) {
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
         .logo {
-            width: 40px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
         }
-    }
-    @media (max-width: 768px) {
-            .header-text {
-                font-size: 18px;
-            }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .header-text {
-    font-size: 1.5rem;
-    flex-grow: 1;
-    text-align: center;
-}
+            font-size: 1.5rem;
+            color: white;
+            margin-left: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
 
-@media (max-width: 576px) {
-    .header-text {
-        font-size: 14px;
-    }
-}
+        .back-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateX(-3px);
+        }
+
+        .back-btn i {
+            margin-right: 6px;
+        }
+
+        /* Main content styling */
+        .main-content {
+            margin-top: 100px;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .card-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* Form styling */
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(58, 54, 224, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+            background: linear-gradient(to right, #4a47e3, #ff2171);
+        }
+
+        .btn-info {
+            background-color: var(--text-secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info:hover {
+            background-color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        /* Table styling */
+        .table-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(58, 54, 224, 0.05);
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        /* Alert styling */
+        .alert {
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+        }
+
+        .alert i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .alert-success {
+            background-color: rgba(56, 178, 172, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .alert-danger {
+            background-color: rgba(229, 62, 62, 0.1);
+            border-left: 4px solid var(--danger-color);
+            color: var(--danger-color);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease forwards;
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s ease forwards;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Student animation */
+        .student-row {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Responsive styling */
+        @media (max-width: 768px) {
+            header{
+                padding:6px;
+
+            }
+            .header-text {
+                font-size: 1.3rem;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .logo {
+                width: 45px;
+                height: 45px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            header{
+                padding:6px;
+
+            }
+            .header-text {
+                font-size: 1.1rem;
+                margin-left: 8px;
+            }
+
+            .logo {
+                width: 45px;
+                height: 45px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .back-btn {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+
+            .table thead th, .table tbody td {
+                padding: 10px 5px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
-   
-        <div class="container mt-5">
-            <!-- Header -->
-            <header class="bg-danger text-white p-3 fixed-top" style="border-radius: 5px;">
-                <div class="container-fluid d-flex justify-content-between align-items-center">
-                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="img-fluid" style="width: 40px; border-radius: 5px;">
-                    <h1 class="m-0 text-center flex-grow-1 header-text">Oxford Maths Group Of Education</h1>
-                    <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }}" class="btn btn-secondary" style="background-color: #f4f4f4;color:black">Back</a>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container animate__animated animate__fadeIn">
+                    <img src="{{ url_for('static', filename='images/logos.jpg') }}" alt="logo" class="logo">
+                    <h1 class="header-text animate__animated animate__fadeIn">Oxford Maths Group Of Education</h1>
                 </div>
-            </header>
-    
-            <!-- Flash Messages (Success or Error) -->
-            <div class="mt-5 pt-5">
-                {% if message %}
-                <div class="alert alert-success border border-success text-success" role="alert">
-                    {{ message }}
-                </div>
-                {% elif error %}
-                <div class="alert alert-danger border border-danger text-danger" role="alert">
-                    {{ error }}
-                </div>
-                {% endif %}
+                <a href="{{ url_for('staff_dashboard',teacher_id=teacher_id) }}" class="back-btn animate__animated animate__fadeIn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
             </div>
-    
-            <h2 class="text-center mb-4 mt-3">Create Exam</h2>
-    
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content container">
+        <!-- Flash Messages (Success or Error) -->
+        {% if message %}
+        <div class="alert alert-success animate__animated animate__fadeIn" role="alert">
+            <i class="fas fa-check-circle"></i> {{ message }}
+        </div>
+        {% elif error %}
+        <div class="alert alert-danger animate__animated animate__fadeIn" role="alert">
+            <i class="fas fa-exclamation-circle"></i> {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Exam Form Card -->
+        <div class="card animate__animated animate__fadeIn">
+            <h2 class="card-title">Create Exam</h2>
+
             <!-- Exam Form -->
             <form id="exam-form" action="{{ url_for('exam', teacher_id=teacher_id) }}" method="POST">
-                <div class="row mb-3">
-                    <label for="exam_name" class="col-sm-3 col-form-label">Exam Name:</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="exam_name" name="exam_name" class="form-control" placeholder="Enter Exam Name" required value="{{ exam_name }}">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="exam_name" class="form-label">Exam Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-file-alt"></i></span>
+                            <input type="text" id="exam_name" name="exam_name" class="form-control" placeholder="Enter Exam Name" required value="{{ exam_name }}">
+                        </div>
                     </div>
                 </div>
-    
-                <div class="row mb-3">
-                    <label for="maximum_marks" class="col-sm-3 col-form-label">Maximum Marks:</label>
-                    <div class="col-sm-9">
-                        <input type="number" id="maximum_marks" name="maximum_marks" class="form-control" placeholder="Enter Maximum Marks" required value="{{ maximum_marks }}">
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="maximum_marks" class="form-label">Maximum Marks</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-star"></i></span>
+                            <input type="number" id="maximum_marks" name="maximum_marks" class="form-control" placeholder="Enter Maximum Marks" required value="{{ maximum_marks }}">
+                        </div>
                     </div>
                 </div>
-    
-                <div class="row mb-3">
-                    <label for="course_name" class="col-sm-3 col-form-label">Select or Enter Course Name:</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="course_name_input" class="form-control" placeholder="Type Course Name" style="display: none;">
-                        <select id="course_name" name="course_name" class="form-select" required>
-                            <option value="">Select Course</option>
-                            {% for course in courses %}
-                            <option value="{{ course[0] }}" {% if course[0] == course_name %}selected{% endif %}>{{ course[0] }}</option>
-                            {% endfor %}
-                        </select>
+
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="course_name" class="form-label">Course Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-book"></i></span>
+                            <input type="text" id="course_name_input" class="form-control" placeholder="Type Course Name" style="display: none;">
+                            <select id="course_name" name="course_name" class="form-select" required>
+                                <option value="">Select Course</option>
+                                {% for course in courses %}
+                                <option value="{{ course[0] }}" {% if course[0] == course_name %}selected{% endif %}>{{ course[0] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                 </div>
-    
-                <div id="students-list" class="mt-4" style="display: none;">
-                    <h3 class="text-center mb-3">Enter Marks for Students</h3>
+
+
+
+        <!-- Students List Card -->
+                        <div id="students-list" class="mt-4" style="display: none;">
+            <div class="card animate__animated animate__fadeIn">
+                <h3 class="card-title">Enter Marks for Students</h3>
+
+                <div class="table-container mt-4">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Student ID</th>
-                                <th> Security Number</th>
-                                <th>Student Name</th>
-                                <th>Marks Obtained</th>
+                                <th><i class="fas fa-id-card me-2"></i>Student ID</th>
+                                <th><i class="fas fa-shield-alt me-2"></i>Security Number</th>
+                                <th><i class="fas fa-user-graduate me-2"></i>Student Name</th>
+                                <th><i class="fas fa-clipboard-check me-2"></i>Marks Obtained</th>
                             </tr>
                         </thead>
                         <tbody id="students-table-body">
@@ -138,22 +453,39 @@
                         </tbody>
                     </table>
                 </div>
-    
-                <button type="submit" class="btn btn-primary w-100">Next</button>
-            </form>
-            <div class="mt-4">
-                <a href="{{ url_for('staff_dashboard', teacher_id=teacher_id) }}">
-                    <button class="btn btn-info">Back to Staff Dashboard</button>
-                </a>
+
+                <!-- Added Next button for submitting student marks -->
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary w-100 animate__animated animate__pulse">Next</button>
+                </div>
             </div>
         </div>
-    
-    
-<!-- Include jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+    </form>
+    </div>
+        <!-- Back to Dashboard Button -->
+        <div class="mt-4">
+            <a href="{{ url_for('staff_dashboard', teacher_id=teacher_id) }}">
+                <button class="btn btn-info animate__animated animate__fadeIn">Back to Staff Dashboard</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Include jQuery, Bootstrap JS, and GSAP for advanced animations -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+    <script>
 $(document).ready(function() {
+    // Initial animations with GSAP
+    gsap.from(".card", {
+        duration: 0.8,
+        y: 50,
+        opacity: 0,
+        stagger: 0.2,
+        ease: "power3.out"
+    });
+
     // Check if course_name is already selected and fetch students
     var course_name = '{{ course_name }}';
     if (course_name) {
@@ -176,27 +508,48 @@ $(document).ready(function() {
         var course_name = $(this).val();  // Get the selected course name
         if (course_name) {
             fetchStudentsByCourse(course_name);  // Fetch students based on selected course
+        } else {
+            $('#students-list').hide();  // Hide the students list if no course selected
         }
     });
 
-    // Function to fetch students for a specific course
+    // Animate input fields on focus
+    $('.form-control, .form-select').focus(function() {
+        $(this).parent().addClass('pulse');
+    }).blur(function() {
+        $(this).parent().removeClass('pulse');
+    });
+
+    // Function to fetch students for a specific course - KEEPING ORIGINAL FUNCTIONALITY
     function fetchStudentsByCourse(course_name) {
         $.get('/get_students_for_course', { course_name: course_name }, function(response) {
             if (response.students) {
                 // Populate the students' table dynamically
                 $('#students-table-body').empty();  // Clear previous entries
-                response.students.forEach(function(student) {
-                    $('#students-table-body').append(`
-                        <tr>
+                response.students.forEach(function(student, index) {
+                    var newRow = $(`
+                        <tr class="student-row">
                             <td>${student.student_id}</td>
-                            <td>${(student.security_number)}</td>
+                            <td>${student.security_number}</td>
                             <td>${student.name}</td>
-                           <td><input type="number" name="marks_${student.student_id}" class="form-control" placeholder="Enter Marks" required></td>
+                            <td><input type="number" name="marks_${student.student_id}" class="form-control" placeholder="Enter Marks" required></td>
                         </tr>
                     `);
+
+                    $('#students-table-body').append(newRow);
+
+                    // Add animation for each row
+                    setTimeout(function() {
+                        gsap.to(newRow, {
+                            duration: 0.5,
+                            opacity: 1,
+                            y: 0,
+                            ease: "power3.out"
+                        });
+                    }, index * 100);
                 });
 
-                // Show the students list form
+                // Show the students list
                 $('#students-list').show();
             } else {
                 $('#students-list').hide();  // Hide the students list if no students found
@@ -205,7 +558,17 @@ $(document).ready(function() {
             alert('Error fetching students.');
         });
     }
+
+    // Add button hover effects
+    $('.btn').hover(
+        function() {
+            gsap.to(this, { scale: 1.05, duration: 0.3 });
+        },
+        function() {
+            gsap.to(this, { scale: 1, duration: 0.3 });
+        }
+    );
 });
-</script>
+    </script>
 </body>
 </html>
