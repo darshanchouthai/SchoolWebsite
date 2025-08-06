@@ -61,7 +61,7 @@ Welcome to the **School/College Management Website**! This platform is designed 
 - **Third-Party Integration**:
   - Twilio for OTP-based password reset functionality.
   - Google Maps API for embedded location.
-  - wkhtmltopdf for generating reports in PDF format.
+  - reportlab for generating reports in PDF format.
 
 ---
 
